@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8"><meta name="author" content="Nguyen Tuyet Tho">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VietNam Ocean Explorer</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"> //link font awesome
+    <link rel="stylesheet" href="css/style.css"> //link css chung của website
+</head>
+<body>
+    <header class="header">
+        <img class="header__img header__img--logo" src="" alt="">
+        <div class="header-nav-form"> //chứa các phần tử tiêu đề, điều hướng, biểu mẫu
+            <nav class="horizontal-nav">
+                <ul class="horizontal-nav__list">
+                    <li class="horizontal-nav__item">
+                        <a class="horizontal-nav__link horizontal-nav__link--active" href="home.html">Trang chủ</a>
+                    </li>
+                    <li class="horizontal-nav__item horizontal-nav__item--hide--mobile">
+                        <a class="horizontal-nav__link" href="dept-explorer.html">Khám phá lòng biển</a>
+                    </li>
+                    <li class="horizontal-nav__item horizontal-nav__item--hide--mobile">
+                        <a class="horizontal-nav__link" href="unique-locations.html">Địa điểm du lịch</a>
+                    </li>
+                    <li class="horizontal-nav__item horizontal-nav__item--hide--mobile">
+                        <a class="horizontal-nav__link" href="conversation.html">Bảo tồn thiên nhiên biển</a>
+                    </li>
+                    <li class="horizontal-nav__item horizontal-nav__item--hide--mobile">
+                        <a class="horizontal-nav__link" href="sign-in.html">Đăng ký</a>
+                    </li>
+                </ul>
+            </nav>
+            <form class="form-search" action="#" method="get">
+                <input class="form-search__input" type="text" name="search" placeholder="Tìm kiếm...">
+                <button class="form-search__button">
+                    <i class="fa fa-search"></i> //icon tim kiem
+                </button>
+            </form>
+            <button class="header__hamburrger" type="button">
+                <i class="fa fa-bars"></i> //icon menu
+            </button>
+        </div>
+    </header>
+    <main class="ocean-explore">
+        <aside class="ocean-explore__sidebar">
+            <nav class="depth-nav">
+                <h2 class="depth-nav__title"></h2>
+                <ul class="depth-nav__list">
+                    <li class="depth-nav__item">
+                        <a class="depth-nav__link" href="#tang-1">0 - 200m</a>
+                    </li>
+                    <li class="depth-nav__item">
+                        <a class="depth-nav__link" href="#tang-5">200 - 1000m</a>
+                    </li>
+                    <li class="depth-nav__item">
+                        <a class="depth-nav__link" href="#tang-6">1000 - 4000m</a>
+                    </li>
+                    <li class="depth-nav__item">
+                        <a class="depth-nav__link" href="#tang-7">4000 - 6000m</a>
+                    </li>
+                </ul>
+            </nav>
+        </aside>
+        <section class="ocean-explore__content">
+            <article class="depth-card" id="tang-1">
+                <img class="depth=card__image" src="" alt="">
+                <p class="depth-card__description"></p>
+                <ul class="depth-card__info">
+                    <li class="depth-card__info-item"></li>
+                </ul>
+            </article>
+        </section>
+    </main>
+    <footer class="footer">
+        <section class="footer__about">
+            <h2>VietNam Ocean Explorer</h2>
+            <p></p>
+            <nav class="footer__menu">
+                <h3>Kham pha</h3>
+                <ul>
+                    <li>Tang sinh thai bien</li>
+                    <li>Sinh vat - Khoang san</li>
+                    <li>Dia diem du lich</li>
+                    <li>Bao ton thien nhien bien</li>
+                </ul>
+            </nav>
+        </section>
+        <div class="footer__content">
+            <p class="footer__text">© 2026 VietNam Ocean Explorer</p>
+            <p>Nguon tham khao:<a href="https://oceancensus.org/" target="_blank"> Ocean Census</a></p>
+            <p>Cac tai lieu tham khao khac neu co cung lam duong link nhu nay</p>
+        </div>
+    </footer>
+</body> 
+</html>
