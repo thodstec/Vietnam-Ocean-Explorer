@@ -1,1 +1,242 @@
+<!DOCTYPE html>
+<html lang="vi">
 
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VietNam Ocean Explorer</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700&display=swap"
+        rel="stylesheet">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+    <main>
+        <!--5.1-->
+        <section class="hero hero--dark">
+            <img src="images/conservation-hero.jpg" class="hero__bg">
+            <div class="hero__overlay"></div>
+            <div class="hero__content">
+                <div class="animate-pulse">
+                    <div
+                        style="display: inline-flex; align-items: center; gap: 8px; background: rgba(230, 57, 70, 0.12); color: var(--color-danger); padding: 8px 16px; border-radius: var(--radius-pill); font-size: 12px; font-weight: 500; margin-bottom: 16px;">
+                        <i class="fa-solid fa-triangle-exclamation "></i>
+                        <span>Hệ sinh thái biển đang suy giảm nghiêm trọng</span>
+                    </div>
+                </div>
+                <h1 class="hero__title slow-fade">
+                    <span style="color: var(--color-green-light)">Đại dương</span>
+                    <span style="color: var(--color-danger)">đang kêu cứu</span>
+                </h1>
+                <p class="hero__subtitle">
+                    Mỗi năm, hàng triệu tấn rác thải nhựa cùng tác động của biến đổi khí hậu
+                    đang làm suy giảm hệ sinh thái biển. Nếu không hành động ngay hôm nay,
+                    những gì chúng ta yêu quý có thể sẽ không còn cho các thế hệ mai sau.
+                </p>
+                <div class="hero__actions">
+                    <a href="#take-action" class="btn btn--primary">Tìm hiểu ngay</a>
+                    <a href="#take-actiion" class="btn btn--secondary">Chung tay hành động</a>
+                </div>
+            </div>
+            <div class="hero__scroll-down">
+                <span>Cuộn để tìm hiểu</span>
+            </div>
+        </section>
+        <!--5.2-->
+        <section id="take-action" class="threat-timeline">
+            <div class="threat-stats__grid">
+                <div class="threat-card">
+                    <div class="navbar__brand">
+                        <div class="threat-card__icon">
+                            <img src="images/sanho.jpg" alt="San hô">
+                        </div>
+                        <div class="threat-card__content">
+                            <div class="stats__label" style="color: #E63946">
+                                San hô tẩy trắng
+                            </div>
+                            <div class="stat__number"
+                                style="font-size: 56px;font-family: var(--font-heading);color: #E63946">
+                                60%
+                            </div>
+                            <div class="progress" style="height: 8px;">
+                                <div class="progress__fill" style="width: 60%; background: #E63946;">
+                                </div>
+                            </div>
+                            <div class="threat-card__caption">
+                                Diện tích rạn san hô bị ảnh hưởng
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="threat-card">
+                    <div class="navbar__brand">
+                        <div class="threat-card__icon">
+                            <img src="images/rung.jpg" alt="Rừng ngập mặn">
+                        </div>
+                        <div class="threat-card__content">
+                            <div class="stats__label" style="color:#F4A261">
+                                Rừng ngập mặn
+                            </div>
+                            <div class="stat__number"
+                                style="font-size: 56px;font-family: var(--font-heading);color:#F4A261">
+                                70%
+                            </div>
+                            <div class="progress" style="height: 8px;">
+                                <div class="progress__fill" style="width: 70%; background: #F4A261;">
+                                </div>
+                            </div>
+                            <div class="threat-card__caption">
+                                Mất đi so với 1940
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="threat-card">
+                    <div class="navbar__brand">
+                        <div class="threat-card__icon">
+                            <img src="images/rua.jpg" alt="Loài nguy cấp">
+                        </div>
+                        <div class="threat-card__content">
+                            <div class="stats__label" style="color:#F4A261">
+                                Loài nguy cấp
+                            </div>
+                            <div class="stat__number"
+                                style="font-size: 56px;font-family: var(--font-heading);color:#F4A261">
+                                40%
+                            </div>
+                            <div class="progress" style="height: 8px;">
+                                <div class="progress__fill" style="width: 40%; background: #F4A261;">
+                                </div>
+                            </div>
+                            <div class="threat-card__caption">
+                                Cần bảo vệ khẩn cấp
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="threat-card">
+                    <div class="navbar__brand">
+                        <div class="threat-card__icon">
+                            <img src="images/baoton.jpg" alt="Bảo tồn biển">
+                        </div>
+                        <div class="threat-card__content">
+                            <div class="stats__label" style="color:#74C69D">
+                                Diện tích bảo tồn
+                            </div>
+                            <div class="stat__number"
+                                style="font-size: 56px;font-family: var(--font-heading);color:#74C69D">
+                                8%
+                            </div>
+                            <div class="progress" style="height: 8px;">
+                                <div class="progress__fill" style="width: 8%; background: #74C69D;">
+                                </div>
+                            </div>
+                            <div class="threat-card__caption">
+                                Mục tiêu 30% năm 2030
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!--3-->
+        <section class="threat-timeline" style="background-color: #020D18;">
+            <div class="container">
+                <div class="timeline-header">
+                    <span class="timeline-header__eyebrow">Lịch sử bảo tồn</span>
+                    <h2 class="timeline-header__title">Hành trình bảo vệ đại dương</h2>
+                    <p class="timeline-header__desc">
+                        Những cột mốc quan trọng trong công cuộc bảo tồn biển tại Việt Nam
+                    </p>
+                </div>
+                <div class="timeline-wrapper">
+                    <div class="timeline-item">
+                        <div class="timeline-item__dot"></div>
+                        <span class="timeline-item__year">1994</span>
+                        <h3 class="timeline-item__title">Luật Bảo vệ Môi trường VN</h3>
+                        <p class="timeline-item__desc">Khung pháp lý đầu tiên về bảo vệ tài nguyên biển</p>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-item__dot"></div>
+                        <span class="timeline-item__year">2003</span>
+                        <h3 class="timeline-item__title">Khu bảo tồn Cù Lao Chàm</h3>
+                        <p class="timeline-item__desc">Thành lập khu bảo tồn biển đầu tiên miền Trung</p>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-item__dot"></div>
+                        <span class="timeline-item__year">2010</span>
+                        <h3 class="timeline-item__title">Vườn Quốc gia Cát Bà</h3>
+                        <p class="timeline-item__desc">Công nhận là khu dự trữ sinh quyển thế giới</p>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-item__dot"></div>
+                        <span class="timeline-item__year">2020</span>
+                        <h3 class="timeline-item__title">Dự án phục hồi san hô</h3>
+                        <p class="timeline-item__desc">Phục hồi 5 ha rạn san hô tại Nha Trang</p>
+                    </div>
+                    <div class="timeline-item timeline-item--future">
+                        <div class="timeline-item__dot"></div>
+                        <div class="timeline-item__meta">
+                            <span class="timeline-item__year">2030</span>
+                            <span class="timeline-item__badge">Mục tiêu</span>
+                        </div>
+                        <h3 class="timeline-item__title">Bảo vệ 30% vùng biển Việt Nam</h3>
+                        <p class="timeline-item__desc">Hướng tới mục tiêu bảo tồn 30% diện tích biển vào năm 2030</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!--4-->
+        <section id="take-actiion" class="cta-section">
+            <div class="cta-section__container">
+                <div class="cta-section__grid">
+                    <div class="cta-content">
+                        <h2 class="cta-content__title">Tham gia bảo tồn biển</h2>
+                        <p class="cta-content__desc">
+                            Chung tay bảo vệ đại dương bằng những hành động thiết thực ngay hôm nay.
+                        </p>
+
+                        <div class="cta-actions">
+                            <div class="cta-action">
+                                <div class="cta-action__icon">
+                                    <i class="fa-solid fa-file-signature"></i>
+                                </div>
+                                <div>
+                                    <div class="cta-action__title">Ký kiến nghị</div>
+                                    <div class="cta-action__desc">Ủng hộ bảo vệ các rạn san hô</div>
+                                </div>
+                            </div>
+                            <div class="cta-action">
+                                <div class="cta-action__icon">
+                                    <i class="fa-solid fa-recycle"></i>
+                                </div>
+                                <div>
+                                    <div class="cta-action__title">Giảm nhựa</div>
+                                    <div class="cta-action__desc">Hạn chế rác thải nhựa đại dương</div>
+                                </div>
+                            </div>
+                            <div class="cta-action">
+                                <div class="cta-action__icon">
+                                    <i class="fa-solid fa-trash-can"></i>
+                                </div>
+                                <div>
+                                    <div class="cta-action__title">Dọn biển</div>
+                                    <div class="cta-action__desc">Tham gia các chiến dịch làm sạch bãi biển</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+    <script src="script.js"></script>
+</body>
+
+</html>
