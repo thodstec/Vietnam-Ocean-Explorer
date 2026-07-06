@@ -5,11 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>VietNam Ocean Explorer</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"> 
-    <link rel="stylesheet" href="css/style.css"> 
+    <link rel="stylesheet" href="css/style1.css"> 
 </head>
 <body>
     <header class="header">
-        <img class="header__img header__img--logo" src="" alt="">
+        <img class="header__img header__img--logo" src="" alt="hình ảnh logo VietNam Ocean Explorer">
         <div class="header-nav-form"> 
             <nav class="horizontal-nav">
                 <ul class="horizontal-nav__list">
@@ -26,17 +26,20 @@
                         <a class="horizontal-nav__link" href="unique-locations.html">Địa điểm du lịch</a>
                     </li>
                     <li class="horizontal-nav__item horizontal-nav__item--hide--mobile">
-                        <a class="horizontal-nav__link" href="conversation.html">Bảo tồn thiên nhiên biển</a>
+                        <a class="horizontal-nav__link" href="conservation.html">Bảo tồn thiên nhiên biển</a>
                     </li>
                 </ul>
             </nav>
             <form class="form-search" action="#" method="get">
                 <input class="form-search__input" type="text" name="search" placeholder="Tìm kiếm...">
-                <button class="form-search__button">
+                <button class="form-search__button" type="submit">
                     <i class="fa fa-search"></i> 
                 </button>
             </form>
-            <button class="header__hamburrger" type="button">
+            <button class="header__search-toggle" type="button" aria-label="Mở thanh tìm kiếm">
+                    <i class="fa fa-search"></i>
+                </button>
+            <button class="header__hamburger" type="button">
                 <i class="fa fa-bars"></i> 
             </button>
         </div>
@@ -98,6 +101,7 @@
                     <li class="depth-card__info-item">Tại đây, cái lạnh chạm ngưỡng 1°C và áp suất tương đương một chiếc xe tăng đè lên ngón tay bạn. Thế nhưng, thế giới này không hề chết chóc; bóng tối được thắp sáng bởi hàng triệu đốm đèn huỳnh quang xanh lam, đỏ rực từ các sinh vật biển tự phát sáng, tạo nên một dải ngân hà kỳ vĩ di động ngay dưới đáy đại dương [baotanghdh.vn].</li>
                     <li class="depth-card__info-item">Giới hạn lặn bình khí của con người chỉ ở mức 332,35 mét (do thợ lặn Ahmed Gabr lập) vì áp suất nước có thể làm nát phổi. Để chạm tới sườn dốc 3.000m, các nhà khoa học Việt Nam và quốc tế phải ẩn mình hoàn toàn trong các tàu ngầm thám hiểm vỏ titan chuyên dụng như tàu Alvin hoặc Giao Long để không bị nghiền nát.</li>
                     <li class="depth-card__info-item"></li>
+                </ul>
             </article>
             <article class="depth-card" id="tang-3">
                 <img class="depth-card__image" src="" alt="">
@@ -105,13 +109,15 @@
                 <h2 class="depth-card__title">Vực sâu - Nơi những điều kỳ bí ẩn hiện</h2>
                 <p class="depth-card__description">Đây là vùng biển sâu nhất, nơi ánh sáng mặt trời không thể xuyên thấu. Nhiệt độ giảm mạnh, áp suất tăng cao, tạo ra môi trường sống khắc nghiệt cho các sinh vật biển [jmes.humg.edu.vn]. Tuy nhiên, đây cũng là nơi sinh sống của nhiều loài sinh vật kỳ bí không mắt và tồn tại những bãi kết hạch kim loại quý hiếm đạt độ sâu kỷ lục 5.559 mét</p>
                 <ul class="depth-card__info">
-                    <li class="depth-card_info-item"> Con số 5.559m vượt xa độ sâu trung bình của toàn bộ các đại dương trên Trái Đất (khoảng 3.700m). Dù chưa thể sánh bằng "Vực thẳm Challenger" ở rãnh Mariana (sâu gần 11.000m), nhưng mức sâu này đủ để nhấn chìm toàn bộ ngọn núi Fansipan cao nhất Việt Nam (3.143m) mà vẫn thừa một khoảng nước sâu tới hơn 2.400m!</li>
-                    <li class="depth-card_info-item">Điểm sâu nhất này được lập bản đồ nhờ công nghệ quét sóng âm đa tia của các tàu hải dương học, ghi nhận áp suất tàn khốc gấp 550 lần mặt biển.</li>
-                    <li class="depth-card_info-item">Đây là "vùng trắng dữ liệu" bao la chưa thể khai phá hết của Việt Nam, cất giấu các rạn san hô đen cổ thụ, mỏ Băng cháy khổng lồ và thế giới sinh vật không mắt dị biệt.</li>
-                    <li class="depth-card_info-item">Quái vật bọ biển khổng lồ (Bathynomus jamesi): Phát hiện tại vùng biển sâu Việt Nam, loài giáp xác mang hình thù dị biệt này có chiều dài hơn 30cm, biến hóa cơ thể cực đại để thích nghi áp suất tàn khốc của đáy biển sâu.</li>
-                    <li class="depth-card_info-item"> Do không có ánh sáng mặt trời để quang hợp, toàn bộ sinh vật ở vùng đáy vực này sống sót nhờ một hiện tượng thực tế cực kỳ thú vị gọi là "Tuyết đại dương" (Marine Snow). Đó là những cơn mưa hạt hữu cơ từ xác sinh vật, tảo biển ở tầng nắng ấm phân hủy và rơi rụng suốt hàng tháng trời mới chạm tới đáy vực thẳm, trở thành nguồn thức ăn duy nhất nuôi dưỡng các loài cá mù và hải sâm đáy biển.</li>
-                    <li class="depth-card_info-item"> Điểm độc đáo của các loài cá biển sâu tại bồn trũng Việt Nam (như cá rồng biển, cá răng kiếm) là chúng không sử dụng mắt để nhìn. Thay vào đó, chúng tiến hóa các tế bào hóa học để biến cơ thể thành những chiếc đèn huỳnh quang tự phát sáng nhằm dụ con mồi tự bơi vào miệng trong màn đêm vĩnh cửu.</li>
-        </section>
+                    <li class="depth-card__info-item"> Con số 5.559m vượt xa độ sâu trung bình của toàn bộ các đại dương trên Trái Đất (khoảng 3.700m). Dù chưa thể sánh bằng "Vực thẳm Challenger" ở rãnh Mariana (sâu gần 11.000m), nhưng mức sâu này đủ để nhấn chìm toàn bộ ngọn núi Fansipan cao nhất Việt Nam (3.143m) mà vẫn thừa một khoảng nước sâu tới hơn 2.400m!</li>
+                    <li class="depth-card__info-item">Điểm sâu nhất này được lập bản đồ nhờ công nghệ quét sóng âm đa tia của các tàu hải dương học, ghi nhận áp suất tàn khốc gấp 550 lần mặt biển.</li>
+                    <li class="depth-card__info-item">Đây là "vùng trắng dữ liệu" bao la chưa thể khai phá hết của Việt Nam, cất giấu các rạn san hô đen cổ thụ, mỏ Băng cháy khổng lồ và thế giới sinh vật không mắt dị biệt.</li>
+                    <li class="depth-card__info-item">Quái vật bọ biển khổng lồ (Bathynomus jamesi): Phát hiện tại vùng biển sâu Việt Nam, loài giáp xác mang hình thù dị biệt này có chiều dài hơn 30cm, biến hóa cơ thể cực đại để thích nghi áp suất tàn khốc của đáy biển sâu.</li>
+                    <li class="depth-card__info-item"> Do không có ánh sáng mặt trời để quang hợp, toàn bộ sinh vật ở vùng đáy vực này sống sót nhờ một hiện tượng thực tế cực kỳ thú vị gọi là "Tuyết đại dương" (Marine Snow). Đó là những cơn mưa hạt hữu cơ từ xác sinh vật, tảo biển ở tầng nắng ấm phân hủy và rơi rụng suốt hàng tháng trời mới chạm tới đáy vực thẳm, trở thành nguồn thức ăn duy nhất nuôi dưỡng các loài cá mù và hải sâm đáy biển.</li>
+                    <li class="depth-card__info-item"> Điểm độc đáo của các loài cá biển sâu tại bồn trũng Việt Nam (như cá rồng biển, cá răng kiếm) là chúng không sử dụng mắt để nhìn. Thay vào đó, chúng tiến hóa các tế bào hóa học để biến cơ thể thành những chiếc đèn huỳnh quang tự phát sáng nhằm dụ con mồi tự bơi vào miệng trong màn đêm vĩnh cửu.</li>
+                </ul>
+            </article>
+            </section>
         <section class="ocean-statistics">
             <div class="ocean-statistics__container">
                 <article class="ocean-statistics__card">
@@ -182,24 +188,50 @@
         </section>
     </main>
     <footer class="footer">
+
+    <div class="footer__container">
+
+        <!-- Cột 1 -->
         <section class="footer__about">
-            <h2>VietNam Ocean Explorer</h2>
-            <p></p>
-            <nav class="footer__menu">
-                <h3>Kham pha</h3>
-                <ul>
-                    <li>Tang sinh thai bien</li>
-                    <li>Sinh vat - Khoang san</li>
-                    <li>Dia diem du lich</li>
-                    <li>Bao ton thien nhien bien</li>
-                </ul>
-            </nav>
+            <h2 class="footer__logo">
+                VietNam Ocean Explorer
+            </h2>
+
+            <p class="footer__description">
+                Khám phá những tầng sâu kỳ bí của biển Việt Nam,
+                lan tỏa tri thức và nâng cao ý thức bảo tồn đại dương.
+            </p>
         </section>
-        <div class="footer__content">
-            <p class="footer__text">© 2026 VietNam Ocean Explorer</p>
-            <p>Nguon tham khao:<a href="https://oceancensus.org/" target="_blank"> Ocean Census</a></p>
-            <p>Cac tai lieu tham khao khac neu co cung lam duong link nhu nay</p>
-        </div>
-    </footer>
+
+        <!-- Cột 2 -->
+        <nav class="footer__menu">
+            <h3 class="footer__title">Khám phá</h3>
+
+            <ul class="footer__list">
+                <li><a href="#">Khám phá lòng biển</a></li>
+                <li><a href="#">Sinh vật - Khoáng sản</a></li>
+                <li><a href="#">Địa điểm du lịch</a></li>
+                <li><a href="#">Bảo tồn thiên nhiên biển</a></li>
+            </ul>
+        </nav>
+
+        <!-- Cột 3 -->
+        <section class="footer__reference">
+            <h3 class="footer__title">Nguồn tham khảo</h3>
+
+            <ul class="footer__list">
+                <li><a href="#">Ocean Census</a></li>
+                <li><a href="#">Tổng cục Biển và Hải đảo Việt Nam</a></li>
+                <li><a href="#">Các bài báo khoa học về biển</a></li>
+                <li><a href="#">Nguồn tài liệu khác...</a></li>
+            </ul>
+        </section>
+    </div>
+
+    <div class="footer__bottom">
+        © 2026 VietNam Ocean Explorer
+    </div>
+
+</footer>
 </body> 
 </html>
