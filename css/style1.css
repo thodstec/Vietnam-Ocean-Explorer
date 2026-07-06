@@ -89,10 +89,10 @@ table{
     /*========== TYPOGRAPHY ==========*/
 
     --font-family:
-        "Segoe UI",
-        Tahoma,
-        Geneva,
-        Verdana,
+        "League Spartan",
+        sans-serif;
+    --font-heading:
+        "Oswald",
         sans-serif;
 
     --font-size-xs:.75rem;
@@ -1122,6 +1122,172 @@ section{
     .footer{
 
         margin-top:7rem;
+
+    }
+
+}
+/*==================================================
+=              DEPTH-EXPLORER
+==================================================*/
+.ocean-explore__header{
+
+    position:relative;
+
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
+
+    min-height:100vh;
+
+    padding:8rem 2rem;
+
+    text-align:center;
+
+    overflow:hidden;
+
+    background:
+        linear-gradient(
+            rgba(2,13,24,.65),
+            rgba(2,13,24,.82)
+        ),
+        url("../images/ocean-hero.jpg")
+        center/cover
+        no-repeat;
+}
+.ocean-explore__header::before{
+
+    content:"";
+
+    position:absolute;
+    inset:0;
+
+    background:
+        radial-gradient(
+            circle at center,
+            rgba(40,180,255,.18),
+            transparent 70%
+        );
+
+    pointer-events:none;
+
+}
+.ocean-explore__header>*{
+
+    position:relative;
+    z-index:2;
+
+}
+.ocean-explore__title{
+
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+
+    text-transform:uppercase;
+    margin-bottom:3rem;
+
+}
+.ocean-explore__title-small{
+
+    font-family:"Bebas Neue", sans-serif;
+
+    font-size:clamp(2rem,3vw,3.2rem);
+   
+    letter-spacing:.8rem;
+
+    font-weight:500;
+
+    line-height:1;
+    opacity:.95;
+    color:#fff;
+    margin-bottom:.4rem;
+
+}
+.ocean-explore__title-big{
+
+    font-family:"Montserrat", sans-serif;
+
+    font-size:clamp(7rem,15vw,12rem);
+
+    letter-spacing:.15rem;
+
+    font-weight:900;
+
+    line-height:.88;
+
+    margin-top:1.2rem;
+
+    color:#fff;
+
+    text-shadow:
+        0 0 30px rgba(255,255,255,.08),
+        0 8px 30px rgba(0,0,0,.35);
+
+}
+
+.ocean-explore__description{
+
+    max-width:760px;
+
+    font-size:1.15rem;
+
+    line-height:1.9;
+
+    color:var(--text-secondary);
+
+}
+.ocean-explore__description::before{
+
+    content:"";
+
+    display:block;
+
+    width:90px;
+    height:2px;
+
+    margin:0 auto 2rem;
+
+    background:linear-gradient(
+        to right,
+        transparent,
+        var(--accent-color),
+        transparent
+    );
+
+}
+.ocean-explore__header::after{
+
+    content:"";
+
+    position:absolute;
+
+    bottom:40px;
+    left:50%;
+
+    transform:translateX(-50%);
+
+    width:24px;
+    height:42px;
+
+    border:2px solid rgba(255,255,255,.45);
+
+    border-radius:20px;
+
+}
+@media(max-width:768px){
+
+    .ocean-explore__header{
+
+        padding:7rem 1.5rem;
+
+        min-height:90vh;
+
+    }
+
+    .ocean-explore__description{
+
+        font-size:1rem;
 
     }
 
