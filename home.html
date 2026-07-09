@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VietNam Ocean Explorer</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"> 
+    <link rel="stylesheet" href="css/style1.css"> 
+</head>
+<body>
+    <header class="header">
+        <img class="header__img header__img--logo" src="" alt="Hình ảnh logo VietNam Ocean Explorer">
+        <div class="header-nav-form"> 
+            <nav class="horizontal-nav">
+                <ul class="horizontal-nav__list">
+                    <li class="horizontal-nav__item">
+                        <a class="horizontal-nav__link horizontal-nav__link--active" href="home.html">Trang chủ</a>
+                    </li>
+                    <li class="horizontal-nav__item horizontal-nav__item--hide--mobile">
+                        <a class="horizontal-nav__link" href="dept-explorer.html">Khám phá lòng biển</a>
+                    </li>
+                    <li class="horizontal-nav__item horizontal-nav__item--hide--mobile">
+                        <a class="horizontal-nav__link" href="unique-locations.html">Sinh vật - Khoáng sản</a>
+                    </li>
+                    <li class="horizontal-nav__item horizontal-nav__item--hide--mobile">
+                        <a class="horizontal-nav__link" href="unique-locations.html">Địa điểm du lịch</a>
+                    </li>
+                    <li class="horizontal-nav__item horizontal-nav__item--hide--mobile">
+                        <a class="horizontal-nav__link" href="conservation.html">Bảo tồn thiên nhiên biển</a>
+                    </li>
+                </ul>
+            </nav>
+            <form class="form-search" action="#" method="get">
+                <input class="form-search__input" type="text" name="search" placeholder="Tìm kiếm...">
+                <button class="form-search__button" type="submit">
+                    <i class="fa fa-search"></i> 
+                </button>
+            </form>
+            <button class="header__search-toggle" type="button" aria-label="Mở thanh tìm kiếm">
+                <i class="fa fa-search"></i>
+            </button>
+            <button class="header__hamburger" type="button">
+                <i class="fa fa-bars"></i> 
+            </button>
+        </div>
+    </header>
+
+    <main>
+        <section class="info-section">
+            <div class="section-title-box">
+                <h2 class="main-title">Tổng Quan Biển Đảo Việt Nam</h2>
+            </div>
+            
+            <div class="info-grid">
+                <div class="info-text">
+                    <h3>Vị thế chiến lược và tầm vóc đại dương</h3>
+                    <p>Vùng biển Việt Nam là một bộ phận của Biển Đông, sở hữu diện tích rộng lớn trên 1 triệu km², gấp hơn 3 lần diện tích đất liền. Với đường bờ biển dài hơn 3.260 km trải dài từ Móng Cái (Quảng Ninh) đến Hà Tiên (Kiên Giang), biển nước ta đi qua địa phận của 28 tỉnh, thành phố trực thuộc trung ương.</p>
+                    <p>Đây không chỉ là không gian sinh tồn, cửa ngõ giao thương quốc tế huyết mạch kết nối các đại dương, mà còn là nơi chứa đựng hệ sinh thái vô cùng phong phú. Từ những rạn san hô rực rỡ, thảm cỏ biển nguyên sơ cho đến các nguồn tài nguyên khoáng sản, hải sản quý giá, Biển Việt Nam đóng vai trò chiến lược đặc biệt quan trọng trong sự nghiệp phát triển kinh tế và bảo vệ chủ quyền quốc gia.</p>
+                </div>
+                
+                <div class="interactive-gallery">
+                    <div class="viewer-box">
+                        <img id="displayImg" src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=600&q=80" alt="Biển Việt Nam">
+                    </div>
+                    <div class="tabs-container">
+                        <button type="button" class="tab-trigger active" onclick="switchOceanTab(this, 1)">Cảnh Vịnh</button>
+                        <button type="button" class="tab-trigger" onclick="switchOceanTab(this, 2)">Biển Khơi</button>
+                        <button type="button" class="tab-trigger" onclick="switchOceanTab(this, 3)">San Hô VN</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="map-stats-section">
+            <div class="section-title-box">
+                <h2 class="main-title">Bản Đồ Định Vị &amp; Thông Số Cơ Bản</h2>
+            </div>
+            
+            <div class="map-stats-grid">
+                <div class="map-visual" style="position: relative; width: 100%; max-width: 500px; margin: 0 auto;">
+                    <div class="map-overlay">
+                        <div class="ping island-1"><span class="ping-text">Huyện đảo Hoàng Sa</span></div>
+                        <div class="ping island-2"><span class="ping-text">Huyện đảo Trường Sa</span></div>
+                    </div>
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/1/17/Vietnam_location_map_with_islands.svg" alt="Bản đồ địa lý Việt Nam chính xác bao gồm các đảo ven bờ và hai quần đảo Hoàng Sa, Trường Sa" style="width: 100%; height: auto; display: block; object-fit: contain;">
+                </div>
+                
+                <div class="stats-box">
+                    <div class="stat-card">
+                        <span class="stat-num">&gt; 1M</span>
+                        <span class="stat-label">Km² Diện tích mặt biển</span>
+                    </div>
+                    <div class="stat-card">
+                        <span class="stat-num">&gt; 3.260</span>
+                        <span class="stat-label">Km Đường bờ biển dài</span>
+                    </div>
+                    <div class="stat-card">
+                        <span class="stat-num">28</span>
+                        <span class="stat-label">Tỉnh, thành phố giáp biển</span>
+                    </div>
+                    <div class="stat-card">
+                        <span class="stat-num">&gt; 4.000</span>
+                        <span class="stat-label">Hòn đảo lớn nhỏ toàn quốc</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="summary-section">
+            <div class="section-title-box">
+                <h2 class="main-title">Nội Dung Tóm Tắt Chuyên Đề Hệ Thống</h2>
+            </div>
+            
+            <div class="summary-cards-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 24px; margin-top: 32px;">
+                <article class="summary-card" style="background: #ffffff; padding: 24px; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.06); border-left: 4px solid #0056b3; transition: transform 0.2s ease;">
+                    <h4 style="color: #0056b3; font-size: 1.2rem; margin: 0 0 8px 0; font-weight: 700;">I. Địa Lý &amp; Vị Thế Chiến Lược</h4>
+                    <p class="summary-card__subtitle" style="font-weight: 600; font-size: 0.9rem; color: #333; margin: 0 0 12px 0;">Cửa ngõ giao thương và không gian sinh tồn quốc gia</p>
+                    <p class="summary-card__desc" style="font-size: 0.85rem; color: #666; margin: 0; line-height: 1.6;">Phân tích toàn diện về vùng nội thủy, lãnh hải, đặc quyền kinh tế và thềm lục địa thuộc chủ quyền Việt Nam. Khái quát vị trí huyết mạch kết nối giao thương hàng hải quốc tế xuyên qua Biển Đông và tầm quan trọng của bờ biển kéo dài từ Bắc vào Nam.</p>
+                </article>
+
+                <article class="summary-card" style="background: #ffffff; padding: 24px; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.06); border-left: 4px solid #0056b3; transition: transform 0.2s ease;">
+                    <h4 style="color: #0056b3; font-size: 1.2rem; margin: 0 0 8px 0; font-weight: 700;">II. Bản Đồ &amp; Chủ Quyền Biển Đảo</h4>
+                    <p class="summary-card__subtitle" style="font-weight: 600; font-size: 0.9rem; color: #333; margin: 0 0 12px 0;">Hệ thống tọa độ số hóa và minh chứng lịch sử</p>
+                    <p class="summary-card__desc" style="font-size: 0.85rem; color: #666; margin: 0; line-height: 1.6;">Trực quan hóa hệ thống phân bố của hơn 4.000 hòn đảo lớn nhỏ, tập trung làm rõ vai trò địa chính trị độc nhất của hai quần đảo Hoàng Sa và Trường Sa. Tích hợp dữ liệu định vị địa lý chính xác, khẳng định mạnh mẽ cơ sở pháp lý và chủ quyền bất khả xâm phạm.</p>
+                </article>
+
+                <article class="summary-card" style="background: #ffffff; padding: 24px; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.06); border-left: 4px solid #0056b3; transition: transform 0.2s ease;">
+                    <h4 style="color: #0056b3; font-size: 1.2rem; margin: 0 0 8px 0; font-weight: 700;">III. Đa Dạng Sinh Học &amp; Tài Nguyên</h4>
+                    <p class="summary-card__subtitle" style="font-weight: 600; font-size: 0.9rem; color: #333; margin: 0 0 12px 0;">Tiềm năng kinh tế xanh và hệ sinh thái bản địa</p>
+                    <p class="summary-card__desc" style="font-size: 0.85rem; color: #666; margin: 0; line-height: 1.6;">Tóm lược hiện trạng các rạn san hô, thảm cỏ biển nguyên sơ cùng trữ lượng hải sản và tài nguyên khoáng sản, dầu khí dưới lòng thềm lục địa. Cung cấp bức tranh dữ liệu nền tảng làm đòn bẩy cho nghiên cứu khoa học và định hướng phát triển kinh tế biển bền vững.</p>
+                </article>
+
+                <article class="summary-card" style="background: #ffffff; padding: 24px; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.06); border-left: 4px solid #0056b3; transition: transform 0.2s ease;">
+                    <h4 style="color: #0056b3; font-size: 1.2rem; margin: 0 0 8px 0; font-weight: 700;">IV. Bảo Tồn &amp; Đóng Góp Cộng Đồng</h4>
+                    <p class="summary-card__subtitle" style="font-weight: 600; font-size: 0.9rem; color: #333; margin: 0 0 12px 0;">Giải pháp chiến dịch và cổng số hóa tư liệu</p>
+                    <p class="summary-card__desc" style="font-size: 0.85rem; color: #666; margin: 0; line-height: 1.6;">Thiết lập các định hướng bảo vệ môi trường trước thách thức biến đổi khí hậu và ô nhiễm rác thải nhựa. Thông qua hệ thống tương tác, nền tảng hỗ trợ tiếp nhận, kết nối các nguồn tư liệu chuyên môn từ cộng đồng nhằm liên tục cập nhật và hoàn thiện trang tổng quan.</p>
+                </article>
+            </div>
+        </section>
+
+        <section id="register-form" class="form-section">
+            <div class="premium-form-box">
+                <div class="form-header">
+                    <h3>Đóng Góp Tư Liệu Biển Đảo</h3>
+                    <p>Gửi ý kiến đóng góp hoặc tài liệu chuyên môn để hoàn thiện trang tổng quan này.</p>
+                </div>
+                
+                <form action="#" onsubmit="alert('Cảm ơn bạn đã đóng góp tư liệu cho chuyên đề hệ thống!'); return false;">
+                    <div class="input-group">
+                        <label for="uName">Họ và Tên</label>
+                        <input type="text" id="uName" placeholder="Nhập họ tên của bạn..." required>
+                    </div>
+                    <div class="input-group">
+                        <label for="uEmail">Hộp thư Email</label>
+                        <input type="email" id="uEmail" placeholder="yourname@domain.com" required>
+                    </div>
+                    <div class="input-group">
+                        <label for="uMsg">Nội dung tư liệu / Ý kiến đóng góp</label>
+                        <textarea id="uMsg" rows="3" placeholder="Nhập nội dung tư liệu giới thiệu biển Việt Nam..."></textarea>
+                    </div>
+                    <div class="submit-action">
+                        <button type="submit">Gửi Đóng Góp</button>
+                    </div>
+                </form>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <div class="footer__container">
+            <section class="footer__about">
+                <h2 class="footer__logo">
+                    VietNam Ocean Explorer
+                </h2>
+                <p class="footer__description">
+                    Khám phá những tầng sâu kỳ bí của biển Việt Nam,
+                    lan tỏa tri thức và nâng cao ý thức bảo tồn đại dương.
+                </p>
+            </section>
+
+            <nav class="footer__menu">
+                <h3 class="footer__title">Khám phá</h3>
+                <ul class="footer__list">
+                    <li><a href="#">Khám phá lòng biển</a></li>
+                    <li><a href="#">Sinh vật - Khoáng sản</a></li>
+                    <li><a href="#">Địa điểm du lịch</a></li>
+                    <li><a href="#">Bảo tồn thiên nhiên biển</a></li>
+                </ul>
+            </nav>
+
+            <section class="footer__reference">
+                <h3 class="footer__title">Nguồn tham khảo</h3>
+                <ul class="footer__list">
+                    <li><a href="#">Ocean Census</a></li>
+                    <li><a href="#">Tổng cục Biển và Hải đảo Việt Nam</a></li>
+                    <li><a href="#">Các bài báo khoa học về biển</a></li>
+                    <li><a href="#">Nguồn tài liệu khác...</a></li>
+                </ul>
+            </section>
+        </div>
+
+        <div class="footer__bottom">
+            © 2026 VietNam Ocean Explorer
+        </div>
+    </footer>
+</body> 
+</html>
