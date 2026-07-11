@@ -434,29 +434,41 @@ section{
 
 /*========== SIDEBAR LAYOUT ==========*/
 
+/* CẤU TRÚC HTML MỚI: sidebar giờ nằm BÊN TRONG
+   .ocean-explore__content (cùng cấp với 3 .depth-card), không
+   còn là con trực tiếp của .ocean-explore nữa. Nhờ vậy
+   .ocean-explore chỉ còn là dòng chảy dọc bình thường của 4
+   khối full-width: Header → Content → Statistics → News —
+   không cần "ép" Statistics/News full-width nữa vì chúng vốn
+   đã không dính tới lưới cột nào cả. */
+
 .ocean-explore{
 
-    display:grid;
+    display:flex;
 
-    gap:var(--space-4);
-
-}
-
-.ocean-explore__sidebar{
-
-    order:1;
+    flex-direction:column;
 
 }
 
-.ocean-explore__header{
-
-    order:2;
-
-}
+/* .ocean-explore__content là nơi thật sự tạo lưới 2 cột
+   (sidebar 260px + cột bài viết) — xem chi tiết ở khối
+   @media (min-width:1024px) bên dưới. */
 
 .ocean-explore__content{
 
-    order:3;
+    position:relative;
+
+    isolation:isolate;
+
+}
+
+/* Sidebar là điều hướng phụ trợ chỉ dành cho màn hình rộng,
+   nơi đủ chỗ hiển thị song song với các article — ẩn trên
+   mobile/tablet, các .depth-card xếp chồng dọc bình thường. */
+
+.ocean-explore__sidebar{
+
+    display:none;
 
 }
 
@@ -574,35 +586,61 @@ section{
 
     }
 
-    .ocean-explore{
+    /* ============================================================
+       SƠ ĐỒ LƯỚI MONG MUỐN (đúng theo hình bạn gửi):
+
+       -------------------------------------
+       | Sidebar | Header                  |   <- section riêng, full-width
+       |         |-------------------------|
+       |         | Article 1               |   <- .ocean-explore__content
+       |         | Article 2               |      (grid 2 cột: sidebar + bài)
+       |         | Article 3               |      sidebar sticky suốt 3 bài
+       -------------------------------------
+       Statistics (100%)                        <- section riêng, full-width
+       -------------------------------------
+       News (100%)                              <- section riêng, full-width
+       -------------------------------------
+
+       Vì HTML mới đặt <aside class="ocean-explore__sidebar"> LỒNG
+       BÊN TRONG <section class="ocean-explore__content"> (ngang
+       hàng với 3 .depth-card), nên lưới 2 cột giờ chỉ cần khai
+       báo trên chính .ocean-explore__content — Header/Statistics/
+       News nằm ngoài, tự động full-width, không cần "ép" gì thêm.
+       ============================================================ */
+
+    .ocean-explore__content{
+
+        display:grid;
 
         grid-template-columns:260px minmax(0,1fr);
 
         align-items:start;
 
+        column-gap:var(--space-4);
+
     }
+
+    /* Sidebar trải dọc suốt toàn bộ chiều cao của content, tức
+       toàn bộ 3 article xếp chồng — KHÔNG đụng tới Header vì giờ
+       Header là section độc lập, nằm ngoài .ocean-explore__content */
 
     .ocean-explore__sidebar{
 
+        display:block;
+
         grid-column:1;
-
-        grid-row:1 / span 2;
-
         position:sticky;
+        top:var(--header-height);
 
-        top:calc(var(--header-height) + var(--space-3));
+        height:calc(100vh - var(--header-height));
 
         align-self:start;
 
     }
 
-    .ocean-explore__header{
+    /* Cả 3 .depth-card đều dồn vào cột 2, xếp chồng theo chiều dọc */
 
-        grid-column:2;
-
-    }
-
-    .ocean-explore__content{
+    .ocean-explore__content .depth-card{
 
         grid-column:2;
 
@@ -1292,1022 +1330,1023 @@ section{
     }
 
 }
+
 /*==================================================
 =          DEPTH ZONE TOKENS (new variables)
 ==================================================*/
 :root{
- 
+
     /* Ánh sáng nhạt dần theo độ sâu: từ tầng nắng ấm
        sang tầng chạng vạng rồi tới vực sâu không ánh sáng */
     --depth1-accent:#20C4F4;   /* 0-200m    – tầng nắng ấm   */
     --depth1-glow:rgba(32,196,244,.16);
- 
+
     --depth2-accent:#8D7BFF;   /* 200-3000m – tầng chạng vạng */
     --depth2-glow:rgba(141,123,255,.14);
- 
+
     --depth3-accent:#33FFC7;   /* 3000m+    – vực sâu, phát quang sinh học */
     --depth3-glow:rgba(51,255,199,.14);
- 
+
 }
- 
+
 /*==================================================
 =              DEPTH NAV (SIDEBAR)
 ==================================================*/
- 
+
 /*========== PANEL ==========*/
- 
+
 .depth-nav{
- 
-    position:relative;
- 
-    padding:var(--space-3);
- 
+
+    position:sticky;
+
+    padding:2rem 1.5rem;
+
     background:rgba(8,40,63,.5);
- 
+
     backdrop-filter:blur(18px);
- 
+
     border:1px solid var(--border-color);
- 
+
     border-radius:var(--radius-lg);
- 
+
     overflow:hidden;
- 
+    top:calc(var(--header-height) + var(--space-3));
+    height:100%;
+    display:flex;
+    flex-direction:column;
 }
- 
+
 .depth-nav::before{
- 
+
     content:"";
- 
+
     position:absolute;
- 
+
     inset:0;
- 
+
     background:linear-gradient(
         160deg,
         rgba(255,255,255,.06),
         transparent 55%
     );
- 
+
     pointer-events:none;
- 
+
 }
- 
+
 /*========== TITLE (eyebrow label, generated) ==========*/
- 
+
 .depth-nav__title{
- 
+
     font-family:var(--font-heading);
- 
+
     font-size:var(--font-size-xs);
- 
+
     font-weight:var(--font-weight-semibold);
- 
+
     letter-spacing:.3em;
- 
+
     text-transform:uppercase;
- 
+
     color:var(--text-muted);
- 
+
     margin-bottom:var(--space-3);
- 
+
 }
- 
+
 .depth-nav__title::before{
- 
+
     content:"Bản đồ độ sâu";
- 
+
 }
- 
+
 /*========== DEPTH RULER LIST ==========*/
- 
+
 .depth-nav__list{
- 
+
     position:relative;
- 
+
     display:flex;
- 
+
     flex-direction:column;
- 
+
     gap:var(--space-3);
- 
+
     padding-left:1.6rem;
- 
+    justify-content:space-between;
+    flex:1;
 }
- 
+
 .depth-nav__list{
- 
+
     /* JS cập nhật biến này (0 → 1) theo % đã cuộn qua content
        để thanh tiến trình bên dưới tô sáng dần */
- 
+
     --progress:0;
- 
+
 }
- 
+
 .depth-nav__list::before{
- 
+
     content:"";
- 
+
     position:absolute;
- 
+
     left:.3rem;
     top:.5rem;
     bottom:.5rem;
- 
+
     width:2px;
- 
+
     border-radius:2px;
- 
+
     background:linear-gradient(
         to bottom,
         var(--depth1-accent),
         var(--depth2-accent),
         var(--depth3-accent)
     );
- 
+
     opacity:.25;
- 
+
 }
- 
+
 /* Đường tiến trình đã cuộn qua — chiều cao do JS set qua --progress */
- 
+
 .depth-nav__list::after{
- 
+
     content:"";
- 
+
     position:absolute;
- 
+
     left:.3rem;
     top:.5rem;
- 
+
     width:2px;
- 
+
     border-radius:2px;
- 
+
     height:calc((100% - 1rem) * var(--progress));
- 
+
     background:linear-gradient(
         to bottom,
         var(--depth1-accent),
         var(--depth2-accent),
         var(--depth3-accent)
     );
- 
+
     box-shadow:0 0 10px var(--accent-color);
- 
+
     transition:height .2s linear;
- 
+
 }
- 
+
 .depth-nav__item{
- 
+
     position:relative;
- 
+
 }
- 
+
 .depth-nav__item::before{
- 
+
     content:"";
- 
+
     position:absolute;
- 
+
     left:-1.6rem;
     top:50%;
- 
+
     transform:translateY(-50%);
- 
+
     width:10px;
     height:10px;
- 
+
     border-radius:50%;
- 
+
     background:var(--background-color);
- 
+
     border:2px solid var(--depth1-accent);
- 
+
     transition:all var(--transition);
- 
+
 }
- 
+
 .depth-nav__item:nth-child(2)::before{
- 
+
     border-color:var(--depth2-accent);
- 
+
 }
- 
+
 .depth-nav__item:nth-child(3)::before{
- 
+
     border-color:var(--depth3-accent);
- 
+
 }
- 
+
 /*========== SCROLLSPY STATES (toggled via JS) ==========
    .is-visited  → tầng đã cuộn qua: chấm đặc, mờ nhẹ
    .is-active   → tầng đang xem: chấm to, sáng, có vầng glow    */
- 
+
 .depth-nav__item.is-visited::before{
- 
+
     background:currentColor;
- 
+
     opacity:.7;
- 
+
 }
- 
+
 .depth-nav__item.is-active::before{
- 
+
     width:14px;
     height:14px;
- 
+
     left:-1.72rem;
- 
+
     background:currentColor;
- 
+
     box-shadow:0 0 0 4px var(--card-glow,rgba(32,196,244,.25)),0 0 14px currentColor;
- 
+
 }
- 
+
 .depth-nav__item:nth-child(1).is-active,
 .depth-nav__item:nth-child(1).is-visited{
- 
+
     color:var(--depth1-accent);
- 
+
 }
- 
+
 .depth-nav__item:nth-child(2).is-active,
 .depth-nav__item:nth-child(2).is-visited{
- 
+
     color:var(--depth2-accent);
- 
+
 }
- 
+
 .depth-nav__item:nth-child(3).is-active,
 .depth-nav__item:nth-child(3).is-visited{
- 
+
     color:var(--depth3-accent);
- 
+
 }
- 
+
 .depth-nav__link{
- 
+
     display:block;
- 
+
     padding:.6rem .8rem;
- 
+
     font-family:var(--font-heading);
- 
+
     font-size:var(--font-size-sm);
- 
+
     font-weight:var(--font-weight-medium);
- 
+
     letter-spacing:.03em;
- 
+
     color:var(--text-secondary);
- 
+
     border-radius:var(--radius-sm);
- 
+
     transition:all var(--transition);
- 
+
 }
- 
+
 .depth-nav__item.is-active .depth-nav__link{
- 
+
     color:var(--text-primary);
- 
+
     font-weight:var(--font-weight-semibold);
- 
+
     background:rgba(255,255,255,.06);
- 
+
 }
- 
+
 .depth-nav__link:hover{
- 
+
     color:var(--text-primary);
- 
+
     background:rgba(255,255,255,.07);
- 
+
     padding-left:1.1rem;
- 
+
 }
- 
+
 .depth-nav__item:nth-child(1) .depth-nav__link:hover{
- 
+
     box-shadow:inset 3px 0 0 var(--depth1-accent);
- 
+
 }
- 
+
 .depth-nav__item:nth-child(2) .depth-nav__link:hover{
- 
+
     box-shadow:inset 3px 0 0 var(--depth2-accent);
- 
+
 }
- 
+
 .depth-nav__item:nth-child(3) .depth-nav__link:hover{
- 
+
     box-shadow:inset 3px 0 0 var(--depth3-accent);
- 
+
 }
- 
+
 /*==================================================
 =                  DEPTH CARD
 ==================================================*/
- 
+
 /*========== ZONE ACCENT BINDING ==========*/
- 
+
 #tang-1{ --card-accent:var(--depth1-accent); --card-glow:var(--depth1-glow); }
 #tang-2{ --card-accent:var(--depth2-accent); --card-glow:var(--depth2-glow); }
 #tang-3{ --card-accent:var(--depth3-accent); --card-glow:var(--depth3-glow); }
- 
+
 /*========== STICKY STACK CONTEXT ==========*/
- 
+
 /* .ocean-explore__content là "sân khấu" cuộn: mỗi .depth-card
    dán (sticky) lại ở đỉnh khung nhìn, thẻ ra đời sau trong DOM
    sẽ tự động vẽ đè lên thẻ trước — hiệu ứng chồng lớp thuần CSS,
    JS chỉ cần lắng nghe scroll/IntersectionObserver để bật/tắt
-   class .is-active / .is-visited trên .depth-nav__item tương ứng. */
- 
-.ocean-explore__content{
- 
-    isolation:isolate;
- 
-}
- 
+   class .is-active / .is-visited trên .depth-nav__item tương ứng.
+   (thuộc tính isolation:isolate cho .ocean-explore__content đã
+   khai báo ở mục SIDEBAR LAYOUT phía trên) */
+
 /*========== CARD WRAPPER (mỗi tầng = 1 "slide") ==========*/
- 
+
 .depth-card{
- 
+
     position:sticky;
- 
+
     top:var(--header-height);
- 
+
     min-height:calc(100vh - var(--header-height));
- 
+
     display:grid;
- 
+
     grid-template-columns:1fr;
- 
+
     grid-template-areas:
         "depth"
         "title"
         "desc"
         "image"
         "info";
- 
-    align-content:center;
- 
+
+    align-content:start;
+
     gap:var(--space-3);
- 
+
     padding-block:var(--space-5);
- 
+
     background:var(--background-color);
- 
-    overflow:hidden;
- 
+
+    overflow:visible;
+
     isolation:isolate;
- 
+
 }
- 
+
 /* Viền sáng mảnh phân định thẻ đang đè lên thẻ phía sau */
- 
+
 .depth-card::after{
- 
+
     content:"";
- 
+
     position:absolute;
- 
+
     top:0;
     left:0;
     right:0;
- 
+
     height:1px;
- 
+
     background:linear-gradient(
         90deg,
         transparent,
         var(--card-accent),
         transparent
     );
- 
+
     opacity:.6;
- 
+
     z-index:2;
- 
+
 }
- 
+
 /* Bóng phát quang mờ dần theo độ sâu của mỗi tầng sinh thái */
- 
+
 .depth-card::before{
- 
+
     content:"";
- 
+
     position:absolute;
- 
+
     top:10%;
     left:50%;
- 
+
     transform:translateX(-50%);
- 
+
     width:min(100%,900px);
     height:420px;
- 
+
     background:radial-gradient(
         circle,
         var(--card-glow),
         transparent 70%
     );
- 
+
     filter:blur(10px);
- 
+
     pointer-events:none;
- 
+
     z-index:0;
- 
+
 }
- 
+
 .depth-card > *{
- 
+
     position:relative;
- 
+
     z-index:1;
- 
+
 }
- 
+
 /*========== IMAGE ==========*/
- 
+
 .depth-card__image{
- 
+
     grid-area:image;
- 
+
     width:100%;
- 
+
     aspect-ratio:16 / 10;
- 
+
     object-fit:cover;
- 
+
     border-radius:var(--radius-lg);
- 
+
     background:linear-gradient(
         135deg,
         var(--surface-color),
         var(--surface-light)
     );
- 
+
     box-shadow:var(--shadow-lg);
- 
+
 }
- 
+
 /*========== DEPTH BADGE (eyebrow) ==========*/
- 
+
 .depth-card__depth{
- 
+
     grid-area:depth;
- 
+
     display:inline-flex;
- 
+
     align-items:center;
- 
+
     gap:.7rem;
- 
+
     font-family:var(--font-heading);
- 
+
     font-size:var(--font-size-sm);
- 
+
     font-weight:var(--font-weight-semibold);
- 
+
     letter-spacing:.2em;
- 
+
     text-transform:uppercase;
- 
+
     color:var(--card-accent);
- 
+
 }
- 
+
 .depth-card__depth::before{
- 
+
     content:"";
- 
+
     width:36px;
     height:2px;
- 
+
     background:var(--card-accent);
- 
+
 }
- 
+
 /*========== TITLE ==========*/
- 
+
 .depth-card__title{
- 
+
     grid-area:title;
- 
+
     font-family:var(--font-heading);
- 
+
     font-size:clamp(1.8rem,3.4vw,var(--font-size-3xl));
- 
+
     line-height:1.18;
- 
+
 }
- 
+
 /*========== DESCRIPTION ==========*/
- 
+
 .depth-card__description{
- 
+
     grid-area:desc;
- 
+
     font-size:var(--font-size-md);
- 
+
     max-width:560px;
- 
+
 }
- 
+
 /*========== INFO GRID (field notes) ==========*/
- 
+
 .depth-card__info{
- 
+
     grid-area:info;
- 
+
     display:grid;
- 
+
     grid-template-columns:1fr;
- 
+
     gap:var(--space-2);
- 
+
     counter-reset:note;
- 
+
 }
- 
+
 .depth-card__info-item{
- 
+
     position:relative;
- 
+
     padding:var(--space-3);
- 
+
     padding-top:2.6rem;
- 
+
     background:rgba(255,255,255,.03);
- 
+
     border:1px solid var(--border-color);
- 
+
     border-left:2px solid var(--card-accent);
- 
+
     border-radius:var(--radius-md);
- 
+
     font-size:var(--font-size-sm);
- 
+
     color:var(--text-secondary);
- 
+
     counter-increment:note;
- 
+
     transition:
- 
+
         transform var(--transition),
- 
+
         background var(--transition),
- 
+
         border-color var(--transition);
- 
+
 }
- 
+
 .depth-card__info-item::before{
- 
+
     content:counter(note,decimal-leading-zero);
- 
+
     position:absolute;
- 
+
     top:var(--space-2);
     left:var(--space-3);
- 
+
     font-family:var(--font-heading);
- 
+
     font-size:var(--font-size-xs);
- 
+
     letter-spacing:.15em;
- 
+
     color:var(--card-accent);
- 
+
     opacity:.85;
- 
+
 }
- 
+
 .depth-card__info-item:hover{
- 
+
     transform:translateY(-4px);
- 
+
     background:rgba(255,255,255,.055);
- 
+
     border-color:var(--card-accent);
- 
+
 }
- 
+
 /* Ẩn mục trống (thẻ li rỗng cuối danh sách tầng 2) */
- 
+
 .depth-card__info-item:empty{
- 
+
     display:none;
- 
+
 }
- 
+
 /*==================================================
 =              DEPTH CARD RESPONSIVE
 ==================================================*/
- 
+
 @media (min-width:768px){
- 
+
     .depth-card__info{
- 
+
         grid-template-columns:repeat(2,1fr);
- 
+
     }
- 
+
 }
- 
+
 @media (min-width:1024px){
- 
+
     .depth-card{
- 
+
         grid-template-columns:minmax(0,1fr) minmax(0,1fr);
- 
+
         grid-template-areas:
             "depth  image"
             "title  image"
             "desc   image"
             "info   info";
- 
+
         column-gap:var(--space-5);
- 
+
     }
- 
+
     .depth-card__image{
- 
+
         aspect-ratio:auto;
- 
+
         height:100%;
- 
+
         min-height:360px;
- 
+
         align-self:stretch;
- 
+
     }
- 
+
     .depth-card__info{
- 
+
         grid-template-columns:repeat(3,1fr);
- 
+
         margin-top:var(--space-2);
- 
+
     }
- 
+
 }
- 
+
 /*==================================================
 =              OCEAN STATISTICS
 ==================================================*/
- 
+
 .ocean-statistics{
- 
+
     position:relative;
- 
+
 }
- 
+
 .ocean-statistics::before{
- 
+
     content:"";
- 
+
     position:absolute;
- 
+
     top:0;
     left:50%;
- 
+
     transform:translateX(-50%);
- 
+
     width:min(100%,var(--container-width));
- 
+
     height:1px;
- 
+
     background:linear-gradient(
         90deg,
         transparent,
         var(--border-color),
         transparent
     );
- 
+
 }
- 
+
 .ocean-statistics__card{
- 
+
     padding:var(--space-4) var(--space-3);
- 
+
     text-align:center;
- 
+
     background:linear-gradient(
         165deg,
         rgba(255,255,255,.05),
         rgba(255,255,255,0) 60%
     );
- 
+
     border:1px solid var(--border-color);
- 
+
     border-radius:var(--radius-lg);
- 
+
     transition:
- 
+
         transform var(--transition),
- 
+
         border-color var(--transition),
- 
+
         box-shadow var(--transition);
- 
+
 }
- 
+
 .ocean-statistics__card:hover{
- 
+
     transform:translateY(-6px);
- 
+
     border-color:var(--accent-color);
- 
+
     box-shadow:var(--shadow-md);
- 
+
 }
- 
+
 .ocean-statistics__card-title{
- 
+
     font-family:var(--font-heading);
- 
+
     font-size:clamp(2rem,4vw,2.75rem);
- 
+
     font-weight:var(--font-weight-bold);
- 
+
     letter-spacing:.01em;
- 
+
     margin-bottom:.6rem;
- 
+
     background:linear-gradient(
         135deg,
         var(--accent-light),
         var(--accent-color)
     );
- 
+
     -webkit-background-clip:text;
- 
+
     background-clip:text;
- 
+
     color:transparent;
- 
+
 }
- 
+
 .ocean-statistics__card-description{
- 
+
     font-size:var(--font-size-sm);
- 
+
     line-height:1.6;
- 
+
     color:var(--text-muted);
- 
+
 }
- 
+
 /*==================================================
 =                  OCEAN NEWS
 ==================================================*/
- 
+
 .ocean-news__container{
- 
+
     position:relative;
- 
+
 }
- 
+
 .ocean-news__title{
- 
+
     font-family:"Bebas Neue", sans-serif;
- 
+
     font-size:clamp(3rem,8vw,5.5rem);
- 
+
     letter-spacing:.1em;
- 
+
     color:var(--text-primary);
- 
+
     margin-bottom:var(--space-4);
- 
+
 }
- 
+
 /*========== NAV ARROWS ==========*/
- 
+
 .ocean-news__navigation{
- 
+
     position:absolute;
- 
+
     top:.4rem;
     right:var(--space-2);
- 
+
     display:flex;
- 
+
     gap:.75rem;
- 
+
 }
- 
+
 .ocean-news__button{
- 
+
     width:44px;
     height:44px;
- 
+
     display:grid;
- 
+
     place-items:center;
- 
+
     font-size:var(--font-size-lg);
- 
+
     color:var(--text-primary);
- 
+
     background:rgba(255,255,255,.06);
- 
+
     border:1px solid var(--border-color);
- 
+
     border-radius:50%;
- 
+
     transition:all var(--transition);
- 
+
 }
- 
+
 .ocean-news__button:hover{
- 
+
     background:var(--accent-color);
- 
+
     border-color:var(--accent-color);
- 
+
     color:var(--primary-dark);
- 
+
 }
- 
+
 /*========== CARD ==========*/
- 
+
 .ocean-news__card{
- 
+
     display:flex;
- 
+
     flex-direction:column;
- 
+
     overflow:hidden;
- 
+
     background:var(--surface-color);
- 
+
     border:1px solid var(--border-color);
- 
+
     border-radius:var(--radius-lg);
- 
+
     transition:
- 
+
         transform var(--transition),
- 
+
         border-color var(--transition),
- 
+
         box-shadow var(--transition);
- 
+
 }
- 
+
 .ocean-news__card:hover{
- 
+
     transform:translateY(-6px);
- 
+
     border-color:var(--accent-color);
- 
+
     box-shadow:var(--shadow-md);
- 
+
 }
- 
+
 .ocean-news__media{
- 
+
     order:1;
- 
+
     position:relative;
- 
+
     aspect-ratio:4 / 3;
- 
+
     overflow:hidden;
- 
+
     background:var(--surface-light);
- 
+
 }
- 
+
 .ocean-news__image,
 .ocean-news__video{
- 
+
     width:100%;
     height:100%;
- 
+
     object-fit:cover;
- 
+
     transition:transform .6s ease;
- 
+
 }
- 
+
 .ocean-news__card:hover .ocean-news__image,
 .ocean-news__card:hover .ocean-news__video{
- 
+
     transform:scale(1.08);
- 
+
 }
- 
+
 .ocean-news__media::after{
- 
+
     content:"";
- 
+
     position:absolute;
- 
+
     inset:0;
- 
+
     background:linear-gradient(
         180deg,
         transparent 55%,
         rgba(2,19,31,.85)
     );
- 
+
     pointer-events:none;
- 
+
 }
- 
+
 .ocean-news__view{
- 
+
     position:absolute;
- 
+
     right:var(--space-2);
     bottom:var(--space-2);
- 
+
     z-index:1;
- 
+
     padding:.55rem 1.2rem;
- 
+
     font-size:var(--font-size-xs);
- 
+
     font-weight:var(--font-weight-semibold);
- 
+
     letter-spacing:.15em;
- 
+
     text-transform:uppercase;
- 
+
     color:var(--text-primary);
- 
+
     background:rgba(2,19,31,.7);
- 
+
     backdrop-filter:blur(6px);
- 
+
     border:1px solid rgba(255,255,255,.3);
- 
+
     border-radius:var(--radius-round);
- 
+
     opacity:0;
- 
+
     transform:translateY(8px);
- 
+
     transition:all var(--transition);
- 
+
 }
- 
+
 .ocean-news__card:hover .ocean-news__view{
- 
+
     opacity:1;
- 
+
     transform:translateY(0);
- 
+
 }
- 
+
 .ocean-news__content{
- 
+
     order:2;
- 
+
     padding:var(--space-3);
- 
+
 }
- 
+
 .ocean-news__date{
- 
+
     display:block;
- 
+
     margin-bottom:.6rem;
- 
+
     font-family:var(--font-heading);
- 
+
     font-size:var(--font-size-xs);
- 
+
     font-weight:var(--font-weight-semibold);
- 
+
     letter-spacing:.15em;
- 
+
     text-transform:uppercase;
- 
+
     color:var(--accent-color);
- 
+
 }
- 
+
 .ocean-news__heading{
- 
+
     font-size:var(--font-size-lg);
- 
+
     line-height:1.35;
- 
+
     margin-bottom:.6rem;
- 
+
 }
- 
+
 .ocean-news__description{
- 
+
     font-size:var(--font-size-sm);
- 
+
     color:var(--text-muted);
- 
+
 }
