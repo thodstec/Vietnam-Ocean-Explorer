@@ -1,0 +1,701 @@
+/* ==========================================================================
+   VIETNAM OCEAN EXPLORER — STYLE.CSS
+   Đồ án Nhập môn Lập trình Web (CT188)
+   File CSS dùng chung cho toàn bộ website (5 trang)
+   Quy tắc đặt tên: BEM rút gọn (block__element--modifier)
+   ========================================================================== */
+
+
+/* ==========================================================================
+   1. RESET CSS
+   ========================================================================== */
+
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  min-height: 100vh;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+
+img,
+picture,
+video {
+  max-width: 100%;
+  display: block;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+ul,
+ol {
+  list-style: none;
+}
+
+button {
+  font-family: inherit;
+  cursor: pointer;
+  border: none;
+  background: none;
+}
+
+input,
+textarea,
+select {
+  font-family: inherit;
+  font-size: inherit;
+  color: inherit;
+}
+
+table {
+  border-collapse: collapse;
+  width: 100%;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+
+/* ==========================================================================
+   2. ROOT VARIABLES — CSS Custom Properties
+   ========================================================================== */
+
+:root {
+  /* ---- Màu chủ đạo (Đại dương sâu) ---- */
+  --primary-color: #00B4D8;        /* Cyan Current — CTA, highlight */
+  --secondary-color: #1A7ABF;      /* Mid Water — accent phụ */
+  --accent-color: #48CAE4;         /* Biolumen — hover, glow */
+  --dark-color: #020D18;           /* Abyss — nền tối chính */
+  --light-color: #E2F5FF;          /* Surface Light — chữ heading */
+
+  /* ---- Màu nền các tầng ---- */
+  --bg-primary: #020D18;           /* Nền tối chính toàn site */
+  --bg-secondary: #041424;         /* Nền card, section */
+  --bg-tertiary: #0A3D62;          /* Nền section phụ */
+  --bg-light: #F4F1DE;             /* Nền sáng (nếu cần) */
+
+  /* ---- Màu chữ ---- */
+  --text-heading: #E2F5FF;         /* Màu chữ heading */
+  --text-body: #90AFC4;            /* Màu chữ đoạn văn */
+  --text-muted: #5E8AA0;           /* Màu chữ phụ, caption */
+  --text-faint: #3A5A6E;           /* Màu chữ rất nhạt, copyright */
+
+  /* ---- Màu trạng thái / chủ đề phụ ---- */
+  --color-green: #2D6A4F;          /* Bảo tồn, xanh lá */
+  --color-green-light: #74C69D;    /* Xanh lá sáng, success */
+  --color-danger: #E63946;         /* Cảnh báo, nguy hiểm */
+  --color-warning: #F4A261;        /* Amber, cảnh báo nhẹ */
+  --color-sand: #F4D03F;           /* Vàng cát */
+
+  /* ---- Border ---- */
+  --border-color: rgba(72, 202, 228, 0.15);
+  --border-color-strong: rgba(72, 202, 228, 0.35);
+
+  /* ---- Typography ---- */
+  --font-heading: 'Playfair Display', Georgia, serif;
+  --font-body: 'Inter', -apple-system, sans-serif;
+  --font-mono: 'Courier New', monospace;
+
+  --fs-h1: 56px;
+  --fs-h2: 36px;
+  --fs-h3: 22px;
+  --fs-h4: 18px;
+  --fs-body: 16px;
+  --fs-small: 14px;
+  --fs-caption: 12px;
+
+  /* ---- Spacing (theo grid 8px) ---- */
+  --space-xs: 8px;
+  --space-sm: 16px;
+  --space-md: 24px;
+  --space-lg: 40px;
+  --space-xl: 64px;
+  --space-2xl: 96px;
+
+  /* ---- Border radius ---- */
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 16px;
+  --radius-pill: 999px;
+
+  /* ---- Transition ---- */
+  --transition-fast: 0.2s ease;
+  --transition-base: 0.3s ease;
+  --transition-slow: 0.6s ease;
+
+  /* ---- Layout ---- */
+  --container-width: 1280px;
+  --navbar-height: 64px;
+
+  /* ---- Shadow ---- */
+  --shadow-glow: 0 12px 32px rgba(0, 180, 216, 0.18);
+  --shadow-card: 0 8px 24px rgba(0, 0, 0, 0.25);
+}
+
+
+/* ==========================================================================
+   3. GLOBAL STYLES
+   ========================================================================== */
+
+body {
+  font-family: var(--font-body);
+  font-size: var(--fs-body);
+  background-color: var(--bg-primary);
+  color: var(--text-body);
+}
+
+h1, h2, h3 {
+  font-family: var(--font-heading);
+  color: var(--text-heading);
+}
+
+h4, h5, h6 {
+  font-family: var(--font-body);
+  color: var(--text-heading);
+}
+
+p {
+  color: var(--text-body);
+  line-height: 1.7;
+}
+
+::selection {
+  background-color: var(--primary-color);
+  color: var(--dark-color);
+}
+
+/* Scrollbar */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--bg-primary);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--bg-tertiary);
+  border-radius: var(--radius-pill);
+}
+
+
+/* ==========================================================================
+   4. CONTAINER
+   ========================================================================== */
+
+.container {
+  width: 100%;
+  max-width: var(--container-width);
+  margin: 0 auto;
+  padding: 0 var(--space-lg);
+}
+
+.container--narrow {
+  max-width: 800px;
+}
+
+.container--medium {
+  max-width: 960px;
+}
+
+.section {
+  padding: var(--space-xl) 0; /* Tối ưu lại khoảng cách giữa các phần */
+}
+
+.section--tight {
+  padding: var(--space-xl) 0;
+}
+
+.section--bordered {
+  border-top: 0.5px solid var(--border-color);
+}
+
+
+/* ==========================================================================
+   5. TYPOGRAPHY
+   ========================================================================== */
+
+.heading-1 {
+  font-size: var(--fs-h1);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  line-height: 1.1;
+}
+
+.heading-2 {
+  font-size: var(--fs-h2);
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+.heading-3 {
+  font-size: var(--fs-h3);
+  font-weight: 700;
+  line-height: 1.3;
+}
+
+.heading--center {
+  text-align: center;
+  margin: 0 auto var(--space-md);
+}
+
+.text-body {
+  font-size: var(--fs-body);
+  line-height: 1.7;
+  color: var(--text-body);
+}
+
+.text-small {
+  font-size: var(--fs-small);
+  color: var(--text-muted);
+}
+
+.text-caption {
+  font-size: var(--fs-caption);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  font-weight: 500;
+  color: var(--accent-color);
+}
+
+.text-stat {
+  font-family: var(--font-heading);
+  font-weight: 700;
+  font-size: 42px;
+  color: var(--primary-color);
+  font-variant-numeric: tabular-nums;
+}
+
+.section-title {
+  text-align: center;
+  font-size: var(--fs-h2);
+  margin-bottom: var(--space-md);
+}
+
+.section-subtitle {
+  text-align: center;
+  max-width: 600px;
+  margin: 0 auto var(--space-xl);
+  color: var(--text-body);
+}
+
+
+/* ==========================================================================
+   6. HEADER / NAVBAR
+   ========================================================================== */
+
+.navbar {
+  position: sticky;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: var(--navbar-height);
+  z-index: 1000;
+  background-color: rgba(2, 13, 24, 0.95);
+  backdrop-filter: blur(12px);
+  border-bottom: 0.5px solid var(--border-color);
+}
+
+.navbar__inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 100%;
+}
+
+.navbar__brand {
+  display: flex;
+  align-items: center;
+  gap: var(--space-xs);
+  font-family: var(--font-heading);
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--text-heading);
+}
+
+.navbar__brand-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: var(--primary-color);
+}
+
+.navbar__menu {
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+}
+
+.navbar__link {
+  font-size: var(--fs-small);
+  color: var(--text-body);
+  padding-bottom: 4px;
+  border-bottom: 2px solid transparent;
+  transition: color var(--transition-fast);
+}
+
+.navbar__link:hover {
+  color: var(--accent-color);
+}
+
+.navbar__link--active {
+  color: var(--accent-color);
+  border-bottom-color: var(--accent-color);
+}
+
+/* Form tìm kiếm tích hợp thanh điều hướng */
+.form-search {
+  display: flex;
+  align-items: center;
+  background: var(--bg-secondary);
+  border: 0.5px solid var(--border-color);
+  border-radius: var(--radius-sm);
+  padding: 4px 12px;
+}
+
+.form-search__input {
+  border: none;
+  background: transparent;
+  padding: 4px;
+  outline: none;
+  font-size: var(--fs-small);
+  color: var(--text-heading);
+}
+
+.form-search__button {
+  color: var(--text-muted);
+  font-size: 14px;
+}
+
+
+/* ---- Mobile Navbar ---- */
+
+.navbar__toggle {
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  gap: 5px;
+  width: 32px;
+  height: 32px;
+  z-index: 1001;
+}
+
+.navbar__toggle-bar {
+  width: 100%;
+  height: 2px;
+  background-color: var(--text-heading);
+  transition: transform var(--transition-fast), opacity var(--transition-fast);
+}
+
+.navbar__toggle.is-open .navbar__toggle-bar:nth-child(1) {
+  transform: translateY(7px) rotate(45deg);
+}
+
+.navbar__toggle.is-open .navbar__toggle-bar:nth-child(2) {
+  opacity: 0;
+}
+
+.navbar__toggle.is-open .navbar__toggle-bar:nth-child(3) {
+  transform: translateY(-7px) rotate(-45deg);
+}
+
+
+/* ==========================================================================
+   BUTTONS, CARDS, TABLES, FOOTER (GIỮ NGUYÊN TỪ FILE CHUNG)
+   ========================================================================== */
+.btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; padding: 14px 32px; font-size: var(--fs-small); font-weight: 600; border-radius: var(--radius-md); transition: all var(--transition-base); white-space: nowrap; }
+.btn--primary { background-color: var(--primary-color); color: var(--dark-color); }
+.btn--primary:hover { background-color: var(--accent-color); transform: translateY(-2px); }
+
+.footer { background-color: var(--bg-primary); border-top: 0.5px solid var(--border-color); padding: var(--space-xl) 0 var(--space-md); }
+.footer__grid { display: grid; grid-template-columns: 2fr 1fr 1fr; gap: var(--space-lg); margin-bottom: var(--space-lg); }
+.footer__brand { display: flex; align-items: center; gap: 8px; font-family: var(--font-heading); font-size: 18px; font-weight: 700; color: var(--text-heading); margin-bottom: var(--space-xs); }
+.footer__desc { font-size: var(--fs-small); color: var(--text-muted); line-height: 1.8; }
+.footer__col-title { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; color: var(--accent-color); margin-bottom: var(--space-sm); }
+.footer__link { display: block; font-size: var(--fs-small); color: var(--text-muted); margin-bottom: 10px; }
+.footer__bottom { display: flex; justify-content: space-between; align-items: center; border-top: 0.5px solid var(--border-color); padding-top: var(--space-md); }
+.footer__copyright { font-size: 11px; color: var(--text-faint); }
+
+
+/* ==========================================================================
+   19. COMPONENT LAYOUT - PHẦN WEB RIÊNG CỦA BẠN (TỔNG QUAN BIỂN ĐẢO)
+   ========================================================================== */
+
+.section-title-box {
+  margin-bottom: var(--space-md);
+  border-bottom: 0.5px solid var(--border-color);
+  padding-bottom: var(--space-xs);
+}
+
+.section-title-box .sub-title {
+  display: block;
+  font-family: var(--font-body);
+  font-size: var(--fs-caption);
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--accent-color);
+}
+
+.section-title-box .main-title {
+  font-family: var(--font-heading);
+  font-size: var(--fs-h2);
+  color: var(--text-heading);
+  margin-top: 4px;
+}
+
+/* ---- Khung số 1: Lý do / Khám phá ---- */
+.info-section {
+  background-color: var(--bg-secondary);
+  border-radius: var(--radius-lg);
+  padding: var(--space-lg);
+  border: 0.5px solid var(--border-color);
+}
+
+.info-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-lg);
+  align-items: center;
+}
+
+.info-text h3 {
+  font-family: var(--font-heading);
+  font-size: var(--fs-h3);
+  color: var(--primary-color);
+  margin-bottom: var(--space-sm);
+}
+
+.interactive-gallery .viewer-box img {
+  width: 100%;
+  height: 280px;
+  object-fit: cover;
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-card);
+  border: 0.5px solid var(--border-color-strong);
+}
+
+.tabs-container {
+  display: flex;
+  gap: var(--space-xs);
+  margin-top: var(--space-sm);
+}
+
+.tab-trigger {
+  flex: 1;
+  padding: 10px;
+  border: 0.5px solid var(--border-color-strong);
+  background: rgba(255, 255, 255, 0.02);
+  color: var(--text-body);
+  border-radius: var(--radius-md);
+  font-size: var(--fs-small);
+  font-weight: 600;
+  transition: all var(--transition-fast);
+}
+
+.tab-trigger.active, 
+.tab-trigger:hover {
+  background-color: var(--primary-color);
+  color: var(--dark-color);
+  border-color: var(--primary-color);
+  box-shadow: var(--shadow-glow);
+}
+
+/* ---- Khung số 2: Bản đồ và Thông số ---- */
+.map-stats-section {
+  background-color: var(--bg-primary);
+  border-radius: var(--radius-lg);
+  padding: var(--space-lg);
+  border: 0.5px solid var(--border-color);
+}
+
+.map-stats-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-lg);
+  align-items: center;
+}
+
+.map-visual {
+  background-color: var(--bg-secondary);
+  border-radius: var(--radius-md);
+  padding: var(--space-md);
+  border: 0.5px solid var(--border-color);
+}
+
+.map-visual img {
+  width: 100%;
+  max-width: 400px;
+  display: block;
+  margin: 0 auto;
+  filter: drop-shadow(0 4px 12px rgba(0, 180, 216, 0.15));
+}
+
+.stats-box {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-sm);
+}
+
+.stats-box .stat-card {
+  background: var(--bg-secondary);
+  border: 0.5px solid var(--border-color);
+  padding: var(--space-md);
+  text-align: center;
+  border-radius: var(--radius-md);
+}
+
+.stats-box .stat-num {
+  display: block;
+  font-family: var(--font-heading);
+  font-size: var(--fs-h2);
+  font-weight: 700;
+  color: var(--primary-color);
+  margin-bottom: 4px;
+}
+
+.stats-box .stat-label {
+  font-size: var(--fs-caption);
+  color: var(--text-muted);
+}
+
+/* ---- Khung số 3: Lưới bài viết tóm tắt ---- */
+.summary-section {
+  background-color: var(--bg-secondary);
+  border-radius: var(--radius-lg);
+  padding: var(--space-lg);
+  border: 0.5px solid var(--border-color);
+}
+
+.summary-cards-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: var(--space-sm);
+  margin-top: var(--space-md);
+}
+
+.summary-card {
+  background-color: var(--bg-primary);
+  padding: var(--space-md);
+  border-radius: var(--radius-md);
+  border: 0.5px solid var(--border-color);
+  border-top: 4px solid var(--primary-color);
+  transition: transform var(--transition-base);
+}
+
+.summary-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-glow);
+}
+
+.summary-card h4 {
+  font-family: var(--font-heading);
+  color: var(--text-heading);
+  font-size: var(--fs-h4);
+  margin-bottom: 6px;
+}
+
+.summary-card__subtitle {
+  font-weight: 600;
+  font-size: var(--fs-small);
+  color: var(--accent-color);
+  margin-bottom: var(--space-xs);
+}
+
+.summary-card__desc {
+  font-size: var(--fs-small);
+  color: var(--text-body);
+}
+
+/* ---- Khung số 4: Biểu mẫu đóng góp tư liệu ---- */
+.form-section {
+  background-color: var(--bg-primary);
+  border-radius: var(--radius-lg);
+  padding: var(--space-lg);
+  border: 0.5px solid var(--border-color);
+}
+
+.premium-form-box {
+  max-width: 600px;
+  margin: 0 auto;
+  background-color: var(--bg-secondary);
+  border: 0.5px solid var(--border-color);
+  border-radius: var(--radius-lg);
+  padding: var(--space-lg);
+}
+
+.premium-form-box .form-header {
+  text-align: center;
+  margin-bottom: var(--space-md);
+}
+
+.premium-form-box .input-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-bottom: var(--space-sm);
+}
+
+.premium-form-box .input-group label {
+  font-size: var(--fs-caption);
+  font-weight: 500;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+.premium-form-box .input-group input,
+.premium-form-box .input-group textarea {
+  background-color: var(--bg-primary);
+  border: 0.5px solid var(--border-color-strong);
+  border-radius: var(--radius-md);
+  padding: 12px;
+  font-size: var(--fs-small);
+  color: var(--text-heading);
+  outline: none;
+}
+
+.premium-form-box .input-group input:focus,
+.premium-form-box .input-group textarea:focus {
+  border-color: var(--primary-color);
+}
+
+.premium-form-box .submit-action button {
+  width: 100%;
+  padding: 14px;
+  background-color: var(--primary-color);
+  color: var(--dark-color);
+  font-size: var(--fs-small);
+  font-weight: 600;
+  border-radius: var(--radius-md);
+  transition: all var(--transition-base);
+}
+
+.premium-form-box .submit-action button:hover {
+  background-color: var(--accent-color);
+  transform: translateY(-2px);
+}
+
+/* ---- Responsive Media Queries ---- */
+@media (max-width: 991px) {
+  .info-grid, .map-stats-grid {
+    grid-template-columns: 1fr;
+    gap: var(--space-md);
+  }
+  .navbar__menu, .form-search { display: none; }
+  .navbar__toggle { display: flex; }
+}
