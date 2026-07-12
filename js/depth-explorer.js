@@ -1,46 +1,63 @@
 /* ==================================================================
    VIETNAM OCEAN EXPLORER - main.js
    ------------------------------------------------------------------
-   File JavaScript thuần (Vanilla JS), viết theo phong cách cơ bản:
-   - document.querySelector() / querySelectorAll()
-   - Vòng lặp for truyền thống
-   - addEventListener()
-   - classList.add() / remove() / contains()
-   - localStorage + JSON.parse() / JSON.stringify()
+   GIAI ĐOẠN 1 — HOÀN THIỆN JAVASCRIPT
+   (không sửa HTML/CSS ở giai đoạn này — mọi phần tử JS cần mà HTML
+   hiện chưa có đều được kiểm tra null trước, nên trang vẫn chạy
+   bình thường; các hiệu ứng liên quan sẽ tự "sống dậy" khi HTML/CSS
+   được bổ sung ở Giai đoạn 2 và 3.)
 
-   KHÔNG chỉnh sửa HTML hoặc CSS. Mọi thay đổi giao diện tạm thời
-   (ẩn/hiện, highlight, hiệu ứng trượt tin tức...) đều thực hiện
-   bằng cách gán trực tiếp element.style.* từ JavaScript, vì file
-   CSS không có sẵn class tương ứng và đề bài không cho phép sửa
-   file CSS.
+   Phong cách: querySelector/All, for truyền thống, addEventListener,
+   classList, localStorage + JSON.parse/stringify — theo Chapter 5-6
+   (Jon Duckett).
    ================================================================== */
 
 
 /* ==================================================================
-   1. RESPONSIVE NAVIGATION
+   TIỆN ÍCH DÙNG CHUNG
+   ================================================================== */
+
+// Trì hoãn việc gọi hàm cho tới khi người dùng ngừng thao tác 1 khoảng
+// thời gian ngắn — dùng cho sự kiện "resize" để tránh gọi hàm dồn dập
+function debounce(callback, delayMs) {
+    var timeoutId = null;
+
+    return function () {
+        var context = this;
+        var args = arguments;
+
+        clearTimeout(timeoutId);
+
+        timeoutId = setTimeout(function () {
+            callback.apply(context, args);
+        }, delayMs);
+    };
+}
+
+
+/* ==================================================================
+   1. RESPONSIVE NAVIGATION (Mobile Menu)
    ------------------------------------------------------------------
-   - Nút hamburger (.header__hamburger) chỉ hiển thị dưới 1024px
-     (CSS đã xử lý qua @media).
+   - Nút hamburger (.header__hamburger) chỉ hiển thị dưới 1024px.
    - Các mục menu (trừ "Trang chủ") đang bị ẩn trên mobile bằng
-     class có sẵn ".horizontal-nav__item--hide--mobile".
-   - Ta KHÔNG tạo class mới mà chỉ remove/add đúng class có sẵn đó
-     để hiện/ẩn menu khi bấm hamburger.
+     class có sẵn ".horizontal-nav__item--hide--mobile" — chỉ
+     remove/add đúng class có sẵn đó, không tạo class mới.
+   - Bổ sung: aria-expanded (Accessibility), phím Escape (Keyboard
+     Event), và Event Delegation khi đóng menu lúc chọn 1 mục.
    ================================================================== */
 function initMenu() {
 
     var hamburgerButton = document.querySelector('.header__hamburger');
     var headerNavForm = document.querySelector('.header-nav-form');
+    var navList = document.querySelector('.horizontal-nav__list');
 
-    // Nếu trang không có menu (thiếu phần tử) thì dừng lại, không báo lỗi
     if (hamburgerButton === null || headerNavForm === null) {
         return;
     }
 
-    // Icon bên trong nút hamburger (thẻ <i class="fa fa-bars">)
     var hamburgerIcon = hamburgerButton.querySelector('i');
 
-    // Lấy danh sách các mục menu đang bị ẩn trên mobile,
-    // lưu lại thành 1 mảng thường để thao tác nhiều lần cho an toàn
+    // Lưu lại các mục menu đang bị ẩn trên mobile thành 1 mảng thường
     var hiddenItemsList = document.querySelectorAll('.horizontal-nav__item--hide--mobile');
     var hiddenNavItems = [];
 
@@ -50,7 +67,9 @@ function initMenu() {
 
     var isMenuOpen = false;
 
-    // Mở menu: bỏ class ẩn -> các mục menu hiện ra
+    // Trạng thái ban đầu cho công nghệ hỗ trợ (screen reader)
+    hamburgerButton.setAttribute('aria-expanded', 'false');
+
     function openMenu() {
         for (var i = 0; i < hiddenNavItems.length; i++) {
             hiddenNavItems[i].classList.remove('horizontal-nav__item--hide--mobile');
@@ -61,10 +80,10 @@ function initMenu() {
             hamburgerIcon.classList.add('fa-times');
         }
 
+        hamburgerButton.setAttribute('aria-expanded', 'true');
         isMenuOpen = true;
     }
 
-    // Đóng menu: thêm lại class ẩn -> các mục menu biến mất
     function closeMenu() {
         for (var i = 0; i < hiddenNavItems.length; i++) {
             hiddenNavItems[i].classList.add('horizontal-nav__item--hide--mobile');
@@ -75,12 +94,12 @@ function initMenu() {
             hamburgerIcon.classList.add('fa-bars');
         }
 
+        hamburgerButton.setAttribute('aria-expanded', 'false');
         isMenuOpen = false;
     }
 
-    // Bấm hamburger: mở nếu đang đóng, đóng nếu đang mở
     hamburgerButton.addEventListener('click', function (event) {
-        event.stopPropagation(); // không cho sự kiện lan ra document (tránh tự đóng ngay)
+        event.stopPropagation();
 
         if (isMenuOpen === true) {
             closeMenu();
@@ -96,13 +115,21 @@ function initMenu() {
         }
     });
 
-    // Bấm chọn 1 mục điều hướng thì tự đóng menu luôn cho gọn
-    for (var j = 0; j < hiddenNavItems.length; j++) {
-        var navLink = hiddenNavItems[j].querySelector('.horizontal-nav__link');
-
-        if (navLink !== null) {
-            navLink.addEventListener('click', closeMenu);
+    // Phím Escape đóng menu nhanh (Keyboard Event)
+    document.addEventListener('keydown', function (event) {
+        if (event.key === 'Escape' && isMenuOpen === true) {
+            closeMenu();
         }
+    });
+
+    // EVENT DELEGATION: 1 listener duy nhất trên cả danh sách menu,
+    // thay vì gắn riêng cho từng thẻ <a> như trước
+    if (navList !== null) {
+        navList.addEventListener('click', function (event) {
+            if (event.target.classList.contains('horizontal-nav__link')) {
+                closeMenu();
+            }
+        });
     }
 }
 
@@ -110,10 +137,8 @@ function initMenu() {
 /* ==================================================================
    1b. MOBILE SEARCH TOGGLE
    ------------------------------------------------------------------
-   Nút kính lúp (.header__search-toggle) chỉ hiện dưới 768px.
-   Ô input (.form-search__input) mặc định bị ẩn ở mobile
-   (display:none trong CSS) và chỉ tự hiện từ 768px trở lên.
-   Ta dùng JS để bật/tắt input này trên mobile bằng style.display.
+   Nút kính lúp (.header__search-toggle) chỉ hiện dưới 768px, dùng
+   để bật/tắt ô input tìm kiếm (mặc định ẩn ở mobile trong CSS).
    ================================================================== */
 function initMobileSearchToggle() {
 
@@ -133,6 +158,11 @@ function initMobileSearchToggle() {
             searchInput.style.display = 'block';
             searchInput.focus();
         }
+
+        searchToggleButton.setAttribute(
+            'aria-expanded',
+            searchInput.style.display === 'block' ? 'true' : 'false'
+        );
     });
 }
 
@@ -140,12 +170,13 @@ function initMobileSearchToggle() {
 /* ==================================================================
    2. SEARCH
    ------------------------------------------------------------------
-   Tìm từ khóa trong các khối nội dung chính của trang, cuộn mượt
-   tới kết quả đầu tiên tìm thấy và highlight tạm thời 2 giây.
-   Nếu không thấy thì hiện thông báo nhỏ góc màn hình.
+   Tìm từ khóa trong các khối nội dung chính, cuộn mượt tới kết quả
+   đầu tiên và highlight tạm thời 2 giây. Không tìm thấy thì hiện
+   thông báo nhỏ góc màn hình.
+   Bổ sung: keyup (Escape để xóa nhanh từ khóa) — Input/Keyboard Event.
    ================================================================== */
 
-// Danh sách các vùng nội dung sẽ được tìm kiếm bên trong
+// Các vùng nội dung sẽ được tìm kiếm bên trong
 var SEARCHABLE_SELECTOR =
     '.depth-card__title, ' +
     '.depth-card__description, ' +
@@ -158,16 +189,31 @@ var SEARCHABLE_SELECTOR =
 function initSearch() {
 
     var searchForm = document.querySelector('.form-search');
-    var searchInput = document.querySelector('.form-search__input');
+
+    // Ưu tiên getElementById nếu HTML đã có id (bổ sung ở Giai đoạn 2),
+    // nếu chưa thì lấy tạm theo class để JS vẫn chạy đúng ngay từ bây giờ
+    var searchInput = document.getElementById('siteSearchInput');
+
+    if (searchInput === null) {
+        searchInput = document.querySelector('.form-search__input');
+    }
 
     if (searchForm === null || searchInput === null) {
         return;
     }
 
-    // "submit" bắt được cả khi bấm nút Search LẪN khi nhấn Enter trong ô input
+    // "submit" bắt được cả khi bấm nút Search LẪN khi nhấn Enter
     searchForm.addEventListener('submit', function (event) {
         event.preventDefault();
         performSearch(searchInput.value);
+    });
+
+    // Phím Escape trong ô tìm kiếm: xóa nhanh nội dung đang gõ (keyup)
+    searchInput.addEventListener('keyup', function (event) {
+        if (event.key === 'Escape') {
+            searchInput.value = '';
+            searchInput.blur();
+        }
     });
 }
 
@@ -217,7 +263,6 @@ function highlightElementTemporarily(element) {
 // Tạo 1 thông báo nhỏ nổi góc màn hình, tự biến mất sau vài giây
 function showToastMessage(message) {
 
-    // Nếu đang có thông báo cũ thì xóa đi trước
     var oldToast = document.querySelector('.js-toast-message');
 
     if (oldToast !== null) {
@@ -228,7 +273,7 @@ function showToastMessage(message) {
     toast.className = 'js-toast-message';
     toast.textContent = message;
 
-    // Style tối giản gán trực tiếp bằng JS (không sửa file CSS)
+    // Style tối giản gán trực tiếp bằng JS (Giai đoạn 1 chưa đụng CSS)
     toast.style.position = 'fixed';
     toast.style.top = '90px';
     toast.style.right = '20px';
@@ -252,11 +297,12 @@ function showToastMessage(message) {
 
 
 /* ==================================================================
-   5. SMOOTH SCROLL (dùng chung cho menu neo và cho Search ở trên)
+   SMOOTH SCROLL (dùng chung cho menu neo và Search ở trên)
    ------------------------------------------------------------------
-   Header đang position:sticky (cao 72px) nên nếu chỉ nhảy tới đúng
-   vị trí phần tử thì nội dung sẽ bị header che mất phần đầu.
-   Hàm scrollToElement() tính luôn độ lệch theo chiều cao header.
+   Header đang position:sticky (72px) nên cần trừ hao chiều cao header
+   khi cuộn tới, tránh bị che mất phần đầu nội dung.
+   Bổ sung: chuyển từ gắn listener riêng từng thẻ <a> sang Event
+   Delegation (1 listener duy nhất trên document).
    ================================================================== */
 function scrollToElement(targetElement) {
 
@@ -277,58 +323,59 @@ function scrollToElement(targetElement) {
     });
 }
 
-// Gắn cuộn mượt cho mọi liên kết neo (href bắt đầu bằng "#") trong trang
 function initSmoothScroll() {
 
-    var anchorLinks = document.querySelectorAll('a[href^="#"]');
+    // EVENT DELEGATION: bắt sự kiện click từ document, kiểm tra xem
+    // phần tử được bấm (hoặc cha gần nhất của nó) có phải liên kết
+    // neo (href bắt đầu bằng "#") hay không
+    document.addEventListener('click', function (event) {
 
-    for (var i = 0; i < anchorLinks.length; i++) {
-        anchorLinks[i].addEventListener('click', function (event) {
+        var clickedLink = event.target.closest('a[href^="#"]');
 
-            var targetId = this.getAttribute('href');
+        if (clickedLink === null) {
+            return;
+        }
 
-            // Bỏ qua các liên kết "#" trống (chưa có trang đích thật, ví dụ ở footer)
-            if (targetId === null || targetId === '#') {
-                return;
-            }
+        var targetId = clickedLink.getAttribute('href');
 
-            var targetElement = document.querySelector(targetId);
+        // Bỏ qua liên kết "#" trống (chưa có trang đích thật, ví dụ ở footer)
+        if (targetId === null || targetId === '#') {
+            return;
+        }
 
-            if (targetElement !== null) {
-                event.preventDefault();
-                scrollToElement(targetElement);
-            }
-        });
-    }
+        var targetElement = document.querySelector(targetId);
+
+        if (targetElement !== null) {
+            event.preventDefault();
+            scrollToElement(targetElement);
+        }
+    });
 }
 
 
 /* ==================================================================
-   3. SIDEBAR DEPTH NAVIGATION (scrollspy)
+   3. SIDEBAR ScrollSpy (Depth Navigation)
    ------------------------------------------------------------------
-   3 tầng độ sâu (#tang-1, #tang-2, #tang-3) tương ứng với 3 chấm
-   trong .depth-nav__list. Các .depth-card dùng position:sticky nên
-   khi cuộn, thẻ nào "đang nằm ngay dưới header" mới thật sự là
-   thẻ người dùng đang xem -> dùng scroll event + getBoundingClientRect
-   để xác định (chính xác hơn IntersectionObserver trong trường hợp
-   sticky-stacking này, vì các thẻ sticky luôn nằm trong viewport
-   cùng lúc nên tỉ lệ intersection không phân biệt được thẻ nào
-   đang "trên cùng").
+   Các .depth-card dùng position:sticky nên thẻ nào "đang nằm ngay
+   dưới header" mới thật sự là thẻ người dùng đang xem -> dùng scroll
+   event + getBoundingClientRect (chính xác hơn IntersectionObserver
+   trong trường hợp sticky-stacking này).
    ================================================================== */
 function initSidebarDepthNav() {
 
     var contentSection = document.querySelector('.ocean-explore__content');
-    var depthCardsList = document.querySelectorAll('.depth-card');
+
+    // Dùng getElementsByClassName (Chapter 5) — chỉ đọc 1 lần rồi
+    // chuyển ngay sang mảng thường nên an toàn dù đây là live collection
+    var depthCardsList = document.getElementsByClassName('depth-card');
     var navItemsList = document.querySelectorAll('.depth-nav__item');
     var navList = document.querySelector('.depth-nav__list');
     var headerElement = document.querySelector('.header');
 
-    // Nếu trang không có đủ các phần tử cần thiết thì dừng lại
     if (contentSection === null || depthCardsList.length === 0 || navItemsList.length === 0) {
         return;
     }
 
-    // Chuyển NodeList thành mảng thường cho dễ thao tác
     var depthCards = [];
     for (var i = 0; i < depthCardsList.length; i++) {
         depthCards.push(depthCardsList[i]);
@@ -342,7 +389,6 @@ function initSidebarDepthNav() {
     var headerHeight = (headerElement !== null) ? headerElement.offsetHeight : 0;
     var triggerOffset = headerHeight + 40; // đường "mốc" gần sát dưới header
 
-    // Xác định thẻ .depth-card nào đang cắt ngang đường mốc -> đó là thẻ active
     function updateActiveDepthCard() {
 
         var activeIndex = -1;
@@ -355,7 +401,7 @@ function initSidebarDepthNav() {
             }
         }
 
-        // Đã cuộn qua khỏi thẻ cuối cùng (tới Statistics/News) -> giữ trạng thái active ở thẻ cuối
+        // Đã cuộn qua khỏi thẻ cuối cùng -> giữ trạng thái active ở thẻ cuối
         if (activeIndex === -1 && depthCards.length > 0) {
             var lastCardRect = depthCards[depthCards.length - 1].getBoundingClientRect();
 
@@ -378,7 +424,6 @@ function initSidebarDepthNav() {
         updateScrollProgress();
     }
 
-    // Cập nhật biến CSS --progress để thanh dọc trong sidebar tô sáng dần
     function updateScrollProgress() {
 
         if (navList === null) {
@@ -407,8 +452,6 @@ function initSidebarDepthNav() {
         navList.style.setProperty('--progress', progress);
     }
 
-    // Giới hạn tần suất chạy hàm khi cuộn bằng requestAnimationFrame,
-    // tránh gọi hàm quá nhiều lần trong 1 giây gây giật trang
     var isUpdateScheduled = false;
 
     window.addEventListener('scroll', function () {
@@ -422,28 +465,240 @@ function initSidebarDepthNav() {
         }
     });
 
-    // Chạy 1 lần ngay khi tải trang để có trạng thái ban đầu đúng
     updateActiveDepthCard();
+}
+
+
+/* ==================================================================
+   HEADER SCROLL EFFECT
+   ------------------------------------------------------------------
+   Thêm class "header--scrolled" (đã có sẵn style trong CSS) khi cuộn
+   xuống quá 1 ngưỡng. Bổ sung: ẩn header khi cuộn nhanh xuống, hiện
+   lại khi cuộn lên — dùng transform (header đã có sẵn transition:all
+   nên hiệu ứng tự mượt mà không cần thêm CSS). Có throttle bằng
+   requestAnimationFrame để không giật khi cuộn nhanh.
+   ================================================================== */
+function initHeaderScrollEffect() {
+
+    var headerElement = document.querySelector('.header');
+
+    if (headerElement === null) {
+        return;
+    }
+
+    var scrollThreshold = 40;
+    var lastScrollY = window.scrollY;
+    var isTicking = false;
+
+    function updateHeaderState() {
+
+        var currentScrollY = window.scrollY;
+
+        if (currentScrollY > scrollThreshold) {
+            headerElement.classList.add('header--scrolled');
+        } else {
+            headerElement.classList.remove('header--scrolled');
+        }
+
+        // Cuộn xuống nhanh và đã qua khỏi chiều cao header -> ẩn header
+        if (currentScrollY > lastScrollY && currentScrollY > headerElement.offsetHeight) {
+            headerElement.style.transform = 'translateY(-100%)';
+        } else {
+            headerElement.style.transform = 'translateY(0)';
+        }
+
+        lastScrollY = currentScrollY;
+    }
+
+    window.addEventListener('scroll', function () {
+        if (isTicking === false) {
+            isTicking = true;
+
+            requestAnimationFrame(function () {
+                updateHeaderState();
+                isTicking = false;
+            });
+        }
+    });
+}
+
+
+/* ==================================================================
+   STATISTICS COUNTER
+   ------------------------------------------------------------------
+   Đếm số từ 0 lên giá trị thật khi thẻ thống kê xuất hiện trong màn
+   hình. Đọc giá trị đích qua thuộc tính "data-target" trên
+   .ocean-statistics__card-title.
+
+   LƯU Ý: HTML hiện tại CHƯA có data-target (số liệu đang là chữ tĩnh
+   như "12,000+", "5,4 tỷ"...) nên hàm này sẽ tạm thời BỎ QUA từng
+   thẻ chưa có data-target — không có gì bị lỗi hay vỡ giao diện, số
+   liệu tĩnh vẫn hiển thị bình thường. Hiệu ứng đếm sẽ tự hoạt động
+   ngay khi Giai đoạn 2 bổ sung data-target vào HTML.
+   ================================================================== */
+function initStatisticsCounter() {
+
+    var statCards = document.querySelectorAll('.ocean-statistics__card');
+
+    if (statCards.length === 0) {
+        return;
+    }
+
+    if (!('IntersectionObserver' in window)) {
+        return; // trình duyệt cũ: bỏ qua hiệu ứng, số liệu tĩnh vẫn hiển thị đúng
+    }
+
+    var observer = new IntersectionObserver(function (entries) {
+        for (var i = 0; i < entries.length; i++) {
+            if (entries[i].isIntersecting) {
+                animateCounter(entries[i].target);
+                observer.unobserve(entries[i].target);
+            }
+        }
+    }, { threshold: 0.4 });
+
+    for (var i = 0; i < statCards.length; i++) {
+        observer.observe(statCards[i]);
+    }
+}
+
+// Chạy hiệu ứng đếm số cho 1 thẻ thống kê
+function animateCounter(cardElement) {
+
+    var titleElement = cardElement.querySelector('.ocean-statistics__card-title');
+
+    if (titleElement === null) {
+        return;
+    }
+
+    var targetValue = titleElement.getAttribute('data-target');
+
+    // Chưa có data-target (chưa tới Giai đoạn 2) -> giữ nguyên số tĩnh, không làm gì thêm
+    if (targetValue === null) {
+        return;
+    }
+
+    var targetNumber = parseInt(targetValue, 10);
+
+    if (isNaN(targetNumber)) {
+        return;
+    }
+
+    var suffix = titleElement.getAttribute('data-suffix');
+
+    if (suffix === null) {
+        suffix = '';
+    }
+
+    var durationMs = 1500;
+    var startTime = null;
+
+    function step(timestamp) {
+
+        if (startTime === null) {
+            startTime = timestamp;
+        }
+
+        var elapsed = timestamp - startTime;
+        var progress = elapsed / durationMs;
+
+        if (progress > 1) {
+            progress = 1;
+        }
+
+        var currentValue = Math.floor(progress * targetNumber);
+        titleElement.textContent = currentValue.toLocaleString('vi-VN') + suffix;
+
+        if (progress < 1) {
+            requestAnimationFrame(step);
+        } else {
+            titleElement.textContent = targetNumber.toLocaleString('vi-VN') + suffix;
+        }
+    }
+
+    requestAnimationFrame(step);
+}
+
+
+/* ==================================================================
+   FADE ANIMATION (Article / Statistics / News)
+   ------------------------------------------------------------------
+   Thêm class "is-visible" khi phần tử cuộn vào màn hình. Class này
+   CHƯA có style trong CSS ở Giai đoạn 1 nên hiện tại việc thêm class
+   không gây ra hiệu ứng gì (và cũng không làm ẩn nội dung — phần tử
+   vẫn hiển thị bình thường như cũ). Hiệu ứng mờ dần sẽ "sống dậy"
+   ngay khi Giai đoạn 3 bổ sung CSS cho ".is-visible".
+   ================================================================== */
+function initFadeInEffects() {
+
+    var fadeSelector = '.depth-card__info-item, .ocean-statistics__card, .ocean-news__card';
+    var fadeElementsList = document.querySelectorAll(fadeSelector);
+
+    if (fadeElementsList.length === 0) {
+        return;
+    }
+
+    if (!('IntersectionObserver' in window)) {
+        for (var i = 0; i < fadeElementsList.length; i++) {
+            fadeElementsList[i].classList.add('is-visible');
+        }
+        return;
+    }
+
+    var observer = new IntersectionObserver(function (entries) {
+        for (var i = 0; i < entries.length; i++) {
+            if (entries[i].isIntersecting) {
+                entries[i].target.classList.add('is-visible');
+                observer.unobserve(entries[i].target);
+            }
+        }
+    }, { threshold: 0.15 });
+
+    for (var j = 0; j < fadeElementsList.length; j++) {
+
+        var element = fadeElementsList[j];
+
+        // So le thời gian hiện theo thứ tự trong danh sách anh/chị/em,
+        // đếm bằng previousElementSibling (DOM traversal - Chapter 5)
+        var siblingIndex = 0;
+        var sibling = element.previousElementSibling;
+
+        while (sibling !== null) {
+            siblingIndex = siblingIndex + 1;
+            sibling = sibling.previousElementSibling;
+        }
+
+        element.style.transitionDelay = (siblingIndex * 70) + 'ms';
+
+        observer.observe(element);
+    }
 }
 
 
 /* ==================================================================
    4. NEWS SLIDER
    ------------------------------------------------------------------
-   .ocean-news__list hiện đang là CSS Grid (hiển thị 1/2/3 cột tùy
-   màn hình). Để có hiệu ứng "trượt ngang" bằng 2 nút Previous/Next
-   mà không sửa file CSS, ta chuyển layout sang flex-row bằng cách
-   gán trực tiếp qua JavaScript (element.style...), rồi dùng
-   transform: translateX() để trượt danh sách.
+   Chuyển .ocean-news__list từ CSS Grid tĩnh sang hàng ngang trượt
+   được bằng inline style (Giai đoạn 1 chưa đụng CSS). Bổ sung so với
+   bản trước: dot indicator (nếu HTML đã có vùng chứa .ocean-news__dots
+   — nếu chưa có thì bỏ qua, không lỗi), autoplay có dừng khi rê chuột,
+   điều khiển bằng phím mũi tên trái/phải, và debounce cho "resize".
    ================================================================== */
 function initNewsSlider() {
 
     var newsList = document.querySelector('.ocean-news__list');
-    var newsCardsList = document.querySelectorAll('.ocean-news__card');
     var prevButton = document.querySelector('.ocean-news__button--prev');
     var nextButton = document.querySelector('.ocean-news__button--next');
+    var dotsContainer = document.querySelector('.ocean-news__dots');
 
-    if (newsList === null || newsCardsList.length === 0 || prevButton === null || nextButton === null) {
+    if (newsList === null || prevButton === null || nextButton === null) {
+        return;
+    }
+
+    // Dùng "children" (Chapter 5) để lấy trực tiếp các thẻ tin con
+    var newsCardsList = newsList.children;
+
+    if (newsCardsList.length === 0) {
         return;
     }
 
@@ -453,6 +708,8 @@ function initNewsSlider() {
     }
 
     var currentIndex = 0;
+    var autoplayTimer = null;
+    var autoplayDelayMs = 6000;
 
     // Chuyển danh sách tin tức thành 1 hàng ngang có thể trượt
     newsList.style.display = 'flex';
@@ -460,7 +717,6 @@ function initNewsSlider() {
     newsList.style.overflow = 'hidden';
     newsList.style.transition = 'transform .5s ease';
 
-    // Số thẻ hiển thị cùng lúc, tương ứng đúng các mốc @media trong CSS (768px / 1024px)
     function getVisibleCardCount() {
         var screenWidth = window.innerWidth;
 
@@ -475,7 +731,17 @@ function initNewsSlider() {
         return 1;
     }
 
-    // Đặt lại chiều rộng từng thẻ theo số thẻ hiển thị cùng lúc
+    function getMaxIndex() {
+        var visibleCount = getVisibleCardCount();
+        var maxIndex = newsCards.length - visibleCount;
+
+        if (maxIndex < 0) {
+            maxIndex = 0;
+        }
+
+        return maxIndex;
+    }
+
     function applyCardWidth() {
 
         var visibleCount = getVisibleCardCount();
@@ -487,17 +753,13 @@ function initNewsSlider() {
         }
 
         updateSliderPosition();
+        buildDotIndicators();
     }
 
-    // Giới hạn currentIndex hợp lệ rồi dịch chuyển danh sách tới đúng vị trí
     function updateSliderPosition() {
 
         var visibleCount = getVisibleCardCount();
-        var maxIndex = newsCards.length - visibleCount;
-
-        if (maxIndex < 0) {
-            maxIndex = 0;
-        }
+        var maxIndex = getMaxIndex();
 
         if (currentIndex > maxIndex) {
             currentIndex = maxIndex;
@@ -509,17 +771,17 @@ function initNewsSlider() {
 
         var offsetPercent = currentIndex * (100 / visibleCount);
         newsList.style.transform = 'translateX(-' + offsetPercent + '%)';
+
+        updateDotIndicators();
     }
 
-    // Sang tin kế tiếp, nếu đang ở cuối thì quay vòng về đầu
+    function goToSlide(index) {
+        currentIndex = index;
+        updateSliderPosition();
+    }
+
     function goToNextSlide() {
-
-        var visibleCount = getVisibleCardCount();
-        var maxIndex = newsCards.length - visibleCount;
-
-        if (maxIndex < 0) {
-            maxIndex = 0;
-        }
+        var maxIndex = getMaxIndex();
 
         if (currentIndex < maxIndex) {
             currentIndex = currentIndex + 1;
@@ -530,15 +792,8 @@ function initNewsSlider() {
         updateSliderPosition();
     }
 
-    // Về tin trước đó, nếu đang ở đầu thì quay vòng ra cuối
     function goToPrevSlide() {
-
-        var visibleCount = getVisibleCardCount();
-        var maxIndex = newsCards.length - visibleCount;
-
-        if (maxIndex < 0) {
-            maxIndex = 0;
-        }
+        var maxIndex = getMaxIndex();
 
         if (currentIndex > 0) {
             currentIndex = currentIndex - 1;
@@ -549,108 +804,184 @@ function initNewsSlider() {
         updateSliderPosition();
     }
 
-    nextButton.addEventListener('click', goToNextSlide);
-    prevButton.addEventListener('click', goToPrevSlide);
+    // Tạo các chấm chỉ số bằng createElement — chỉ khi HTML đã có
+    // vùng chứa ".ocean-news__dots" (nếu chưa có thì bỏ qua, không lỗi)
+    function buildDotIndicators() {
 
-    // Đổi màn hình (xoay ngang/dọc, thu phóng cửa sổ...) thì tính lại chiều rộng thẻ
-    window.addEventListener('resize', applyCardWidth);
+        if (dotsContainer === null) {
+            return;
+        }
 
-    applyCardWidth();
-}
+        // Xóa các chấm cũ trước khi tạo lại (ví dụ khi đổi kích thước màn hình)
+        while (dotsContainer.firstChild !== null) {
+            dotsContainer.removeChild(dotsContainer.firstChild);
+        }
 
+        var maxIndex = getMaxIndex();
+        var totalDots = maxIndex + 1;
 
-/* ==================================================================
-   6. HEADER SCROLL EFFECT
-   ------------------------------------------------------------------
-   Thêm class "header--scrolled" (đã có sẵn style trong CSS) khi
-   cuộn xuống quá 1 ngưỡng nhất định, bỏ class khi cuộn lên lại đầu.
-   ================================================================== */
-function initHeaderScrollEffect() {
+        for (var i = 0; i < totalDots; i++) {
+            var dot = document.createElement('button');
 
-    var headerElement = document.querySelector('.header');
+            dot.type = 'button';
+            dot.className = 'ocean-news__dot';
+            dot.setAttribute('aria-label', 'Xem tin thứ ' + (i + 1));
+            dot.setAttribute('data-dot-index', i);
 
-    if (headerElement === null) {
-        return;
+            dot.addEventListener('click', function (event) {
+                var dotIndex = parseInt(event.currentTarget.getAttribute('data-dot-index'), 10);
+                goToSlide(dotIndex);
+                restartAutoplay();
+            });
+
+            dotsContainer.appendChild(dot);
+        }
+
+        updateDotIndicators();
     }
 
-    var scrollThreshold = 40;
+    // Đánh dấu chấm tương ứng với vị trí hiện tại
+    function updateDotIndicators() {
 
-    window.addEventListener('scroll', function () {
-        if (window.scrollY > scrollThreshold) {
-            headerElement.classList.add('header--scrolled');
-        } else {
-            headerElement.classList.remove('header--scrolled');
+        if (dotsContainer === null) {
+            return;
         }
+
+        var dotElements = dotsContainer.children;
+
+        for (var i = 0; i < dotElements.length; i++) {
+            if (i === currentIndex) {
+                dotElements[i].classList.add('ocean-news__dot--active');
+            } else {
+                dotElements[i].classList.remove('ocean-news__dot--active');
+            }
+        }
+    }
+
+    function startAutoplay() {
+        autoplayTimer = setInterval(goToNextSlide, autoplayDelayMs);
+    }
+
+    function stopAutoplay() {
+        if (autoplayTimer !== null) {
+            clearInterval(autoplayTimer);
+            autoplayTimer = null;
+        }
+    }
+
+    function restartAutoplay() {
+        stopAutoplay();
+        startAutoplay();
+    }
+
+    nextButton.addEventListener('click', function () {
+        goToNextSlide();
+        restartAutoplay();
     });
+
+    prevButton.addEventListener('click', function () {
+        goToPrevSlide();
+        restartAutoplay();
+    });
+
+    // Dừng autoplay khi rê chuột vào khu vực tin tức, chạy lại khi rời đi
+    newsList.addEventListener('mouseenter', stopAutoplay);
+    newsList.addEventListener('mouseleave', startAutoplay);
+
+    // Điều khiển bằng phím mũi tên trái/phải khi khu vực tin tức đang được focus
+    var newsSection = document.querySelector('.ocean-news');
+
+    if (newsSection !== null) {
+        newsSection.addEventListener('keydown', function (event) {
+            if (event.key === 'ArrowRight') {
+                goToNextSlide();
+                restartAutoplay();
+            } else if (event.key === 'ArrowLeft') {
+                goToPrevSlide();
+                restartAutoplay();
+            }
+        });
+    }
+
+    // Đổi kích thước cửa sổ: tính lại chiều rộng thẻ (có debounce, tránh gọi dồn dập)
+    window.addEventListener('resize', debounce(applyCardWidth, 200));
+
+    applyCardWidth();
+    startAutoplay();
 }
 
 
 /* ==================================================================
-   8. CART MANAGER (demo logic, chưa có giao diện)
+   "SỔ TAY KHÁM PHÁ" — LỚP DỮ LIỆU NỀN (localStorage)
    ------------------------------------------------------------------
-   Đối tượng quản lý giỏ hàng dùng localStorage, lưu dữ liệu dạng
-   JSON. Trang hiện chưa có UI giỏ hàng nên đây chỉ là phần logic
-   nền, sẵn sàng để gắn giao diện sau này.
+   Đây là phần lõi logic (chưa gắn giao diện) cho nghiệp vụ lưu lại
+   những nội dung người dùng quan tâm (tầng biển, sinh vật, khoáng
+   sản, địa điểm, bài viết...) — thay thế hoàn toàn khái niệm "giỏ
+   hàng" cho phù hợp 1 website khám phá, không phải thương mại điện
+   tử. Giao diện (nút lưu, panel xem lại, badge số lượng) sẽ được
+   xây dựng đầy đủ ở giai đoạn "Sổ tay khám phá" cùng với HTML/CSS
+   tương ứng.
    ================================================================== */
-var CartManager = {
+var ExplorerNotebook = {
 
-    storageKey: 'oceanExplorerCart',
+    storageKey: 'oceanExplorerNotebook',
     items: [],
 
-    // Đọc giỏ hàng đã lưu (nếu có) từ localStorage vào bộ nhớ
+    // Đọc sổ tay đã lưu (nếu có) từ localStorage vào bộ nhớ
     load: function () {
 
-        var savedData = localStorage.getItem(this.storageKey);
+        var savedData = null;
 
-        if (savedData !== null) {
-            this.items = JSON.parse(savedData);
-        } else {
+        try {
+            savedData = localStorage.getItem(this.storageKey);
+        } catch (error) {
+            savedData = null; // trình duyệt chặn localStorage (chế độ ẩn danh...) -> coi như chưa có gì
+        }
+
+        if (savedData === null) {
             this.items = [];
+            return this.items;
+        }
+
+        try {
+            this.items = JSON.parse(savedData);
+        } catch (error) {
+            this.items = []; // dữ liệu lưu bị hỏng -> khởi tạo lại cho an toàn
         }
 
         return this.items;
     },
 
-    // Ghi giỏ hàng hiện tại xuống localStorage
+    // Ghi sổ tay hiện tại xuống localStorage
     save: function () {
         localStorage.setItem(this.storageKey, JSON.stringify(this.items));
     },
 
-    // Thêm 1 sản phẩm (nếu đã có trong giỏ thì cộng dồn số lượng)
-    addItem: function (productId, productName, price, quantity) {
+    // Lưu 1 mục vào sổ tay (không thêm trùng nếu đã lưu rồi)
+    saveItem: function (id, type, title) {
 
-        var addedQuantity = quantity ? quantity : 1;
-        var existingItem = null;
-
-        for (var i = 0; i < this.items.length; i++) {
-            if (this.items[i].id === productId) {
-                existingItem = this.items[i];
-                break;
-            }
+        if (this.isSaved(id) === true) {
+            return this.items;
         }
 
-        if (existingItem !== null) {
-            existingItem.quantity = existingItem.quantity + addedQuantity;
-        } else {
-            this.items.push({
-                id: productId,
-                name: productName,
-                price: price,
-                quantity: addedQuantity
-            });
-        }
+        this.items.push({
+            id: id,
+            type: type,
+            title: title,
+            savedAt: new Date().toISOString()
+        });
 
         this.save();
         return this.items;
     },
 
-    // Xóa 1 sản phẩm khỏi giỏ theo id
-    removeItem: function (productId) {
+    // Bỏ lưu 1 mục theo id
+    removeItem: function (id) {
 
         var remainingItems = [];
 
         for (var i = 0; i < this.items.length; i++) {
-            if (this.items[i].id !== productId) {
+            if (this.items[i].id !== id) {
                 remainingItems.push(this.items[i]);
             }
         }
@@ -660,31 +991,30 @@ var CartManager = {
         return this.items;
     },
 
-    // Cập nhật số lượng của 1 sản phẩm đã có trong giỏ
-    updateQuantity: function (productId, newQuantity) {
-
-        if (newQuantity <= 0) {
-            return this.removeItem(productId);
-        }
+    // Kiểm tra 1 mục đã được lưu chưa
+    isSaved: function (id) {
 
         for (var i = 0; i < this.items.length; i++) {
-            if (this.items[i].id === productId) {
-                this.items[i].quantity = newQuantity;
-                break;
+            if (this.items[i].id === id) {
+                return true;
             }
         }
 
-        this.save();
-        return this.items;
+        return false;
     },
 
-    // Lấy toàn bộ danh sách sản phẩm hiện có trong giỏ
+    // Lấy toàn bộ danh sách đã lưu
     getItems: function () {
         return this.items;
     },
 
-    // Xóa sạch giỏ hàng
-    clearCart: function () {
+    // Đếm số lượng mục đã lưu
+    getCount: function () {
+        return this.items.length;
+    },
+
+    // Xóa toàn bộ sổ tay
+    clearAll: function () {
         this.items = [];
         this.save();
         return this.items;
@@ -702,9 +1032,11 @@ document.addEventListener('DOMContentLoaded', function () {
     initSearch();
     initSmoothScroll();
     initSidebarDepthNav();
-    initNewsSlider();
     initHeaderScrollEffect();
+    initStatisticsCounter();
+    initFadeInEffects();
+    initNewsSlider();
 
-    // Nạp giỏ hàng đã lưu trước đó (nếu có) ngay khi trang tải xong
-    CartManager.load();
+    // Nạp sổ tay đã lưu trước đó (nếu có) ngay khi trang tải xong
+    ExplorerNotebook.load();
 });
