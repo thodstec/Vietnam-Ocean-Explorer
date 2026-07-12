@@ -635,6 +635,7 @@ section{
         height:calc(100vh - var(--header-height));
 
         align-self:start;
+        background: url("../images/depth-card__background.png") center/cover no-repeat;
 
     }
 
@@ -643,7 +644,6 @@ section{
     .ocean-explore__content .depth-card{
 
         grid-column:2;
-
     }
 
 }
@@ -674,7 +674,7 @@ section{
 
     padding:.75rem 1rem;
 
-    background:rgba(2,19,31,.82);
+    background: linear-gradient(rgba(2, 19, 31, 0.75), rgba(2, 19, 31, 0.75)), url("../images/header-background.png") center/cover no-repeat;
 
     backdrop-filter:blur(16px);
 
@@ -1189,7 +1189,7 @@ section{
             rgba(2,13,24,.65),
             rgba(2,13,24,.82)
         ),
-        url("../images/ocean-hero.jpg")
+        url("../images/header-section_title.png")
         center/cover
         no-repeat;
 }
@@ -1228,7 +1228,7 @@ section{
 }
 .ocean-explore__title-small{
 
-    font-family:"Bebas Neue", sans-serif;
+    font-family:"Enta Sans Serif", sans-serif;
 
     font-size:clamp(4rem,3vw,8.2rem);
    
@@ -1244,7 +1244,7 @@ section{
 }
 .ocean-explore__title-big{
 
-    font-family:"Montserrat", sans-serif;
+    font-family:"Enta Sans Serif", sans-serif;
 
     font-size:clamp(7rem,15vw,12rem);
 
@@ -2020,12 +2020,7 @@ section{
 
     height:1px;
 
-    background:linear-gradient(
-        90deg,
-        transparent,
-        var(--border-color),
-        transparent
-    );
+    background:linear-gradient(rgba(2, 13, 24, 0.4), rgba(2, 13, 24, 0.6)), url("../images/depth-card__background.png") center/cover no-repeat;
 
 }
 
