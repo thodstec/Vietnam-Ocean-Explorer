@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>VietNam Ocean Explorer</title>
-
+    <link rel="stylesheet" href="css/style2.css"> 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
@@ -17,10 +17,55 @@
 </head>
 
 <body>
+    <header class="header">
+        <img class="header__img header__img--logo" src="./images/header-logo.png"
+            alt="hình ảnh logo VietNam Ocean Explorer">
+        <div class="header-nav-form">
+            <nav class="horizontal-nav">
+                <ul class="horizontal-nav__list">
+                    <li class="horizontal-nav__item">
+                        <a class="horizontal-nav__link" href="home.html">Trang chủ</a>
+                    </li>
+                    <li class="horizontal-nav__item horizontal-nav__item--hide--mobile">
+                        <a class="horizontal-nav__link horizontal-nav__link--active" href="dept-explorer.html">Khám phá
+                            lòng biển</a>
+                    </li>
+                    <li class="horizontal-nav__item horizontal-nav__item--hide--mobile">
+                        <a class="horizontal-nav__link" href="marine-life.html">Sinh vật - Khoáng sản</a>
+                    </li>
+                    <li class="horizontal-nav__item horizontal-nav__item--hide--mobile">
+                        <a class="horizontal-nav__link" href="unique-locations.html">Địa điểm du lịch</a>
+                    </li>
+                    <li class="horizontal-nav__item horizontal-nav__item--hide--mobile">
+                        <a class="horizontal-nav__link" href="conservation.html">Bảo tồn thiên nhiên biển</a>
+                    </li>
+                </ul>
+            </nav>
+            <form class="form-search" action="#" method="get">
+                <label class="sr-only" for="siteSearchInput">Tìm kiếm nội dung trên trang</label>
+                <input class="form-search__input" type="text" name="search" placeholder="Tìm kiếm..."
+                    id="siteSearchInput">
+                <button class="form-search__button" type="submit">
+                    <i class="fa fa-search"></i>
+                </button>
+            </form>
+            <button class="header__search-toggle" type="button" aria-label="Mở thanh tìm kiếm">
+                <i class="fa fa-search"></i>
+            </button>
+            <button class="header__notebook-toggle" type="button" aria-label="Mở sổ tay khám phá" aria-expanded="false"
+                aria-controls="notebookPanel">
+                <i class="fa fa-bookmark"></i>
+                <span class="header__notebook-count" id="notebookCount">0</span>
+            </button>
+            <button class="header__hamburger" type="button">
+                <i class="fa fa-bars"></i>
+            </button>
+        </div>
+    </header>
     <main>
         <!--5.1-->
         <section class="hero hero--dark">
-            <img src="images/conservation-hero.jpg" class="hero__bg">
+            <img src="/images/conservation-hero.jpg" class="hero__bg">
             <div class="hero__overlay"></div>
             <div class="hero__content">
                 <div class="animate-pulse">
@@ -236,7 +281,53 @@
             </div>
         </section>
     </main>
-    <script src="script.js"></script>
+    <footer class="footer">
+
+        <div class="footer__container">
+
+            <!-- Cột 1 -->
+            <section class="footer__about">
+                <h2 class="footer__logo">
+                    VietNam Ocean Explorer
+                </h2>
+
+                <p class="footer__description">
+                    Khám phá những tầng sâu kỳ bí của biển Việt Nam,
+                    lan tỏa tri thức và nâng cao ý thức bảo tồn đại dương.
+                </p>
+            </section>
+
+            <!-- Cột 2 -->
+            <nav class="footer__menu">
+                <h3 class="footer__title">Khám phá</h3>
+
+                <ul class="footer__list">
+                    <li><a href="#">Khám phá lòng biển</a></li>
+                    <li><a href="#">Sinh vật - Khoáng sản</a></li>
+                    <li><a href="#">Địa điểm du lịch</a></li>
+                    <li><a href="#">Bảo tồn thiên nhiên biển</a></li>
+                </ul>
+            </nav>
+
+            <!-- Cột 3 -->
+            <section class="footer__reference">
+                <h3 class="footer__title">Nguồn tham khảo</h3>
+
+                <ul class="footer__list">
+                    <li><a href="#">Ocean Census</a></li>
+                    <li><a href="#">Tổng cục Biển và Hải đảo Việt Nam</a></li>
+                    <li><a href="#">Các bài báo khoa học về biển</a></li>
+                    <li><a href="#">Nguồn tài liệu khác...</a></li>
+                </ul>
+            </section>
+        </div>
+
+        <div class="footer__bottom">
+            © 2026 VietNam Ocean Explorer
+        </div>
+
+    </footer>
+    <script src="/js/conservation.js"></script>
 </body>
 
 </html>
