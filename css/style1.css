@@ -2311,3 +2311,209 @@ section{
     color:var(--text-muted);
  
 }
+/* ==========================================================================
+   CUSTOM CARD LAYOUT NHUT ANH
+   ========================================================================== */
+.banner {
+  position: relative;
+  width: 100%;
+  height: 450px;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Khung chứa ảnh nền */
+.banner__image-wrap {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+}
+
+.banner__image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /*không làm méo mó ảnh*/
+  object-position: center; /*căn giữa ảnh*/
+  opacity: 0.6;
+}
+/* Nội dung text bên trong banner */
+.banner__content {
+  position: relative;
+  z-index: 2;
+  width: 75%;
+  padding: 0 24px 0 24px;
+  text-align: center;
+}
+
+.banner__content h1 {
+  color: #b8edff;
+}
+
+.section2 {
+  background-color: #09232f;
+  border-radius: 16px;
+  padding: 24px;
+}
+
+.section2__content {
+  font-size: 20px;
+}
+
+.section2 h2 {
+  color: #5194b8;
+  padding-bottom: 12px;
+  text-align: center;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  max-width: 768px;
+  margin: auto;
+  width: 100%;
+  padding: 16px 16px 32px 16px;
+  gap: 48px;
+}
+.ocean-resources {
+  display: flex;
+  flex-direction: column;
+  padding: 16px;
+  box-sizing: border-box;
+  background-color: #0a1b23;
+  border-radius: 16px;
+}
+.ocean-resources__title {
+  display: inline-block;
+  position: relative;
+  padding-bottom: 8px;
+  margin-bottom: 16px;
+  color: #698b94;
+  border-bottom: 3px solid #10242e;
+}
+.ocean-resources__wrap {
+  position: relative;
+}
+.ocean-resources__list {
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: 380px;
+  gap: 20px;
+  overflow: auto;
+  scroll-snap-type: x mandatory;
+  padding: 10px 4px 20px;
+}
+.ocean-resources__list::-webkit-scrollbar {
+  height: 8px;
+}
+.ocean-resources__list::-webkit-scrollbar-thumb {
+  background-color: rgb(21, 117, 176);
+  border-radius: 16px;
+}
+.container-card {
+  position: relative;
+  width: 100%;
+  scroll-snap-align: start;
+  overflow: hidden;
+  border: 2px solid var(--primary-color);
+  border-radius: 5%;
+  transition: all 0.3s ease;
+
+  display: flex;
+  flex-direction: column;
+}
+.container-card:hover {
+  transform: translateY(-8px);
+}
+.card__image {
+  width: 100%;
+  aspect-ratio: 4/3; /*tỉ lệ ảnh 4/3*/
+  object-fit: cover; /*ảnh không bị biến dạng*/
+  border-radius: 5%;
+}
+.card__body {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1; /* Đảm bảo body luôn chiếm hết chiều cao còn lại của card */
+  padding: 24px;
+}
+.card__title {
+  font-size: 30px;
+  color: #6ac8e2;
+  margin-bottom: 8px;
+}
+.card__desc {
+  color: #c1e4ef;
+  text-align: justify; /*căn đều*/
+  width: 100%;
+  padding-bottom: 5px;
+}
+.card__watch-later {
+  width: 30%;
+  border: 1px solid;
+  background-color: #5d8baa;
+  border-radius: 8px;
+  padding: 3px;
+  align-self: flex-end; /* Đẩy nút lệch sang bên phải */
+  margin-top: auto;
+}
+/* Máy tính bảng / PC (Từ 768px trở lên) */
+@media screen and (min-width: 768px) {
+  .banner__content h1 {
+    font-size: 60px;
+  }
+  .dat_phai {
+    float: right;
+    margin-left: 15px;
+  }
+
+  .section2 img {
+    width: 300px;
+    height: auto;
+  }
+  .section2 > div::after {
+    content: "";
+    display: block;
+    clear: both;
+  }
+  .container {
+    max-width: 100%;
+  }
+  .banner {
+    max-width: 100%;
+  }
+  .ocean-resources__list {
+    grid-auto-columns: 480px;
+  }
+  .ocean-resources__title h2 {
+    font-size: 24px;
+  }
+  .card__desc {
+    font-size: 18px;
+  }
+}
+
+/*Swap ảnh*/
+.swap-banner {
+  width: 100%;
+  position: relative;
+  height: auto;
+}
+.swap-banner__photo1,
+.swap-banner__photo2 {
+  width: 100%;
+  transition: 1s ease-in-out;
+}
+.swap-banner__photo1 {
+  position: absolute;
+}
+.swap-banner__photo1:hover {
+  opacity: 0;
+}
+.swap-banner__photo2:hover {
+  opacity: 1;
+}

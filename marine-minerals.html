@@ -1,0 +1,550 @@
+<!doctype html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Khoáng sản, sinh vật</title>
+    <link rel="stylesheet" href="style1.css" />
+  </head>
+  <body>
+    <header class="header">
+      <img
+        class="header__img header__img--logo"
+        src="./images/header-logo.png"
+        alt="hình ảnh logo VietNam Ocean Explorer"
+      />
+      <div class="header-nav-form">
+        <nav class="horizontal-nav">
+          <ul class="horizontal-nav__list">
+            <li class="horizontal-nav__item">
+              <a class="horizontal-nav__link" href="home.html">Trang chủ</a>
+            </li>
+            <li class="horizontal-nav__item horizontal-nav__item--hide--mobile">
+              <a class="horizontal-nav__link" href="dept-explorer.html"
+                >Khám phá lòng biển</a
+              >
+            </li>
+            <li class="horizontal-nav__item horizontal-nav__item--hide--mobile">
+              <a
+                class="horizontal-nav__link horizontal-nav__link--active"
+                href="marine-life.html"
+                >Sinh vật - Khoáng sản</a
+              >
+            </li>
+            <li class="horizontal-nav__item horizontal-nav__item--hide--mobile">
+              <a class="horizontal-nav__link" href="unique-locations.html"
+                >Địa điểm du lịch</a
+              >
+            </li>
+            <li class="horizontal-nav__item horizontal-nav__item--hide--mobile">
+              <a class="horizontal-nav__link" href="conservation.html"
+                >Bảo tồn thiên nhiên biển</a
+              >
+            </li>
+          </ul>
+        </nav>
+        <form class="form-search" action="#" method="get">
+          <label class="sr-only" for="siteSearchInput"
+            >Tìm kiếm nội dung trên trang</label
+          >
+          <input
+            class="form-search__input"
+            type="text"
+            name="search"
+            placeholder="Tìm kiếm..."
+            id="siteSearchInput"
+          />
+          <button class="form-search__button" type="submit">
+            <i class="fa fa-search"></i>
+          </button>
+        </form>
+        <button
+          class="header__search-toggle"
+          type="button"
+          aria-label="Mở thanh tìm kiếm"
+        >
+          <i class="fa fa-search"></i>
+        </button>
+        <button
+          class="header__notebook-toggle"
+          type="button"
+          aria-label="Mở sổ tay khám phá"
+          aria-expanded="false"
+          aria-controls="notebookPanel"
+        >
+          <i class="fa fa-bookmark"></i>
+          <span class="header__notebook-count" id="notebookCount">0</span>
+        </button>
+        <button class="header__hamburger" type="button">
+          <i class="fa fa-bars"></i>
+        </button>
+      </div>
+    </header>
+
+    <main class="container">
+      <!--Section1: ảnh banner-->
+      <section class="banner">
+        <div class="banner__image-wrap">
+          <img
+            src="./images/banner1.png"
+            alt="Ảnh banner"
+            class="banner__image"
+          />
+        </div>
+
+        <div class="banner__content">
+          <h1>Hành trình khám Phá Tài Nguyên Đại Dương</h1>
+        </div>
+      </section>
+      <!--Section2: khái quát chung-->
+      <section class="section2">
+        <h2>Khái Quát Về Tài Nguyên Đại Dương</h2>
+        <div>
+          <img
+            class="dat_phai"
+            src="./images/tai_nguyen_dai_duong.jpg"
+            alt="Hình ảnh tài nguyên đại dương"
+          />
+
+          <p>
+            Đại dương bao la không chỉ là cái nôi vĩ đại nuôi dưỡng hệ sinh thái
+            biển vô cùng phong phú từ những rạn san hô rực rỡ đến thế giới bí ẩn
+            nơi đáy vực sâu, mà còn là kho báu lưu trữ nguồn khoáng sản và năng
+            lượng cực kỳ quý giá dưới thềm lục địa. Việc thấu hiểu song song hai
+            yếu tố chiến lược này chính là chìa khóa mở ra tiềm năng kinh tế bền
+            vững và bảo vệ sự sống còn của hành tinh - mà một minh chứng rõ nét
+            nhất chính là vùng biển giàu đẹp của đất nước chúng ta. Sau đây, hãy
+            cùng khám phá những khoáng sản và sinh vật ở vùng biển Việt Nam nhé!
+          </p>
+        </div>
+      </section>
+      <!--Section3: Khoáng sản-->
+      <section class="ocean-resources">
+        <h2 class="ocean-resources__title">Khoáng sản</h2>
+        <div class="ocean-resources__wrap">
+          <div class="ocean-resources__list">
+            <!--các card hiển thị theo chiều ngang thay vì dọc-->
+            <article class="container-card">
+              <div class="card__image swap-banner">
+                <img
+                  src="./images/dau_mo_1.jpg"
+                  alt="Hình ảnh dầu mỏ 1"
+                  class="card__image swap-banner__photo1"
+                />
+                <img
+                  src="./images/dau_mo_2.jpg"
+                  alt="Hình ảnh dầu mỏ 2"
+                  class="card__image swap-banner__photo2"
+                />
+              </div>
+              <div class="card__body">
+                <h3 class="card__title">Dầu mỏ</h3>
+                <p class="card__desc">
+                  Tính đến cuối năm 2019 sang đầu năm 2020, Việt Nam đứng hàng
+                  thứ 34 trên thế giới về sản lượng khai thác dầu, trung bình
+                  một ngày Việt Nam khai thác được hơn 200.000 thùng dầu. Vào
+                  thời điểm thịnh nhất Việt Nam xuất khẩu 399.000 thùng/ngày vào
+                  năm 2003. Đây là nguồn xuất khẩu đáng kể để thu ngoại tệ giúp
+                  cân bằng cán cân mậu dịch.
+                </p>
+                <button class="card__watch-later" data-id="dau_mo">
+                  Xem sau
+                </button>
+              </div>
+            </article>
+
+            <article class="container-card">
+              <div class="card__image swap-banner">
+                <img
+                  src="./images/khi_dot_1.jpg"
+                  alt="Hình ảnh khí đốt 1"
+                  class="card__image swap-banner__photo1"
+                />
+                <img
+                  src="./images/khi_dot_2.jpg"
+                  alt="Hình ảnh khí đốt 2"
+                  class="card__image swap-banner__photo2"
+                />
+              </div>
+              <div class="card__body">
+                <h3 class="card__title">Khí đốt</h3>
+                <p class="card__desc">
+                  Báo cáo của Wood Mackenzie dự báo nhu cầu khí đốt của Việt Nam
+                  không chỉ tăng mạnh vào những năm 2030 mà sẽ tiếp tục tăng
+                  trưởng đều đặn đến năm 2050. Ngành điện lực được dự đoán sẽ
+                  tiếp tục là ngành tiêu thụ khí đốt lớn nhất với 14% sản lượng
+                  điện dự kiến được cung cấp từ khí đốt vào năm 2030, chiếm phần
+                  lớn nhu cầu năng lượng.
+                </p>
+                <button class="card__watch-later" data-id="khi_dot">
+                  Xem sau
+                </button>
+              </div>
+            </article>
+
+            <article class="container-card">
+              <div class="card__image swap-banner">
+                <img
+                  src="./images/bang-chay-1.jpg"
+                  alt="Hình ảnh băng cháy 1"
+                  class="card__image swap-banner__photo1"
+                />
+                <img
+                  src="./images/bang_chay_2.jpg"
+                  alt="Hình ảnh băng cháy 2"
+                  class="card__image swap-banner__photo2"
+                />
+              </div>
+              <div class="card__body">
+                <h3 class="card__title">Băng cháy</h3>
+                <p class="card__desc">
+                  Là quốc gia được đánh giá có trữ lượng băng cháy khá lớn. Từ
+                  năm 2007, Bộ Tài nguyên và Môi trường đã tổ chức Hội nghị khoa
+                  học về băng cháy. Chính phủ cũng đã ban hành nhiều quyết định,
+                  chương trình nghiên cứu, đánh giá tài nguyên băng cháy như
+                  Quyết định 796 ban hành ngày 3/6/2010 của Thủ tướng Chính phủ.
+                </p>
+                <button class="card__watch-later" data-id="bang_chay">
+                  Xem sau
+                </button>
+              </div>
+            </article>
+
+            <article class="container-card">
+              <div class="card__image swap-banner">
+                <img
+                  src="./images/cat_thuy_tinh_1.jpg"
+                  alt="Hình ảnh cát thủy tinh 1"
+                  class="card__image swap-banner__photo1"
+                />
+                <img
+                  src="./images/cat-thuy-tinh_2.jpg"
+                  alt="Hình ảnh cát thủy tinh 2"
+                  class="card__image swap-banner__photo2"
+                />
+              </div>
+              <div class="card__body">
+                <h3 class="card__title">Cát thủy tinh</h3>
+                <p class="card__desc">
+                  Việt Nam có mỏ cát thủy tinh với trữ lượng lớn, đa phần nằm lộ
+                  thiên nên rất dễ khai thác. Mỏ cát của Khánh Hòa nổi tiếng thế
+                  giới về chất lượng, ít tạp chất và đạt tiêu chuẩn sản xuất
+                  thủy tinh cao cấp. Vì vậy, nguyên liệu cát tại đây thường
+                  xuyên được xuất sang Nhật Bản rồi Hàn Quốc, Trung Quốc,
+                  Philippines, Malaysia…
+                </p>
+                <button class="card__watch-later" data-id="cat_thuy_tinh">
+                  Xem sau
+                </button>
+              </div>
+            </article>
+
+            <article class="container-card">
+              <div class="card__image swap-banner">
+                <img
+                  src="./images/muoi_bien_2.jpg"
+                  alt="Hình ảnh muối biển 1"
+                  class="card__image swap-banner__photo1"
+                />
+                <img
+                  src="./images/muoi_bien_1.jpg"
+                  alt="Hình ảnh muối biển 2"
+                  class="card__image swap-banner__photo2"
+                />
+              </div>
+              <div class="card__body">
+                <h3 class="card__title">Muối biển</h3>
+                <p class="card__desc">
+                  Hiện nay, nghề muối đang tạo sinh kế cho hơn 12.000 hộ diêm
+                  dân tại các vùng ven biển Việt Nam. Những sản phẩm muối nổi
+                  tiếng như muối Đề Gi, muối Sa Huỳnh, muối Bà Rịa,... đã và
+                  đang từng bước chinh phục các thị trường khó tính như: châu
+                  Âu, Mỹ, Nhật Bản, Hàn Quốc.
+                </p>
+                <button class="card__watch-later" data-id="muoi_bien">
+                  Xem sau
+                </button>
+              </div>
+            </article>
+          </div>
+        </div>
+      </section>
+      <!--Section3: Sinh vật-->
+      <section class="ocean-resources">
+        <h2 class="ocean-resources__title">Sinh vật</h2>
+        <div class="ocean-resources__wrap">
+          <div class="ocean-resources__list">
+            <!--các card hiển thị theo chiều ngang thay vì dọc-->
+            <article class="container-card">
+              <div class="card__image swap-banner">
+                <img
+                  src="./images/san_ho_2.jpg"
+                  alt="Hình ảnh rạn san hô 1"
+                  class="card__image swap-banner__photo1"
+                />
+                <img
+                  src="./images/san_ho_3.jpg"
+                  alt="Hình ảnh dầu khí 2"
+                  class="card__image swap-banner__photo2"
+                />
+              </div>
+              <div class="card__body">
+                <h3 class="card__title">Rạn san hô</h3>
+                <p class="card__desc">
+                  Vùng biển Việt Nam hiện đang tập trung khoảng 340 loài san hô
+                  trong tổng số 800 loài của thế giới, phân bố rộng rãi từ Bắc
+                  tới Nam. Rạn san hô biển tập trung với mật độ cao ở vùng biển
+                  Nha Trang, Trường Sa, Hoàng Sa, Khánh Hòa,... Ở Côn Đảo, có
+                  219 loài san hô, tập trung thành khu vực lớn kèm theo 160 loài
+                  cá san hô.
+                </p>
+                <button class="card__watch-later" data-id="ran_san_ho">
+                  Xem sau
+                </button>
+              </div>
+            </article>
+
+            <article class="container-card">
+              <div class="card__image swap-banner">
+                <img
+                  src="./images/tao_bien_1.jpg"
+                  alt="Hình ảnh tảo biển 1"
+                  class="card__image swap-banner__photo1"
+                />
+                <img
+                  src="./images/tao_bien_2.jpg"
+                  alt="Hình ảnh tảo biển 2"
+                  class="card__image swap-banner__photo2"
+                />
+              </div>
+              <div class="card__body">
+                <h3 class="card__title">Tảo biển</h3>
+                <p class="card__desc">
+                  Tảo làm thức ăn chăn nuôi là các loại tảo biển được chế biến,
+                  sấy khô và nghiền thành bột để bổ sung vào khẩu phần ăn của
+                  vật nuôi. Khác với thức ăn truyền thống, tảo biển chứa hàm
+                  lượng cao protein, vitamin nhóm B, vitamin A, E và các khoáng
+                  chất như iodine, selen, kẽm.
+                </p>
+                <button class="card__watch-later" data-id="tao_bien">
+                  Xem sau
+                </button>
+              </div>
+            </article>
+
+            <article class="container-card">
+              <div class="card__image swap-banner">
+                <img
+                  src="./images/tham_co_bien_1.jpg"
+                  alt="Hình ảnh thảm cỏ biển 1"
+                  class="card__image swap-banner__photo1"
+                />
+                <img
+                  src="./images/tham_co_bien_2.jpg"
+                  alt="Hình ảnh thảm cỏ biển 2"
+                  class="card__image swap-banner__photo2"
+                />
+              </div>
+              <div class="card__body">
+                <h3 class="card__title">Thảm cỏ biển</h3>
+                <p class="card__desc">
+                  Qua tổng hợp, thống kê giai đoạn 1996 - 2020, có tổng số 15
+                  loài cỏ biển, phân bố trên diện tích 21.885ha ở khắp các vùng
+                  biển Việt Nam. Lượng giá trị trữ lượng carbon hữu cơ trong các
+                  thảm cỏ biển tương đương với 3,2 triệu tấn CO2 (3,2 triệu tín
+                  chỉ carbon), ước tính giá trị khoảng 64,4 triệu USD nếu trao
+                  đổi trên thị trường.
+                </p>
+                <button class="card__watch-later" data-id="tham_co_bien">
+                  Xem sau
+                </button>
+              </div>
+            </article>
+
+            <article class="container-card">
+              <div class="card__image swap-banner">
+                <img
+                  src="./images/rua_bien_1.jpg"
+                  alt="Hình ảnh rùa biển 1"
+                  class="card__image swap-banner__photo1"
+                />
+                <img
+                  src="./images/rua_bien_2.jpg"
+                  alt="Hình ảnh rùa biển 2"
+                  class="card__image swap-banner__photo2"
+                />
+              </div>
+              <div class="card__body">
+                <h3 class="card__title">Rùa biển</h3>
+                <p class="card__desc">
+                  Các quần thể rùa tại Việt Nam đang có dấu hiệu suy giảm số
+                  lượng do nhiều nguyên nhân như mất môi trường sống, ô nhiễm
+                  môi trường,... Theo kết quả nghiên cứu, nhiều loài rùa biển
+                  đang giảm dần số lượng cá thể. Cụ thể: số rùa mẹ lên bãi biển
+                  đẻ trứng giảm từ 10,000 những năm 1980 xuống còn khoảng 450
+                  trong năm 2019.
+                </p>
+                <button class="card__watch-later" data-id="rua_bien">
+                  Xem sau
+                </button>
+              </div>
+            </article>
+
+            <article class="container-card">
+              <div class="card__image swap-banner">
+                <img
+                  src="./images/ca_ngu_2.jpg"
+                  alt="Hình ảnh cá ngừ 1"
+                  class="card__image swap-banner__photo1"
+                />
+                <img
+                  src="./images/ca_ngu_1.jpg"
+                  alt="Hình ảnh cá ngừ 2"
+                  class="card__image swap-banner__photo2"
+                />
+              </div>
+              <div class="card__body">
+                <h3 class="card__title">Cá ngừ</h3>
+                <p class="card__desc">
+                  Được mệnh danh là "vàng đen" của đại dương, cá ngừ là mặt hàng
+                  xuất khẩu tỷ USD của Việt Nam sang các thị trường khó tính như
+                  Mỹ, EU, Nhật Bản để làm sashimi hoặc đóng hộp. Không chỉ mang
+                  lại giá trị kinh tế vượt trội cho ngành thủy sản, loài cá này
+                  còn là nguồn protein cao cấp, khẳng định vị thế thương hiệu
+                  hải sản Việt trên bản đồ quốc tế.
+                </p>
+                <button class="card__watch-later" data-id="ca_ngu">
+                  Xem sau
+                </button>
+              </div>
+            </article>
+
+            <article class="container-card">
+              <div class="card__image swap-banner">
+                <img
+                  src="./images/ca_thu_1.jpg"
+                  alt="Hình ảnh cá thu 1"
+                  class="card__image swap-banner__photo1"
+                />
+                <img
+                  src="./images/ca_thu_2.jpg"
+                  alt="Hình ảnh cá thu 2"
+                  class="card__image swap-banner__photo2"
+                />
+              </div>
+              <div class="card__body">
+                <h3 class="card__title">Cá thu</h3>
+                <p class="card__desc">
+                  Cá thu là loại hải sản có giá trị kinh tế cao nhờ thịt thơm
+                  ngon, giàu dinh dưỡng (như Omega-3, protein), mang lại doanh
+                  thu lớn cho ngành khai thác và chế biến xuất khẩu. Ngoài ra,
+                  các sản phẩm từ cá thu như đóng hộp, làm chả hay phơi khô cũng
+                  giúp tạo việc làm và ổn định thu nhập cho ngư dân vùng biển.
+                </p>
+                <button class="card__watch-later" data-id="ca_thu">
+                  Xem sau
+                </button>
+              </div>
+            </article>
+
+            <article class="container-card">
+              <div class="card__image swap-banner">
+                <img
+                  src="./images/ca_voi_2.jpg"
+                  alt="Hình ảnh cá voi 1"
+                  class="card__image swap-banner__photo1"
+                />
+                <img
+                  src="./images/ca_voi_3.jpg"
+                  alt="Hình ảnh cá voi 2"
+                  class="card__image swap-banner__photo2"
+                />
+              </div>
+              <div class="card__body">
+                <h3 class="card__title">Cá voi</h3>
+                <p class="card__desc">
+                  Cá voi (hay Cá Ông) là chỗ dựa tinh thần thiêng liêng của ngư
+                  dân miền Trung, luôn chở che và giúp đỡ họ vượt qua hoạn nạn
+                  giữa khơi xa. Tục thờ cúng và lễ hội Nghinh Ông không chỉ thể
+                  hiện nét đẹp văn hóa tâm linh đặc sắc mà còn gắn liền với khát
+                  vọng về những chuyến biển bình an, tôm cá đầy khoang.
+                </p>
+                <button class="card__watch-later" data-id="ca_voi">
+                  Xem sau
+                </button>
+              </div>
+            </article>
+
+            <article class="container-card">
+              <div class="card__image swap-banner">
+                <img
+                  src="./images/ca_heo_1.jpg"
+                  alt="Hình ảnh cá heo 1"
+                  class="card__image swap-banner__photo1"
+                />
+                <img
+                  src="./images/ca_heo_2.jpg"
+                  alt="Hình ảnh cá heo 2"
+                  class="card__image swap-banner__photo2"
+                />
+              </div>
+              <div class="card__body">
+                <h3 class="card__title">Cá heo</h3>
+                <p class="card__desc">
+                  Cá heo được ngư dân miền Trung trìu mến gọi là "bạn đường" của
+                  biển khơi, nổi tiếng với sự thông minh và những lần dẫn đường,
+                  cứu giúp tàu thuyền vượt qua giông bão. Sự xuất hiện của chúng
+                  không chỉ mang lại niềm vui, may mắn cho mỗi chuyến biển mà
+                  còn là tín hiệu của một vùng biển lành, giàu tôm cá.
+                </p>
+                <button class="card__watch-later" data-id="ca_heo">
+                  Xem sau
+                </button>
+              </div>
+            </article>
+          </div>
+        </div>
+      </section>
+    </main>
+    <footer class="footer">
+      <div class="footer__container">
+        <!-- Cột 1 -->
+        <section class="footer__about">
+          <h2 class="footer__logo">VietNam Ocean Explorer</h2>
+
+          <p class="footer__description">
+            Khám phá những tầng sâu kỳ bí của biển Việt Nam, lan tỏa tri thức và
+            nâng cao ý thức bảo tồn đại dương.
+          </p>
+        </section>
+
+        <!-- Cột 2 -->
+        <nav class="footer__menu">
+          <h3 class="footer__title">Khám phá</h3>
+
+          <ul class="footer__list">
+            <li><a href="#">Khám phá lòng biển</a></li>
+            <li><a href="#">Sinh vật - Khoáng sản</a></li>
+            <li><a href="#">Địa điểm du lịch</a></li>
+            <li><a href="#">Bảo tồn thiên nhiên biển</a></li>
+          </ul>
+        </nav>
+
+        <!-- Cột 3 -->
+        <section class="footer__reference">
+          <h3 class="footer__title">Nguồn tham khảo</h3>
+
+          <ul class="footer__list">
+            <li><a href="#">Ocean Census</a></li>
+            <li><a href="#">Tổng cục Biển và Hải đảo Việt Nam</a></li>
+            <li><a href="#">Các bài báo khoa học về biển</a></li>
+            <li><a href="#">Nguồn tài liệu khác...</a></li>
+          </ul>
+        </section>
+      </div>
+
+      <div class="footer__bottom">© 2026 VietNam Ocean Explorer</div>
+    </footer>
+    <script src="xem-sau.js"></script>
+  </body>
+</html>
