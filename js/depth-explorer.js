@@ -607,12 +607,14 @@ function animateCounter(cardElement) {
         }
 
         var currentValue = Math.floor(progress * targetNumber);
-        titleElement.textContent = currentValue.toLocaleString('vi-VN') + suffix;
+        // Dùng 'en-US' vì số liệu gốc trên trang đang định dạng kiểu "12,000+"
+        // (dấu phẩy ngăn cách hàng nghìn) — 'vi-VN' sẽ cho ra "12.000" khác kiểu
+        titleElement.textContent = currentValue.toLocaleString('en-US') + suffix;
 
         if (progress < 1) {
             requestAnimationFrame(step);
         } else {
-            titleElement.textContent = targetNumber.toLocaleString('vi-VN') + suffix;
+            titleElement.textContent = targetNumber.toLocaleString('en-US') + suffix;
         }
     }
 
@@ -1023,20 +1025,303 @@ var ExplorerNotebook = {
 
 
 /* ==================================================================
+   RIPPLE EFFECT (nhẹ) — dùng chung cho các nút tương tác chính
+   ------------------------------------------------------------------
+   Tạo 1 <span class="js-ripple"> tại đúng vị trí bấm bằng createElement,
+   CSS (@keyframes rippleEffect) lo phần phóng to + mờ dần, JS chỉ có
+   nhiệm vụ tạo và removeChild sau khi hiệu ứng kết thúc.
+   ================================================================== */
+function createRippleEffect(event, buttonElement) {
+
+    var rect = buttonElement.getBoundingClientRect();
+    var size = Math.max(rect.width, rect.height);
+
+    var ripple = document.createElement('span');
+    ripple.className = 'js-ripple';
+    ripple.style.width = size + 'px';
+    ripple.style.height = size + 'px';
+    ripple.style.left = (event.clientX - rect.left - size / 2) + 'px';
+    ripple.style.top = (event.clientY - rect.top - size / 2) + 'px';
+
+    buttonElement.appendChild(ripple);
+
+    // Gỡ bỏ ripple sau khi hiệu ứng kết thúc (khớp với thời lượng .6s trong CSS)
+    setTimeout(function () {
+        if (ripple.parentNode !== null) {
+            ripple.parentNode.removeChild(ripple);
+        }
+    }, 600);
+}
+
+
+/* ==================================================================
+   "SỔ TAY KHÁM PHÁ" — GIAO DIỆN (gắn với ExplorerNotebook ở trên)
+   ------------------------------------------------------------------
+   Wiring toàn bộ UI: mở/đóng panel, bấm bookmark trên trang (Event
+   Delegation trên document vì có nhiều nút rải rác), đồng bộ trạng
+   thái icon (đã lưu / chưa lưu), dựng lại danh sách bằng createElement,
+   cập nhật badge số lượng, xóa từng mục, xóa tất cả.
+   ================================================================== */
+function initExplorerNotebook() {
+
+    var notebookToggle = document.querySelector('.header__notebook-toggle');
+    var notebookPanel = document.getElementById('notebookPanel');
+    var notebookOverlay = document.getElementById('notebookOverlay');
+    var notebookCloseButton = document.querySelector('.notebook-panel__close');
+    var notebookList = document.getElementById('notebookList');
+    var notebookEmptyMessage = document.getElementById('notebookEmpty');
+    var notebookClearAllButton = document.getElementById('notebookClearAll');
+    var notebookCountBadge = document.getElementById('notebookCount');
+
+    // HTML chưa có panel (chưa hoàn thành phần bổ sung) -> dừng lại, không lỗi
+    if (notebookPanel === null || notebookList === null) {
+        return;
+    }
+
+    function openPanel() {
+        notebookPanel.classList.add('is-open');
+        notebookPanel.setAttribute('aria-hidden', 'false');
+
+        if (notebookOverlay !== null) {
+            notebookOverlay.classList.add('is-open');
+        }
+
+        if (notebookToggle !== null) {
+            notebookToggle.setAttribute('aria-expanded', 'true');
+        }
+    }
+
+    function closePanel() {
+        notebookPanel.classList.remove('is-open');
+        notebookPanel.setAttribute('aria-hidden', 'true');
+
+        if (notebookOverlay !== null) {
+            notebookOverlay.classList.remove('is-open');
+        }
+
+        if (notebookToggle !== null) {
+            notebookToggle.setAttribute('aria-expanded', 'false');
+        }
+    }
+
+    if (notebookToggle !== null) {
+        notebookToggle.addEventListener('click', function (event) {
+            createRippleEffect(event, notebookToggle);
+
+            if (notebookPanel.classList.contains('is-open') === true) {
+                closePanel();
+            } else {
+                openPanel();
+            }
+        });
+    }
+
+    if (notebookCloseButton !== null) {
+        notebookCloseButton.addEventListener('click', closePanel);
+    }
+
+    if (notebookOverlay !== null) {
+        notebookOverlay.addEventListener('click', closePanel);
+    }
+
+    // Phím Escape đóng panel (Keyboard Event)
+    document.addEventListener('keydown', function (event) {
+        if (event.key === 'Escape' && notebookPanel.classList.contains('is-open') === true) {
+            closePanel();
+        }
+    });
+
+    // Cập nhật badge số lượng trên icon ở header
+    function updateCountBadge() {
+        if (notebookCountBadge !== null) {
+            notebookCountBadge.textContent = ExplorerNotebook.getCount();
+        }
+    }
+
+    // Đồng bộ icon + aria-pressed cho MỌI nút bookmark đang có trên trang,
+    // theo đúng trạng thái đã lưu/chưa lưu trong ExplorerNotebook
+    function syncSaveButtonsState() {
+
+        var saveButtonsList = document.querySelectorAll('[data-save-id]');
+
+        for (var i = 0; i < saveButtonsList.length; i++) {
+
+            var button = saveButtonsList[i];
+            var itemId = button.getAttribute('data-save-id');
+            var isSaved = ExplorerNotebook.isSaved(itemId);
+
+            button.setAttribute('aria-pressed', isSaved === true ? 'true' : 'false');
+
+            var icon = button.querySelector('i');
+
+            if (icon !== null) {
+                if (isSaved === true) {
+                    icon.classList.remove('fa-bookmark-o');
+                    icon.classList.add('fa-bookmark');
+                } else {
+                    icon.classList.remove('fa-bookmark');
+                    icon.classList.add('fa-bookmark-o');
+                }
+            }
+        }
+    }
+
+    // Nhãn hiển thị tiếng Việt cho từng loại mục trong sổ tay
+    var TYPE_LABELS = {
+        depth: 'Tầng biển',
+        species: 'Sinh vật',
+        mineral: 'Khoáng sản',
+        location: 'Địa điểm',
+        news: 'Bài viết'
+    };
+
+    // Dựng lại toàn bộ danh sách trong panel bằng createElement/appendChild
+    function renderNotebookList() {
+
+        while (notebookList.firstChild !== null) {
+            notebookList.removeChild(notebookList.firstChild);
+        }
+
+        var items = ExplorerNotebook.getItems();
+
+        if (items.length === 0) {
+            if (notebookEmptyMessage !== null) {
+                notebookEmptyMessage.style.display = 'block';
+            }
+            notebookList.style.display = 'none';
+            return;
+        }
+
+        if (notebookEmptyMessage !== null) {
+            notebookEmptyMessage.style.display = 'none';
+        }
+        notebookList.style.display = 'flex';
+
+        for (var i = 0; i < items.length; i++) {
+
+            var item = items[i];
+
+            var listItem = document.createElement('li');
+            listItem.className = 'notebook-panel__item';
+
+            var infoWrapper = document.createElement('div');
+            infoWrapper.className = 'notebook-panel__item-info';
+
+            var titleElement = document.createElement('span');
+            titleElement.className = 'notebook-panel__item-title';
+            titleElement.textContent = item.title;
+
+            var typeElement = document.createElement('span');
+            typeElement.className = 'notebook-panel__item-type';
+            typeElement.textContent = TYPE_LABELS[item.type] ? TYPE_LABELS[item.type] : item.type;
+
+            infoWrapper.appendChild(titleElement);
+            infoWrapper.appendChild(typeElement);
+
+            var removeButton = document.createElement('button');
+            removeButton.type = 'button';
+            removeButton.className = 'notebook-panel__item-remove';
+            removeButton.setAttribute('aria-label', 'Bỏ lưu ' + item.title);
+            removeButton.setAttribute('data-remove-id', item.id);
+
+            var removeIcon = document.createElement('i');
+            removeIcon.className = 'fa fa-times';
+            removeButton.appendChild(removeIcon);
+
+            listItem.appendChild(infoWrapper);
+            listItem.appendChild(removeButton);
+
+            notebookList.appendChild(listItem);
+        }
+    }
+
+    function refreshNotebookUI() {
+        updateCountBadge();
+        syncSaveButtonsState();
+        renderNotebookList();
+    }
+
+    // EVENT DELEGATION: bấm bất kỳ nút bookmark nào trên trang (tầng biển,
+    // bài viết...) đều được bắt bởi 1 listener duy nhất trên document
+    document.addEventListener('click', function (event) {
+
+        var saveButton = event.target.closest('[data-save-id]');
+
+        if (saveButton === null) {
+            return;
+        }
+
+        createRippleEffect(event, saveButton);
+
+        var itemId = saveButton.getAttribute('data-save-id');
+        var itemType = saveButton.getAttribute('data-save-type');
+        var itemTitle = saveButton.getAttribute('data-save-title');
+
+        if (ExplorerNotebook.isSaved(itemId) === true) {
+            ExplorerNotebook.removeItem(itemId);
+        } else {
+            ExplorerNotebook.saveItem(itemId, itemType, itemTitle);
+        }
+
+        refreshNotebookUI();
+    });
+
+    // Bấm nút xóa 1 mục ngay trong panel (Event Delegation trên chính danh sách)
+    notebookList.addEventListener('click', function (event) {
+
+        var removeButton = event.target.closest('[data-remove-id]');
+
+        if (removeButton === null) {
+            return;
+        }
+
+        var itemId = removeButton.getAttribute('data-remove-id');
+        ExplorerNotebook.removeItem(itemId);
+        refreshNotebookUI();
+    });
+
+    if (notebookClearAllButton !== null) {
+        notebookClearAllButton.addEventListener('click', function (event) {
+            createRippleEffect(event, notebookClearAllButton);
+            ExplorerNotebook.clearAll();
+            refreshNotebookUI();
+        });
+    }
+
+    // Hiển thị đúng trạng thái ngay khi tải trang xong (đồng bộ với localStorage)
+    refreshNotebookUI();
+}
+
+
+/* ==================================================================
    KHỞI CHẠY TOÀN BỘ SAU KHI DOM ĐÃ SẴN SÀNG
    ================================================================== */
 document.addEventListener('DOMContentLoaded', function () {
-
-    initMenu();
-    initMobileSearchToggle();
-    initSearch();
-    initSmoothScroll();
-    initSidebarDepthNav();
-    initHeaderScrollEffect();
-    initStatisticsCounter();
-    initFadeInEffects();
-    initNewsSlider();
-
+    var initFunctions = [
+        initMenu,
+        initMobileSearchToggle,
+        initSearch,
+        initSmoothScroll,
+        initSidebarDepthNav,
+        initHeaderScrollEffect,
+        initStatisticsCounter,
+        initFadeInEffects,
+        initNewsSlider
+    ];
+    for( var i = 0; i < initFunctions.length; i++) {
+        try {
+            initFunctions[i]();
+        } catch (error) {
+            console.error('Lỗi khi khởi tạo JS:', error);
+        }
+    }
+    try {
+        ExplorerNotebook.load();
+        initExplorerNotebook();
+    } catch (error) { 
+        console.error('Lỗi khi khởi tạo Sổ tay khám phá:', error);
+    }
     // Nạp sổ tay đã lưu trước đó (nếu có) ngay khi trang tải xong
-    ExplorerNotebook.load();
+
+    // Gắn toàn bộ giao diện Sổ tay khám phá (panel, bookmark, badge...)
 });

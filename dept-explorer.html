@@ -36,7 +36,8 @@
                 </ul>
             </nav>
             <form class="form-search" action="#" method="get">
-                <input class="form-search__input" type="text" name="search" placeholder="Tìm kiếm...">
+                <label class="sr-only" for="siteSearchInput">Tìm  kiếm nội dung trên trang</label>
+                <input class="form-search__input" type="text" name="search" placeholder="Tìm kiếm..." id="siteSearchInput">
                 <button class="form-search__button" type="submit">
                     <i class="fa fa-search"></i> 
                 </button>
@@ -44,6 +45,10 @@
             <button class="header__search-toggle" type="button" aria-label="Mở thanh tìm kiếm">
                     <i class="fa fa-search"></i>
                 </button>
+            <button class="header__notebook-toggle" type="button" aria-label="Mở sổ tay khám phá" aria-expanded="false" aria-controls="notebookPanel">
+                <i class="fa fa-bookmark"></i>
+                <span class="header__notebook-count" id="notebookCount">0</span>
+            </button>
             <button class="header__hamburger" type="button">
                 <i class="fa fa-bars"></i> 
             </button>
@@ -76,6 +81,9 @@
             </aside>
             <div class="ocean-explore__articles">
                 <article class="depth-card" id="tang-1">
+                    <button class="depth-card__save-button" type="button" data-save-id="tang-1" data-save-type="depth" data-save-title="Thềm lục địa (0 - 200m)" aria-label="Lưu tầng Thềm lục địa vào sổ tay khám phá" aria-pressed="false">
+                        <i class="fa fa-bookmark-o"></i>
+                    </button>
                     <img class="depth-card__image" src="./images/article1.jpg" alt="Thềm lục địa">
                     <p class="depth-card__depth">0 - 200m</p>
                     <h2 class="depth-card__title">Thềm lục địa<br>Tầng nắng ấm - Nơi bắt đầu của sự sống</h2>
@@ -95,6 +103,9 @@
                     </ul>
                 </article>
                 <article class="depth-card" id="tang-2">
+                    <button class="depth-card__save-button" type="button" data-save-id="tang-2" data-save-type="depth" data-save-title="Sườn lục địa (200 - 3000m)" aria-label="Lưu tầng Sườn lục địa vào sổ tay khám phá" aria-pressed="false">
+                        <i class="fa fa-bookmark-o"></i>
+                    </button>
                     <img class="depth-card__image" src="" alt="">
                     <p class="depth-card__depth">200 - 3000m</p>
                     <h2 class="depth-card__title">Sườn lục địa<br>Vùng biển sâu - Nơi sinh vật kỳ bí ẩn hiện</h2>
@@ -113,6 +124,9 @@
                     </ul>
                 </article>
                 <article class="depth-card" id="tang-3">
+                    <button class="depth-card__save-button" type="button" data-save-id="tang-3" data-save-type="depth" data-save-title="Vực sâu (3000+)" aria-label="Lưu tầng Vực sâu vào sổ tay khám phá" aria-pressed="false">
+                        <i class="fa fa-bookmark-o"></i>
+                    </button>
                     <img class="depth-card__image" src="" alt="">
                     <p class="depth-card__depth">3000+</p>
                     <h2 class="depth-card__title">Vực sâu - Nơi những điều kỳ bí ẩn hiện</h2>
@@ -131,23 +145,23 @@
         <section class="ocean-statistics">
             <div class="ocean-statistics__container">
                 <article class="ocean-statistics__card">
-                    <h3 class="ocean-statistics__card-title">12,000+</h3>
+                    <h3 class="ocean-statistics__card-title" data-target="12000" data-suffix="+">12,000+</h3>
                     <p class="ocean-statistics__card-description">Loài sinh vật biển<br>Hệ sinh thái giàu có TOP20 thế giới</p>   
                 </article>
                 <article class="ocean-statistics__card">
-                    <h3 class="ocean-statistics__card-title">17,000+</h3>
+                    <h3 class="ocean-statistics__card-title" data-target="17000" data-suffix="+">17,000+</h3>
                     <p class="ocean-statistics__card-description">Mẫu vật khoa học<br>Thu hoạch từ tàu đại dương Oparin</p>
                 </article>
                 <article class="ocean-statistics__card">
-                    <h3 class="ocean-statistics__card-title">400 Triệu</h3>
+                    <h3 class="ocean-statistics__card-title" data-target="400 Triệu" data-suffix="Tấn">400 Triệu</h3>
                     <p class="ocean-statistics__card-description">Tấn dầu thô quy đổi<br>Ký tích đá móng Granite độc nhất</p>
                 </article>
                 <article class="ocean-statistics__card">
-                    <h3 class="ocean-statistics__card-title">5,4 tỷ</h3>
+                    <h3 class="ocean-statistics__card-title" data-target="5.4 tỷ" data-suffix="Thùng">5,4 tỷ</h3>
                     <p class="ocean-statistics__card-description">Thùng đá khó băng cháy<br>Trữ lượng năng lượng lai khơi xa</p>
                 </article>
                 <article class="ocean-statistics__card">
-                    <h3 class="ocean-statistics__card-title">5,559m</h3>
+                    <h3 class="ocean-statistics__card-title" data-target="5559" data-suffix="m">5,559m</h3>
                     <p class="ocean-statistics__card-description">Vực thẩm kỷ lục<br>Trái tim đen sâu nhất biển đông</p>
                 </article>
             </div>
@@ -167,6 +181,9 @@
                             <p class="ocean-news__description">Các nhà khoa học tiếp tục khám phá những bí ẩn của đại dương thông qua các chuyến thám hiểm biển sâu.</p>
                         </div>
                         <div class="ocean-news__media">
+                            <button class="ocean-news__save-button" type="button" data-save-id="news-1" data-save-type="news" data-save-title="Phát hiện hơn 1.100 loài sinh vật biển mới trong các cuộc khảo sát đại dương" aria-label="Lưu tin tức vào sổ tay khám phá" aria-pressed="false">
+                                <i class="fa fa-bookmark-o"></i>
+                            </button>
                             <img class="ocean-news__image" src="images/news-1-loai-moi.jpg" alt="Sinh vật biển mới được phát hiện">
                             <a class="ocean-news__view" href="#">VIEW</a>
                         </div>
@@ -178,6 +195,9 @@
                             <p class="ocean-news__description">Các dự án khoa học biển giúp mở rộng hiểu biết về hệ sinh thái và bảo vệ môi trường biển.</p>
                         </div>
                         <div class="ocean-news__media">
+                            <button class="ocean-news__save-button" type="button" data-save-id="news-2" data-save-type="news" data-save-title="Những tác động mới trong nghiên cứu và bảo tồn đại dương" aria-label="Lưu tin tức vào sổ tay khám phá" aria-pressed="false">
+                                <i class="fa fa-bookmark-o"></i>
+                            </button>
                             <img class="ocean-news__image" src="images/news-2-bao-ton.jpg" alt="Nghiên cứu và bảo tồn đại dương">
                             <a class="ocean-news__view" href="#">VIEW</a>
                         </div>
@@ -189,11 +209,15 @@
                             <p class="ocean-news__description">Hàng nghìn loài sinh vật vẫn đang chờ được phát hiện dưới những vùng biển sâu.</p>
                         </div>
                         <div class="ocean-news__media">
+                            <button class="ocean-news__save-button" type="button" data-save-id="news-3" data-save-type="news" data-save-title="Sinh vật biển sâu và những điều chưa được khám phá" aria-label="Lưu tin tức vào sổ tay khám phá" aria-pressed="false">
+                                <i class="fa fa-bookmark-o"></i>
+                            </button>
                             <video class="ocean-news__video" src="videos/news-3-bien-sau.mp4" poster="images/news-3-poster.jpg" muted loop></video>
                             <a class="ocean-news__view" href="#">VIEW</a>
                         </div>
                     </article>
                 </div>
+                <div class="ocean-news__dots" aria-hidden="true"></div>
             </div>
         </section>
     </main>
@@ -243,6 +267,20 @@
     </div>
 
 </footer>
-<script src="dept-explorer.js"></script>
+<aside class="notebook-panel" id="notebookPanel" aria-hidden="true">
+    <div class="notebook-panel__header">
+        <h2 class="notebook-panel__title">Sổ tay khám phá</h2>
+        <button class="notebook-panel__close" type="button" aria-label="Đóng sổ tay khám phá">
+            <i class="fa fa-times"></i>
+        </button>
+    </div>
+    <ul class="notebook-panel__list" id="notebookList">
+        <!-- Các mục sẽ được thêm vào bằng JavaScript -->
+    </ul>
+    <p class="notebook-panel__empty" id="notebookEmpty">Chưa có mục nào được lưu. Bấm biểu tượng bookmark trên các tin tức để lưu lại.</p>
+    <button class="notebook-panel__clear-all" type="button" id="notebookClearAll">Xóa tất cả</button>
+</aside>
+<div class="notebook-panel__overlay" id="notebookOverlay"></div>
+<script src="./js/depth-explorer.js"></script>
 </body> 
 </html>

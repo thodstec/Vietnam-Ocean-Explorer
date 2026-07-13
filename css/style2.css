@@ -635,7 +635,6 @@ section{
         height:calc(100vh - var(--header-height));
 
         align-self:start;
-        background: url("../images/depth-card__background.png") center/cover no-repeat;
 
     }
 
@@ -2344,4 +2343,688 @@ section{
 
     color:var(--text-muted);
 
+}
+/*==================================================
+=          GIAI ĐOẠN 3 — BỔ SUNG CSS
+=          (fade / counter / slider dots / bookmark /
+=           notebook panel / scrollbar / ripple)
+==================================================*/
+ 
+/*========== SCREEN-READER ONLY ==========*/
+/* Cho <label> của ô tìm kiếm — ẩn khỏi mắt nhưng vẫn đọc được
+   bởi trình đọc màn hình (yêu cầu accessibility) */
+ 
+.sr-only{
+ 
+    position:absolute;
+ 
+    width:1px;
+    height:1px;
+ 
+    padding:0;
+    margin:-1px;
+ 
+    overflow:hidden;
+ 
+    clip:rect(0,0,0,0);
+ 
+    white-space:nowrap;
+ 
+    border:0;
+ 
+}
+ 
+/*========== FADE-IN ON SCROLL (.is-visible) ==========
+   JS (initFadeInEffects) chỉ add/remove class "is-visible",
+   phần khai báo trạng thái ẩn/hiện nằm hoàn toàn ở đây.
+   LƯU Ý: phải khai báo lại "transition" đầy đủ (transform gốc +
+   opacity mới) vì transition là thuộc tính không gộp được giữa
+   2 khối rule khác nhau cho cùng 1 selector — nếu chỉ thêm
+   "transition:opacity..." riêng sẽ vô tình xóa mất các transition
+   hover (transform/background/border-color) đã có sẵn. */
+ 
+.depth-card__info-item{
+ 
+    opacity:0;
+ 
+    transform:translateY(24px);
+ 
+    transition:
+ 
+        opacity .6s ease,
+ 
+        transform .3s ease,
+ 
+        background .3s ease,
+ 
+        border-color .3s ease;
+ 
+}
+ 
+.depth-card__info-item.is-visible{
+ 
+    opacity:1;
+ 
+    transform:translateY(0);
+ 
+}
+ 
+.ocean-statistics__card{
+ 
+    opacity:0;
+ 
+    transform:translateY(24px);
+ 
+    transition:
+ 
+        opacity .6s ease,
+ 
+        transform var(--transition),
+ 
+        border-color var(--transition),
+ 
+        box-shadow var(--transition);
+ 
+}
+ 
+.ocean-statistics__card.is-visible{
+ 
+    opacity:1;
+ 
+    transform:translateY(0);
+ 
+}
+ 
+.ocean-news__card{
+ 
+    opacity:0;
+ 
+    transform:translateY(24px);
+ 
+    transition:
+ 
+        opacity .6s ease,
+ 
+        transform var(--transition),
+ 
+        border-color var(--transition),
+ 
+        box-shadow var(--transition);
+ 
+}
+ 
+.ocean-news__card.is-visible{
+ 
+    opacity:1;
+ 
+    transform:translateY(0);
+ 
+}
+ 
+/*========== NEWS SLIDER — DOT INDICATOR ==========*/
+ 
+.ocean-news__dots{
+ 
+    display:flex;
+ 
+    justify-content:center;
+ 
+    align-items:center;
+ 
+    gap:.5rem;
+ 
+    margin-top:var(--space-3);
+ 
+}
+ 
+.ocean-news__dot{
+ 
+    width:9px;
+    height:9px;
+ 
+    padding:0;
+ 
+    border-radius:50%;
+ 
+    background:rgba(255,255,255,.25);
+ 
+    transition:all var(--transition);
+ 
+}
+ 
+.ocean-news__dot:hover{
+ 
+    background:rgba(255,255,255,.5);
+ 
+}
+ 
+.ocean-news__dot--active{
+ 
+    width:26px;
+ 
+    border-radius:var(--radius-round);
+ 
+    background:var(--accent-color);
+ 
+}
+ 
+/*========== BOOKMARK BUTTON — DEPTH CARD ==========*/
+ 
+.depth-card__save-button{
+ 
+    position:absolute;
+ 
+    top:var(--space-3);
+    right:var(--space-3);
+ 
+    z-index:3;
+ 
+    width:44px;
+    height:44px;
+ 
+    display:grid;
+ 
+    place-items:center;
+ 
+    font-size:var(--font-size-md);
+ 
+    color:var(--text-primary);
+ 
+    background:rgba(2,19,31,.6);
+ 
+    backdrop-filter:blur(8px);
+ 
+    border:1px solid rgba(255,255,255,.25);
+ 
+    border-radius:50%;
+ 
+    transition:all var(--transition);
+ 
+}
+ 
+.depth-card__save-button:hover{
+ 
+    border-color:var(--card-accent,var(--accent-color));
+ 
+    transform:scale(1.08);
+ 
+}
+ 
+.depth-card__save-button[aria-pressed="true"]{
+ 
+    color:var(--primary-dark);
+ 
+    background:var(--card-accent,var(--accent-color));
+ 
+    border-color:var(--card-accent,var(--accent-color));
+ 
+}
+ 
+/*========== BOOKMARK BUTTON — NEWS CARD ==========*/
+ 
+.ocean-news__save-button{
+ 
+    position:absolute;
+ 
+    top:var(--space-2);
+    left:var(--space-2);
+ 
+    z-index:2;
+ 
+    width:38px;
+    height:38px;
+ 
+    display:grid;
+ 
+    place-items:center;
+ 
+    font-size:var(--font-size-sm);
+ 
+    color:var(--text-primary);
+ 
+    background:rgba(2,19,31,.6);
+ 
+    backdrop-filter:blur(6px);
+ 
+    border:1px solid rgba(255,255,255,.3);
+ 
+    border-radius:50%;
+ 
+    transition:all var(--transition);
+ 
+}
+ 
+.ocean-news__save-button:hover{
+ 
+    border-color:var(--accent-color);
+ 
+    transform:scale(1.08);
+ 
+}
+ 
+.ocean-news__save-button[aria-pressed="true"]{
+ 
+    color:var(--primary-dark);
+ 
+    background:var(--accent-color);
+ 
+    border-color:var(--accent-color);
+ 
+}
+ 
+/*========== HEADER — NOTEBOOK TOGGLE + BADGE ==========*/
+ 
+.header__notebook-toggle{
+ 
+    position:relative;
+ 
+    display:grid;
+ 
+    place-items:center;
+ 
+    width:42px;
+    height:42px;
+ 
+    color:var(--text-primary);
+ 
+    background:rgba(255,255,255,.08);
+ 
+    border-radius:50%;
+ 
+    transition:all var(--transition);
+ 
+}
+ 
+.header__notebook-toggle:hover{
+ 
+    background:rgba(32,196,244,.18);
+ 
+}
+ 
+.header__notebook-count{
+ 
+    position:absolute;
+ 
+    top:-4px;
+    right:-4px;
+ 
+    min-width:18px;
+    height:18px;
+ 
+    padding:0 4px;
+ 
+    display:grid;
+ 
+    place-items:center;
+ 
+    font-size:10px;
+ 
+    font-weight:var(--font-weight-bold);
+ 
+    color:var(--primary-dark);
+ 
+    background:var(--accent-color);
+ 
+    border-radius:var(--radius-round);
+ 
+    line-height:1;
+ 
+}
+ 
+/*========== EXPLORER NOTEBOOK — PANEL (drawer bên phải) ==========*/
+ 
+.notebook-panel{
+ 
+    position:fixed;
+ 
+    top:0;
+    right:0;
+ 
+    z-index:2100;
+ 
+    width:min(360px,90vw);
+    height:100vh;
+ 
+    padding:var(--space-4);
+ 
+    display:flex;
+ 
+    flex-direction:column;
+ 
+    gap:var(--space-3);
+ 
+    background:rgba(8,40,63,.97);
+ 
+    backdrop-filter:blur(20px);
+ 
+    border-left:1px solid var(--border-color);
+ 
+    box-shadow:var(--shadow-lg);
+ 
+    transform:translateX(100%);
+ 
+    transition:transform .4s ease;
+ 
+}
+ 
+.notebook-panel.is-open{
+ 
+    transform:translateX(0);
+ 
+}
+ 
+.notebook-panel__header{
+ 
+    display:flex;
+ 
+    align-items:center;
+ 
+    justify-content:space-between;
+ 
+}
+ 
+.notebook-panel__title{
+ 
+    font-family:var(--font-heading);
+ 
+    font-size:var(--font-size-lg);
+ 
+}
+ 
+.notebook-panel__close{
+ 
+    width:36px;
+    height:36px;
+ 
+    display:grid;
+ 
+    place-items:center;
+ 
+    color:var(--text-primary);
+ 
+    background:rgba(255,255,255,.08);
+ 
+    border-radius:50%;
+ 
+    transition:all var(--transition);
+ 
+}
+ 
+.notebook-panel__close:hover{
+ 
+    background:rgba(255,255,255,.18);
+ 
+}
+ 
+.notebook-panel__list{
+ 
+    display:flex;
+ 
+    flex-direction:column;
+ 
+    gap:var(--space-2);
+ 
+    overflow-y:auto;
+ 
+    flex:1;
+ 
+}
+ 
+.notebook-panel__item{
+ 
+    display:flex;
+ 
+    align-items:center;
+ 
+    justify-content:space-between;
+ 
+    gap:var(--space-2);
+ 
+    padding:var(--space-2);
+ 
+    background:rgba(255,255,255,.04);
+ 
+    border:1px solid var(--border-color);
+ 
+    border-radius:var(--radius-md);
+ 
+    font-size:var(--font-size-sm);
+ 
+    animation:notebookItemIn .3s ease;
+ 
+}
+ 
+.notebook-panel__item-info{
+ 
+    display:flex;
+ 
+    flex-direction:column;
+ 
+    gap:.2rem;
+ 
+    min-width:0;
+ 
+}
+ 
+.notebook-panel__item-title{
+ 
+    color:var(--text-primary);
+ 
+    font-weight:var(--font-weight-medium);
+ 
+    overflow:hidden;
+ 
+    text-overflow:ellipsis;
+ 
+    white-space:nowrap;
+ 
+}
+ 
+.notebook-panel__item-type{
+ 
+    font-size:var(--font-size-xs);
+ 
+    color:var(--text-muted);
+ 
+    text-transform:uppercase;
+ 
+    letter-spacing:.08em;
+ 
+}
+ 
+.notebook-panel__item-remove{
+ 
+    width:28px;
+    height:28px;
+ 
+    flex-shrink:0;
+ 
+    display:grid;
+ 
+    place-items:center;
+ 
+    color:var(--text-muted);
+ 
+    border-radius:50%;
+ 
+    transition:all var(--transition);
+ 
+}
+ 
+.notebook-panel__item-remove:hover{
+ 
+    color:var(--text-primary);
+ 
+    background:rgba(255,255,255,.1);
+ 
+}
+ 
+.notebook-panel__empty{
+ 
+    font-size:var(--font-size-sm);
+ 
+    color:var(--text-muted);
+ 
+    text-align:center;
+ 
+    padding:var(--space-4) 0;
+ 
+}
+ 
+.notebook-panel__clear-all{
+ 
+    padding:.75rem;
+ 
+    text-align:center;
+ 
+    font-size:var(--font-size-sm);
+ 
+    color:var(--text-secondary);
+ 
+    border:1px solid var(--border-color);
+ 
+    border-radius:var(--radius-md);
+ 
+    transition:all var(--transition);
+ 
+}
+ 
+.notebook-panel__clear-all:hover{
+ 
+    color:var(--text-primary);
+ 
+    border-color:var(--accent-color);
+ 
+}
+ 
+/* Thanh cuộn riêng cho danh sách sổ tay (không đụng scrollbar toàn site) */
+ 
+.notebook-panel__list::-webkit-scrollbar{
+ 
+    width:6px;
+ 
+}
+ 
+.notebook-panel__list::-webkit-scrollbar-thumb{
+ 
+    background:rgba(255,255,255,.2);
+ 
+    border-radius:var(--radius-round);
+ 
+}
+ 
+/*========== EXPLORER NOTEBOOK — OVERLAY NỀN ==========*/
+ 
+.notebook-panel__overlay{
+ 
+    position:fixed;
+ 
+    inset:0;
+ 
+    z-index:2050;
+ 
+    background:rgba(0,0,0,.5);
+ 
+    opacity:0;
+ 
+    pointer-events:none;
+ 
+    transition:opacity .4s ease;
+ 
+}
+ 
+.notebook-panel__overlay.is-open{
+ 
+    opacity:1;
+ 
+    pointer-events:auto;
+ 
+}
+ 
+/*========== KEYFRAMES ==========*/
+ 
+@keyframes notebookItemIn{
+ 
+    from{
+ 
+        opacity:0;
+ 
+        transform:translateX(12px);
+ 
+    }
+ 
+    to{
+ 
+        opacity:1;
+ 
+        transform:translateX(0);
+ 
+    }
+ 
+}
+ 
+@keyframes rippleEffect{
+ 
+    to{
+ 
+        transform:scale(2.6);
+ 
+        opacity:0;
+ 
+    }
+ 
+}
+ 
+/* Vùng chứa hiệu ứng ripple nhẹ khi bấm — JS tạo <span class="js-ripple">
+   tại đúng vị trí con trỏ, phần tử cha cần position:relative + overflow:hidden
+   để bong bóng ripple không tràn ra ngoài hình tròn/bo góc của nút */
+ 
+.header__notebook-toggle,
+.ocean-news__button,
+.notebook-panel__clear-all{
+ 
+    position:relative;
+ 
+    overflow:hidden;
+ 
+}
+ 
+/* 2 nút này đã có position:absolute từ khối rule riêng phía trên —
+   absolute cũng tự tạo positioning context nên chỉ cần thêm overflow:hidden */
+ 
+.depth-card__save-button,
+.ocean-news__save-button{
+ 
+    overflow:hidden;
+ 
+}
+ 
+.js-ripple{
+ 
+    position:absolute;
+ 
+    border-radius:50%;
+ 
+    background:rgba(255,255,255,.5);
+ 
+    transform:scale(0);
+ 
+    opacity:.7;
+ 
+    pointer-events:none;
+ 
+    animation:rippleEffect .6s ease-out;
+ 
+}
+ 
+/*========== RESPONSIVE NHỎ CHO NOTEBOOK PANEL ==========*/
+ 
+@media (max-width:480px){
+ 
+    .notebook-panel{
+ 
+        width:100vw;
+ 
+    }
+ 
 }
