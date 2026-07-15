@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>VietNam Ocean Explorer</title>
-    <link rel="stylesheet" href="css/style2.css"> 
+    <link rel="stylesheet" href="css/style2.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
@@ -65,13 +65,13 @@
     <main>
         <!--5.1-->
         <section class="hero hero--dark">
-            <img src="/images/conservation-hero.jpg" class="hero__bg">
+            <img src="images/conservation-hero.jpg" class="hero__bg"
+                alt="Đại dương Việt Nam đang chịu tác động của ô nhiễm và biến đổi khí hậu">
             <div class="hero__overlay"></div>
             <div class="hero__content">
                 <div class="animate-pulse">
-                    <div
-                        style="display: inline-flex; align-items: center; gap: 8px; background: rgba(230, 57, 70, 0.12); color: var(--color-danger); padding: 8px 16px; border-radius: var(--radius-pill); font-size: 12px; font-weight: 500; margin-bottom: 16px;">
-                        <i class="fa-solid fa-triangle-exclamation "></i>
+                    <div class="badge badge--danger" style="margin-bottom: 16px;">
+                        <i class="fa-solid fa-triangle-exclamation"></i>
                         <span>Hệ sinh thái biển đang suy giảm nghiêm trọng</span>
                     </div>
                 </div>
@@ -86,7 +86,7 @@
                 </p>
                 <div class="hero__actions">
                     <a href="#take-action" class="btn btn--primary">Tìm hiểu ngay</a>
-                    <a href="#take-actiion" class="btn btn--secondary">Chung tay hành động</a>
+                    <a href="#take-action-cta" class="btn btn--secondary">Chung tay hành động</a>
                 </div>
             </div>
             <div class="hero__scroll-down">
@@ -97,21 +97,19 @@
         <section id="take-action" class="threat-timeline">
             <div class="threat-stats__grid">
                 <div class="threat-card">
-                    <div class="navbar__brand">
+                    <div class="threat-card__inner flex gap-md">
                         <div class="threat-card__icon">
-                            <img src="images/sanho.jpg" alt="San hô">
+                            <img src="images/sanho.jpg" alt="San hô bị tẩy trắng">
                         </div>
                         <div class="threat-card__content">
-                            <div class="stats__label" style="color: #E63946">
+                            <div class="stats__label text-danger">
                                 San hô tẩy trắng
                             </div>
-                            <div class="stat__number"
-                                style="font-size: 56px;font-family: var(--font-heading);color: #E63946">
+                            <div class="stats__number text-danger" style="font-size: 56px;">
                                 60%
                             </div>
                             <div class="progress" style="height: 8px;">
-                                <div class="progress__fill" style="width: 60%; background: #E63946;">
-                                </div>
+                                <div class="progress__fill" style="width: 60%; background: var(--color-danger);"></div>
                             </div>
                             <div class="threat-card__caption">
                                 Diện tích rạn san hô bị ảnh hưởng
@@ -120,21 +118,19 @@
                     </div>
                 </div>
                 <div class="threat-card">
-                    <div class="navbar__brand">
+                    <div class="threat-card__inner flex gap-md">
                         <div class="threat-card__icon">
-                            <img src="images/rung.jpg" alt="Rừng ngập mặn">
+                            <img src="images/rung.jpg" alt="Rừng ngập mặn bị suy giảm">
                         </div>
                         <div class="threat-card__content">
-                            <div class="stats__label" style="color:#F4A261">
+                            <div class="stats__label text-warning">
                                 Rừng ngập mặn
                             </div>
-                            <div class="stat__number"
-                                style="font-size: 56px;font-family: var(--font-heading);color:#F4A261">
+                            <div class="stats__number text-warning" style="font-size: 56px;">
                                 70%
                             </div>
                             <div class="progress" style="height: 8px;">
-                                <div class="progress__fill" style="width: 70%; background: #F4A261;">
-                                </div>
+                                <div class="progress__fill" style="width: 70%; background: var(--color-warning);"></div>
                             </div>
                             <div class="threat-card__caption">
                                 Mất đi so với 1940
@@ -143,21 +139,19 @@
                     </div>
                 </div>
                 <div class="threat-card">
-                    <div class="navbar__brand">
+                    <div class="threat-card__inner flex gap-md">
                         <div class="threat-card__icon">
-                            <img src="images/rua.jpg" alt="Loài nguy cấp">
+                            <img src="images/rua.jpg" alt="Rùa biển thuộc loài nguy cấp">
                         </div>
                         <div class="threat-card__content">
-                            <div class="stats__label" style="color:#F4A261">
+                            <div class="stats__label text-warning">
                                 Loài nguy cấp
                             </div>
-                            <div class="stat__number"
-                                style="font-size: 56px;font-family: var(--font-heading);color:#F4A261">
+                            <div class="stats__number text-warning" style="font-size: 56px;">
                                 40%
                             </div>
                             <div class="progress" style="height: 8px;">
-                                <div class="progress__fill" style="width: 40%; background: #F4A261;">
-                                </div>
+                                <div class="progress__fill" style="width: 40%; background: var(--color-warning);"></div>
                             </div>
                             <div class="threat-card__caption">
                                 Cần bảo vệ khẩn cấp
@@ -166,20 +160,19 @@
                     </div>
                 </div>
                 <div class="threat-card">
-                    <div class="navbar__brand">
+                    <div class="threat-card__inner flex gap-md">
                         <div class="threat-card__icon">
-                            <img src="images/baoton.jpg" alt="Bảo tồn biển">
+                            <img src="images/baoton.jpg" alt="Khu bảo tồn biển">
                         </div>
                         <div class="threat-card__content">
-                            <div class="stats__label" style="color:#74C69D">
+                            <div class="stats__label text-success">
                                 Diện tích bảo tồn
                             </div>
-                            <div class="stat__number"
-                                style="font-size: 56px;font-family: var(--font-heading);color:#74C69D">
+                            <div class="stats__number text-success" style="font-size: 56px;">
                                 8%
                             </div>
                             <div class="progress" style="height: 8px;">
-                                <div class="progress__fill" style="width: 8%; background: #74C69D;">
+                                <div class="progress__fill" style="width: 8%; background: var(--color-green-light);">
                                 </div>
                             </div>
                             <div class="threat-card__caption">
@@ -191,7 +184,7 @@
             </div>
         </section>
         <!--3-->
-        <section class="threat-timeline" style="background-color: #020D18;">
+        <section class="threat-timeline" style="background-color: var(--bg-primary);">
             <div class="container">
                 <div class="timeline-header">
                     <span class="timeline-header__eyebrow">Lịch sử bảo tồn</span>
@@ -238,7 +231,7 @@
             </div>
         </section>
         <!--4-->
-        <section id="take-actiion" class="cta-section">
+        <section id="take-action-cta" class="cta-section">
             <div class="cta-section__container">
                 <div class="cta-section__grid">
                     <div class="cta-content">
@@ -246,7 +239,6 @@
                         <p class="cta-content__desc">
                             Chung tay bảo vệ đại dương bằng những hành động thiết thực ngay hôm nay.
                         </p>
-
                         <div class="cta-actions">
                             <div class="cta-action">
                                 <div class="cta-action__icon">
@@ -282,25 +274,20 @@
         </section>
     </main>
     <footer class="footer">
-
         <div class="footer__container">
-
             <!-- Cột 1 -->
             <section class="footer__about">
                 <h2 class="footer__logo">
                     VietNam Ocean Explorer
                 </h2>
-
                 <p class="footer__description">
                     Khám phá những tầng sâu kỳ bí của biển Việt Nam,
                     lan tỏa tri thức và nâng cao ý thức bảo tồn đại dương.
                 </p>
             </section>
-
             <!-- Cột 2 -->
             <nav class="footer__menu">
                 <h3 class="footer__title">Khám phá</h3>
-
                 <ul class="footer__list">
                     <li><a href="#">Khám phá lòng biển</a></li>
                     <li><a href="#">Sinh vật - Khoáng sản</a></li>
@@ -308,11 +295,9 @@
                     <li><a href="#">Bảo tồn thiên nhiên biển</a></li>
                 </ul>
             </nav>
-
             <!-- Cột 3 -->
             <section class="footer__reference">
                 <h3 class="footer__title">Nguồn tham khảo</h3>
-
                 <ul class="footer__list">
                     <li><a href="#">Ocean Census</a></li>
                     <li><a href="#">Tổng cục Biển và Hải đảo Việt Nam</a></li>
@@ -321,13 +306,10 @@
                 </ul>
             </section>
         </div>
-
         <div class="footer__bottom">
             © 2026 VietNam Ocean Explorer
         </div>
-
     </footer>
     <script src="/js/conservation.js"></script>
 </body>
-
 </html>
