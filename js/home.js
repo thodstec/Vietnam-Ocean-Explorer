@@ -17,13 +17,13 @@ function switchOceanTab(button, tabIndex) {
     
     // 4. Thay đổi tài nguyên ảnh dựa trên tab index được truyền vào từ HTML
     if (tabIndex === 1) {
-        displayImg.src = "canh-vinh.jpg";
+        displayImg.src = "./images/canh-vinh.jpg";
         displayImg.alt = "Cảnh Vịnh biển Việt Nam đẹp nguyên sơ";
     } else if (tabIndex === 2) {
-        displayImg.src = "bien-khoi.jpg";
+        displayImg.src = "./images/bien-khoi.jpg";
         displayImg.alt = "Biển khơi đại dương sâu thẳm";
     } else if (tabIndex === 3) {
-        displayImg.src = "san-ho-1.jpg";
+        displayImg.src = "./images/san-ho-1.jpg";
         displayImg.alt = "Hệ sinh thái rạn san hô phong phú tại Việt Nam";
     }
 }
