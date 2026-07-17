@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>VietNam Ocean Explorer</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"> 
-    <link rel="stylesheet" href="css/style2.css"> 
+    <link rel="stylesheet" href="css/depth-explorer.css"> 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Oswald:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -16,7 +16,7 @@
     <header class="header">
         <img class="header__img header__img--logo" src="./images/header-logo.png" alt="hình ảnh logo VietNam Ocean Explorer">
         <div class="header-nav-form"> 
-            <nav class="horizontal-nav">
+            <nav class="horizontal-nav" aria-label="Điều hướng chính">
                 <ul class="horizontal-nav__list">
                     <li class="horizontal-nav__item">
                         <a class="horizontal-nav__link" href="home.html">Trang chủ</a>
@@ -64,8 +64,8 @@
         </section>
         <section class="ocean-explore__content">
             <aside class="ocean-explore__sidebar">
-                <nav class="depth-nav">
-                    <h2 class="depth-nav__title"></h2>
+                <nav class="depth-nav" aria-label="Điều hướng theo độ sâu">
+                    <h2 class="depth-nav__title" aria-hidden="true">Các tầng độ sâu</h2>
                     <ul class="depth-nav__list">
                         <li class="depth-nav__item">
                             <a class="depth-nav__link" href="#tang-1">0 - 200m</a>
@@ -168,7 +168,7 @@
         </section>
         <section class="ocean-news">
             <div class="ocean-news__container">
-                <h2 class="ocean-news__title">NEWS</h2>
+                <h2 class="ocean-news__title" aria-label="Tin tức đại dương">NEWS</h2>
                 <div class="ocean-news__navigation">
                     <button class="ocean-news__button ocean-news__button--prev" type="button" aria-label="Tin trước">←</button>
                     <button class="ocean-news__button ocean-news__button--next" type="button" aria-label="Tin sau">→</button>
@@ -177,7 +177,7 @@
                     <article class="ocean-news__card">
                         <div class="ocean-news__content">
                             <time class="ocean-news__date" datetime="2026-05-19">19/05/26</time>
-                            <h2 class="ocean-news__heading">Phát hiện hơn 1.100 loài sinh vật biển mới trong các cuộc khảo sát đại dương</h2>
+                            <h3 class="ocean-news__heading">Phát hiện hơn 1.100 loài sinh vật biển mới trong các cuộc khảo sát đại dương</h3>
                             <p class="ocean-news__description">Các nhà khoa học tiếp tục khám phá những bí ẩn của đại dương thông qua các chuyến thám hiểm biển sâu.</p>
                         </div>
                         <div class="ocean-news__media">
@@ -191,7 +191,7 @@
                     <article class="ocean-news__card">
                         <div class="ocean-news__content">
                             <time class="ocean-news__date" datetime="2026-05-15">15/05/26</time>
-                            <h2 class="ocean-news__heading">Những tác động mới trong nghiên cứu và bảo tồn đại dương</h2>
+                            <h3 class="ocean-news__heading">Những tác động mới trong nghiên cứu và bảo tồn đại dương</h3>
                             <p class="ocean-news__description">Các dự án khoa học biển giúp mở rộng hiểu biết về hệ sinh thái và bảo vệ môi trường biển.</p>
                         </div>
                         <div class="ocean-news__media">
@@ -205,7 +205,7 @@
                     <article class="ocean-news__card">
                         <div class="ocean-news__content">
                             <time class="ocean-news__date" datetime="2026-05-10">10/05/26</time>
-                            <h2 class="ocean-news__heading">Sinh vật biển sâu và những điều chưa được khám phá</h2>
+                            <h3 class="ocean-news__heading">Sinh vật biển sâu và những điều chưa được khám phá</h3>
                             <p class="ocean-news__description">Hàng nghìn loài sinh vật vẫn đang chờ được phát hiện dưới những vùng biển sâu.</p>
                         </div>
                         <div class="ocean-news__media">
@@ -281,6 +281,6 @@
     <button class="notebook-panel__clear-all" type="button" id="notebookClearAll">Xóa tất cả</button>
 </aside>
 <div class="notebook-panel__overlay" id="notebookOverlay"></div>
-<script src="./js/depth-explorer.js"></script>
+<script src="./js/test1.js"></script>
 </body> 
 </html>

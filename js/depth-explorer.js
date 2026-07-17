@@ -1,21 +1,3 @@
-/* ==================================================================
-   VIETNAM OCEAN EXPLORER - main.js
-   ------------------------------------------------------------------
-   GIAI ĐOẠN 1 — HOÀN THIỆN JAVASCRIPT
-   (không sửa HTML/CSS ở giai đoạn này — mọi phần tử JS cần mà HTML
-   hiện chưa có đều được kiểm tra null trước, nên trang vẫn chạy
-   bình thường; các hiệu ứng liên quan sẽ tự "sống dậy" khi HTML/CSS
-   được bổ sung ở Giai đoạn 2 và 3.)
-
-   Phong cách: querySelector/All, for truyền thống, addEventListener,
-   classList, localStorage + JSON.parse/stringify — theo Chapter 5-6
-   (Jon Duckett).
-   ================================================================== */
-
-
-/* ==================================================================
-   TIỆN ÍCH DÙNG CHUNG
-   ================================================================== */
 
 // Trì hoãn việc gọi hàm cho tới khi người dùng ngừng thao tác 1 khoảng
 // thời gian ngắn — dùng cho sự kiện "resize" để tránh gọi hàm dồn dập
