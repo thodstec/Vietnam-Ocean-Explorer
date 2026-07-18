@@ -220,6 +220,8 @@ p{
 
     position:relative;
 
+    padding:0;
+
 }
 
 .hero::before{
@@ -610,15 +612,14 @@ p{
 }
 
 .featured__card{
-
     background:#0b2b3b;
-
     border:1px solid #1a5876;
-
     border-radius:15px;
-
     overflow:hidden;
 
+    display:flex;
+    flex-direction:column;
+    height:100%;
 }
 
 .featured__image{
@@ -642,15 +643,12 @@ p{
 }
 
 .featured__text{
-
-    padding:0 20px 25px;
-
+    padding:0 20px;
     color:#dcecf5;
-
     text-align:justify;
-
     line-height:1.8;
 
+    flex:1;
 }
 
 /*====================================
@@ -951,13 +949,6 @@ p{
 
 }
 
-.locations__card,
-.featured__card,
-.travel-tips__card{
-
-    border:1px solid #1a5876;
-
-}
 
 /*====================================
     KHOẢNG CÁCH
@@ -1076,5 +1067,131 @@ section{
     padding:60px;
 
 }
+
+}
+
+.featured__button{
+    display:inline-block;
+
+    width:max-content;
+
+    margin:20px;
+    margin-top:auto;
+
+    padding:10px 20px;
+
+    background:#0077b6;
+    color:#fff;
+
+    border:none;
+    border-radius:8px;
+
+    cursor:pointer;
+    transition:.3s;
+}
+
+.featured__button:hover{
+    background:#0096c7;
+}
+
+.featured__button:hover{
+
+    background:#0096c7;
+
+}
+
+/*====================================
+    MODAL
+====================================*/
+
+.modal{
+    display:none;
+    position:fixed;
+    top:0;
+    left:0;
+    width:100%;
+    height:100%;
+    background:rgba(0,0,0,.75);
+
+    justify-content:center;
+    align-items:center;
+
+    z-index:9999;
+}
+
+.modal__content{
+    width:90%;
+    max-width:700px;
+
+    background:#0b2b3b;
+    color:#ffffff;
+
+    border-radius:12px;
+    padding:25px;
+
+    position:relative;
+
+    animation:showModal .3s;
+}
+
+.modal__content img{
+    width:100%;
+    border-radius:10px;
+    margin-bottom:20px;
+}
+
+.modal__content h2{
+    color:#7fd3ff;
+    margin-bottom:10px;
+}
+
+.modal__content p{
+    margin-bottom:15px;
+    line-height:1.7;
+}
+
+.modal__close{
+    position:absolute;
+    top:15px;
+    right:20px;
+
+    font-size:30px;
+    color:#fff;
+
+    cursor:pointer;
+}
+
+#modalWiki{
+    display:inline-block;
+
+    margin-top:15px;
+
+    padding:12px 20px;
+
+    background:#0077b6;
+    color:#fff;
+
+    border-radius:8px;
+
+    text-decoration:none;
+
+    transition:.3s;
+}
+
+#modalWiki:hover{
+    background:#0096c7;
+}
+
+@keyframes showModal{
+
+    from{
+        opacity:0;
+        transform:scale(.9);
+    }
+
+    to{
+        opacity:1;
+        transform:scale(1);
+    }
 
 }

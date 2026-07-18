@@ -270,6 +270,11 @@
                     <p class="featured__text">
                         Nằm tại tỉnh Quảng Ninh, Vịnh Hạ Long gây ấn tượng với hàng nghìn đảo đá vôi có hình dạng độc đáo, các hang động tự nhiên kỳ thú và giá trị địa chất, sinh thái đặc biệt.
                     </p>
+                        <button class="featured__button"
+                         onclick="showDetail('0')">
+                        Xem chi tiết
+                        </button>
+                    
 
                 </article>
 
@@ -288,7 +293,10 @@
                     <p class="featured__text">
                         Phú Quốc thu hút du khách bởi vẻ đẹp hoang sơ của biển đảo, những bãi cát trắng trải dài, rạn san hô đa dạng cùng các điểm tham quan nổi bật như quần đảo An Thới và vườn quốc gia Phú Quốc.
                     </p>
-
+                       <button class="featured__button"
+                       onclick="showDetail('1')">
+                       Xem chi tiết
+                       </button>
                 </article>
 
                 <article class="featured__card" id="nhatrang">
@@ -302,10 +310,13 @@
                     <h3 class="featured__card-title">
                         Nha Trang
                     </h3>
-
                     <p class="featured__text">
                         Nha Trang sở hữu vẻ đẹp hài hòa giữa biển xanh, những hòn đảo tự nhiên và hệ sinh thái biển đa dạng. Nơi đây nổi bật với vịnh Nha Trang, đảo Hòn Mun cùng nhiều hoạt động như lặn biển, tham quan đảo và du lịch nghỉ dưỡng.
                     </p>
+                       <button class="featured__button"
+                         onclick="showDetail('2')">
+                        Xem chi tiết
+                        </button>
 
                 </article>
 
@@ -324,6 +335,10 @@
                     <p class="featured__text">
                         Lý Sơn là huyện đảo thuộc tỉnh Quảng Ngãi, nổi bật với cảnh quan địa chất đặc biệt từ núi lửa cổ, những vách đá tự nhiên kỳ vĩ và hệ sinh thái biển phong phú. Đây là điểm đến lý tưởng cho du khách yêu thích khám phá thiên nhiên và văn hóa biển đảo Việt Nam.
                     </p>
+                     <button class="featured__button"
+                         onclick="showDetail('3')">
+                        Xem chi tiết
+                        </button>
 
                 </article>
 
@@ -342,7 +357,10 @@
                     <p class="featured__text">
                         Côn Đảo là quần đảo thuộc tỉnh Bà Rịa - Vũng Tàu, nổi bật với cảnh quan thiên nhiên nguyên sơ, hệ sinh thái rừng và biển đa dạng. Nơi đây sở hữu nhiều bãi biển tuyệt đẹp, các rạn san hô phong phú và là địa điểm quan trọng trong việc bảo tồn thiên nhiên biển Việt Nam.
                     </p>
-
+                        <button class="featured__button"
+                         onclick="showDetail('4')">
+                        Xem chi tiết
+                        </button>
                 </article>
 
                 <article class="featured__card" id="culaocham">
@@ -360,6 +378,10 @@
                     <p class="featured__text">
                         Cù Lao Chàm thuộc tỉnh Quảng Nam, là khu dự trữ sinh quyển thế giới được UNESCO công nhận. Quần đảo nổi bật với hệ sinh thái biển đa dạng, các rạn san hô phong phú và môi trường tự nhiên được bảo vệ nghiêm ngặt, trở thành điểm đến hấp dẫn cho du lịch sinh thái biển.
                     </p>
+                        <button class="featured__button"
+                         onclick="showDetail('5')">
+                        Xem chi tiết
+                        </button>
 
                 </article>
 
@@ -369,6 +391,8 @@
 
         <!-- ================= MẸO DU LỊCH ================= -->
 
+
+        
         <section class="travel-tips">
 
             <h2 class="travel-tips__title">
@@ -516,7 +540,37 @@
 
     </footer>
 
-    <script src="js/main.js"></script>
+<div class="modal" id="detailModal">
+
+    <div class="modal__content">
+
+        <span class="modal__close" onclick="closeModal()">&times;</span>
+
+        <img id="modalImage" src="" alt="">
+
+        <h2 id="modalTitle"></h2>
+
+        <p>
+            <strong>Địa điểm:</strong>
+            <span id="modalLocation"></span>
+        </p>
+
+        <p id="modalDescription"></p>
+        <a
+    id="modalWiki"
+    class="featured__button"
+    href="#"
+    target="_blank">
+    📖 Đọc thêm trên Wikipedia
+</a>
+
+    </div>
+
+</div>
+
+<script src="js/unique-locations.js"></script>
+
+    
 
 </body>
 </html>
