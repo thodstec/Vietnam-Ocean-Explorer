@@ -29,18 +29,35 @@ ul{
     list-style:none;
 }
 
+.sr-only{
+    position:absolute;
+
+    width:1px;
+    height:1px;
+
+    padding:0;
+    margin:-1px;
+
+    overflow:hidden;
+
+    clip:rect(0,0,0,0);
+    white-space:nowrap;
+
+    border:0;
+}
+
 .header{
     position:fixed;
     top:0;
     left:0;
     width:100%;
-    height:90px;
+    height:72px;
 
     display:flex;
     justify-content:space-between;
     align-items:center;
 
-    padding:0 2rem;
+    padding:0 1rem;
 
     background:rgba(0,17,29,.85);
     backdrop-filter:blur(12px);
@@ -51,27 +68,68 @@ ul{
 }
 
 .header__img{
-    width:72px;
+    width:48px;
+    flex-shrink:0;
 }
 
 .header-nav-form{
     display:flex;
     align-items:center;
-    gap:2rem;
+
+    flex:1;
+
+    margin-left:1rem;
+
+    justify-content:flex-end;
+    gap:.5rem;
+}
+
+.horizontal-nav{
+    display:none;
+}
+
+.horizontal-nav.show{
+    display:block;
+
+    position:absolute;
+    top:72px;
+    left:0;
+
+    width:100%;
+
+    background:#02111d;
+    border-bottom:1px solid rgba(255,255,255,.08);
+
+    box-shadow:0 20px 40px rgba(0,0,0,.4);
+}
+
+.horizontal-nav.show .horizontal-nav__list{
+    flex-direction:column;
+    align-items:stretch;
+
+    gap:0;
+
+    padding:1rem 1.5rem;
+}
+
+.horizontal-nav.show .horizontal-nav__link{
+    padding:1rem 0;
+    border-bottom:1px solid rgba(255,255,255,.06);
 }
 
 .horizontal-nav__list{
     display:flex;
     align-items:center;
-    gap:1rem;
+    gap:clamp(.25rem,1vw,1rem);
 }
 
 .horizontal-nav__link{
     display:block;
 
-    padding:.9rem 1.5rem;
+    padding:.9rem clamp(.75rem,1.5vw,1.5rem);
 
     font-weight:600;
+    white-space:nowrap;
 
     border-radius:999px;
 
@@ -79,17 +137,19 @@ ul{
 }
 
 .horizontal-nav__link:hover,
-.horizontal-nav__link.active{
+.horizontal-nav__link.active,
+.horizontal-nav__link--active{
     background:rgba(0,180,255,.15);
     color:#39cfff;
 }
 
 .form-search{
-    display:flex;
+    display:none;
+
     align-items:center;
 
-    width:280px;
-    height:54px;
+    width:100%;
+    height:48px;
 
     padding:0 1.25rem;
 
@@ -99,7 +159,23 @@ ul{
     background:rgba(255,255,255,.04);
 }
 
-.form-search input{
+.form-search.show{
+    display:flex;
+
+    position:absolute;
+    top:72px;
+    left:0;
+
+    width:100%;
+
+    border-radius:0;
+    border-width:0 0 1px;
+
+    background:#02111d;
+    padding:1rem;
+}
+
+.form-search__input{
     flex:1;
 
     background:none;
@@ -110,22 +186,52 @@ ul{
     font-size:1rem;
 }
 
-.form-search input::placeholder{
+.form-search__input::placeholder{
     color:#9ab5c8;
 }
 
-.header__search-toggle,
-.header__notebook-toggle,
-.header__hamburger{
-    width:54px;
-    height:54px;
+.form-search__button{
+    width:34px;
+    height:34px;
 
     display:grid;
     place-items:center;
 
+    flex-shrink:0;
+
+    border:none;
+    border-radius:50%;
+
+    background:transparent;
+    color:#9ab5c8;
+
+    cursor:pointer;
+
+    transition:.3s;
+}
+
+.form-search__button:hover{
+    color:#39cfff;
+}
+
+.header__notebook-toggle,
+.header__search-toggle,
+.header__hamburger{
+    position:relative;
+
+    width:44px;
+    height:44px;
+
+    flex-shrink:0;
+
+    display:grid;
+    place-items:center;
+
+    border:none;
     border-radius:50%;
 
     background:rgba(255,255,255,.05);
+    color:#fff;
 
     cursor:pointer;
 
@@ -138,6 +244,28 @@ ul{
     background:#00bfff;
 }
 
+.header__notebook-count{
+    position:absolute;
+    top:2px;
+    right:2px;
+
+    min-width:18px;
+    height:18px;
+    padding:0 4px;
+
+    display:grid;
+    place-items:center;
+
+    font-size:.7rem;
+    font-weight:700;
+
+    color:#02111d;
+    background:#39cfff;
+
+    border-radius:999px;
+    line-height:1;
+}
+
 .ocean-explore__header{
     min-height:100vh;
 
@@ -147,6 +275,8 @@ ul{
     align-items:center;
 
     text-align:center;
+
+    padding:0 1.25rem;
 
     background:
     linear-gradient(
@@ -160,75 +290,230 @@ ul{
 }
 
 .ocean-explore__header h1{
-    font-size:clamp(4rem,10vw,10rem);
     font-weight:900;
-    letter-spacing:.08em;
+    letter-spacing:.04em;
+}
+
+.ocean-explore__title-small{
+    display:block;
+
+    font-size:clamp(1.15rem, 3.2vw + .4rem, 2.5rem);
+    letter-spacing:clamp(.02em, .4vw, .06em);
+
+    transition:font-size .2s ease;
+}
+
+.ocean-explore__title-big{
+    display:block;
+
+    margin-top:.25rem;
+
+    font-size:clamp(2.25rem, 9vw + .5rem, 10rem);
+    letter-spacing:clamp(-.01em, .2vw, .02em);
+
+    transition:font-size .2s ease;
 }
 
 .ocean-explore__header p{
     max-width:900px;
-    margin-top:2rem;
+    margin-top:1.5rem;
 
     color:#b6d0de;
 
-    font-size:1.15rem;
+    font-size:clamp(.95rem, .6vw + .8rem, 1.15rem);
 }
 
 .ocean-explore__content{
     display:grid;
-    grid-template-columns:320px 1fr;
+    grid-template-columns:clamp(52px, 14vw, 220px) 1fr;
 
-    gap:3rem;
+    align-items:stretch;
 
-    padding:6rem 5%;
+    gap:1.25rem;
+
+    padding:5rem 1rem 4rem;
 }
 
 .ocean-explore__sidebar{
     position:sticky;
-    top:120px;
+    top:88px;
 
-    height:fit-content;
+    height:calc(100vh - 120px);
+
+    display:flex;
 }
 
 .depth-nav{
-    padding:2rem;
+    display:flex;
+    flex-direction:column;
 
-    border:1px solid rgba(255,255,255,.08);
-    border-radius:32px;
+    width:100%;
+    height:100%;
+}
 
-    background:linear-gradient(
-        180deg,
-        rgba(255,255,255,.05),
-        rgba(255,255,255,.02)
-    );
+.depth-nav__title{
+    display:none;
+
+    margin-bottom:2rem;
+
+    font-size:1.1rem;
+    font-weight:700;
+
+    color:#7ea6bb;
+    letter-spacing:.05em;
+    text-transform:uppercase;
+}
+
+.depth-nav__list{
+    position:relative;
+
+    flex:1;
+
+    display:flex;
+    flex-direction:column;
+    justify-content:space-between;
+
+    padding-left:1.25rem;
+}
+
+.depth-nav__list::before{
+    content:"";
+
+    position:absolute;
+    top:0;
+    bottom:0;
+    left:0;
+
+    width:2px;
+
+    background:rgba(255,255,255,.1);
 }
 
 .depth-nav li{
-    padding:1rem;
-    margin-bottom:1rem;
-
-    border-radius:16px;
+    padding:0;
+    margin:0;
 
     cursor:pointer;
 }
 
-.depth-nav li.active{
-    background:rgba(0,180,255,.15);
+.depth-nav__link{
+    position:relative;
+
+    display:block;
+
+    color:#7ea6bb;
+    font-weight:600;
+    font-size:0;
+
+    transition:.3s;
+}
+
+.depth-nav__link::before{
+    content:"";
+
+    position:absolute;
+    top:50%;
+    left:-1.25rem;
+
+    width:10px;
+    height:10px;
+
+    transform:translateY(-50%);
+
+    border:2px solid rgba(255,255,255,.3);
+    border-radius:50%;
+
+    background:#02111d;
+
+    transition:.3s;
+}
+
+.depth-nav__link:hover,
+.depth-nav__link.active{
     color:#39cfff;
 }
 
+.depth-nav__link.active::before{
+    border-color:#39cfff;
+    background:#39cfff;
+    box-shadow:0 0 12px rgba(57,207,255,.6);
+}
+
+.ocean-explore__articles{
+    display:flex;
+    flex-direction:column;
+
+    gap:3rem;
+
+    min-width:0;
+}
+
 .depth-card{
+    position:relative;
+
     display:grid;
-    grid-template-columns:1.2fr .8fr;
+    grid-template-columns:1fr;
+    grid-template-rows:auto;
 
-    gap:2rem;
+    align-items:start;
 
-    align-items:center;
+    gap:1.5rem;
+
+    opacity:0;
+    transform:translateY(50px);
+
+    transition:opacity .8s ease, transform .8s ease;
+}
+
+.depth-card.show{
+    opacity:1;
+    transform:translateY(0);
+}
+
+.depth-card__save-button{
+    position:absolute;
+    top:1rem;
+    right:1rem;
+
+    width:44px;
+    height:44px;
+
+    display:grid;
+    place-items:center;
+
+    border:none;
+    border-radius:50%;
+
+    background:rgba(0,17,29,.6);
+    color:#fff;
+
+    font-size:1.1rem;
+
+    cursor:pointer;
+
+    z-index:2;
+
+    transition:.3s;
+}
+
+.depth-card__save-button:hover{
+    background:#00bfff;
+}
+
+.depth-card__save-button[aria-pressed="true"]{
+    color:#39cfff;
 }
 
 .depth-card__image{
+    grid-column:1;
+    grid-row:auto;
+
+    min-height:0;
+    max-height:none;
+    aspect-ratio:16/10;
+
     overflow:hidden;
-    border-radius:32px;
+    border-radius:24px;
 }
 
 .depth-card__image img{
@@ -242,100 +527,403 @@ ul{
     transform:scale(1.08);
 }
 
+.depth-card__depth{
+    grid-column:1;
+    grid-row:auto;
+
+    display:flex;
+    align-items:center;
+    gap:.9rem;
+
+    font-size:.8rem;
+    font-weight:700;
+    letter-spacing:.2em;
+    text-transform:uppercase;
+
+    color:#39cfff;
+}
+
+.depth-card__depth::before{
+    content:"";
+
+    width:28px;
+    height:2px;
+
+    background:#39cfff;
+}
+
 .depth-card__title{
-    font-size:4rem;
-    line-height:1.05;
+    grid-column:1;
+    grid-row:auto;
+
+    font-size:clamp(1.75rem, 4vw + .5rem, 4rem);
+    line-height:1.1;
     font-weight:800;
 }
 
 .depth-card__text{
-    margin-top:1.5rem;
+    margin-top:1rem;
 
     color:#b7d0dc;
 }
 
-.ocean-statistics{
-    padding:8rem 5%;
+.depth-card__description{
+    grid-column:1;
+    grid-row:auto;
+
+    color:#b7d0dc;
 }
 
-.ocean-statistics{
-    display:grid;
-    grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+.depth-card__detail-button{
+    grid-column:1;
+    grid-row:auto;
 
-    gap:2rem;
-}
+    display:inline-flex;
+    align-items:center;
+    gap:.6rem;
 
-.ocean-statistics article{
-    padding:3rem 2rem;
+    width:fit-content;
+    padding:.9rem 1.75rem;
 
-    text-align:center;
+    font-size:.9rem;
+    font-weight:700;
+    letter-spacing:.03em;
 
-    border:1px solid rgba(255,255,255,.08);
-    border-radius:32px;
+    color:#02111d;
+    background:#39cfff;
 
-    background:rgba(255,255,255,.02);
-}
+    border:none;
+    border-radius:999px;
 
-.ocean-statistics h3{
-    font-size:4rem;
-    color:#39cfff;
-}
-
-.ocean-news{
-    padding:8rem 5%;
-}
-
-.ocean-news__list{
-    display:grid;
-    grid-template-columns:repeat(3,1fr);
-
-    gap:2rem;
-}
-
-.ocean-news article{
-    overflow:hidden;
-
-    border-radius:24px;
-
-    background:#0b2d45;
+    cursor:pointer;
 
     transition:.3s;
 }
 
-.ocean-news article:hover{
+.depth-card__detail-button:hover{
+    background:#7fe3ff;
+    transform:translateX(4px);
+}
+
+.depth-card__info{
+    display:none;
+}
+
+.depth-card__info-item{
+    padding:1rem 1.25rem;
+
+    color:#b7d0dc;
+    font-size:.95rem;
+
+    border-left:3px solid rgba(57,207,255,.4);
+    border-radius:0 12px 12px 0;
+
+    background:rgba(255,255,255,.03);
+}
+
+.depth-card__info-item:empty{
+    display:none;
+}
+
+.ocean-statistics{
+    padding:4rem 1rem;
+}
+
+.ocean-statistics__container{
+    display:grid;
+    grid-template-columns:1fr;
+
+    gap:1.25rem;
+}
+
+.ocean-statistics__card{
+    padding:2.25rem 1.5rem;
+
+    text-align:center;
+
+    border:1px solid rgba(255,255,255,.08);
+    border-radius:24px;
+
+    background:rgba(255,255,255,.02);
+}
+
+.ocean-statistics__card-title{
+    font-size:clamp(2rem, 3vw + 1rem, 3.5rem);
+    line-height:1.2;
+
+    color:#39cfff;
+
+    word-break:break-word;
+}
+
+.ocean-statistics__card-description{
+    margin-top:1rem;
+
+    color:#b7d0dc;
+    font-size:.9rem;
+    line-height:1.5;
+}
+
+.ocean-news{
+    padding:4rem 1rem;
+}
+
+.ocean-news__container{
+    position:relative;
+
+    overflow:hidden;
+}
+
+.ocean-news__title{
+    margin-bottom:1.5rem;
+    padding-right:5rem;
+
+    font-size:clamp(1.5rem, 2vw + 1rem, 2.5rem);
+    font-weight:800;
+    letter-spacing:.05em;
+}
+
+.ocean-news__navigation{
+    position:absolute;
+    top:0;
+    right:0;
+
+    display:flex;
+    gap:.5rem;
+}
+
+.ocean-news__button{
+    width:40px;
+    height:40px;
+
+    display:grid;
+    place-items:center;
+
+    border:1px solid rgba(255,255,255,.1);
+    border-radius:50%;
+
+    background:rgba(255,255,255,.05);
+    color:#fff;
+
+    cursor:pointer;
+
+    transition:.3s;
+}
+
+.ocean-news__button:hover{
+    background:#00bfff;
+}
+
+.ocean-news__list{
+    display:flex;
+
+    transition:transform .5s ease;
+}
+
+.ocean-news__card{
+    position:relative;
+
+    flex:0 0 100%;
+    max-width:100%;
+
+    display:flex;
+    flex-direction:column;
+
+    aspect-ratio:auto;
+
+    overflow:hidden;
+    border-radius:20px;
+
+    background:#0b2d45;
+
+    transition:transform .3s;
+}
+
+.ocean-news__card:hover{
     transform:translateY(-8px);
 }
 
-.ocean-news img{
-    height:320px;
+.ocean-news__content{
+    flex:1 1 auto;
+    min-width:0;
+
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+
+    padding:1.5rem;
+}
+
+.ocean-news__media{
+    position:relative;
+
+    flex:0 0 200px;
+
+    height:auto;
+}
+
+.ocean-news__image,
+.ocean-news__video{
+    width:100%;
+    height:100%;
+
     object-fit:cover;
 }
 
-.ocean-news__body{
-    padding:2rem;
+.ocean-news__save-button{
+    position:absolute;
+    top:1rem;
+    right:1rem;
+
+    width:40px;
+    height:40px;
+
+    display:grid;
+    place-items:center;
+
+    border:none;
+    border-radius:50%;
+
+    background:rgba(0,17,29,.6);
+    color:#fff;
+
+    cursor:pointer;
+
+    z-index:2;
+
+    transition:.3s;
 }
 
-footer{
-    margin-top:8rem;
+.ocean-news__save-button:hover{
+    background:#00bfff;
+}
+
+.ocean-news__view{
+    position:absolute;
+    bottom:1rem;
+    right:1rem;
+
+    padding:.5rem 1.1rem;
+
+    font-size:.8rem;
+    font-weight:700;
+    letter-spacing:.05em;
+
+    color:#02111d;
+    background:#39cfff;
+
+    border-radius:999px;
+}
+
+.ocean-news__date{
+    display:inline-block;
+
+    margin-bottom:.75rem;
+
+    font-size:.8rem;
+    color:#7ea6bb;
+    letter-spacing:.05em;
+}
+
+.ocean-news__heading{
+    font-size:1.25rem;
+    font-weight:700;
+    line-height:1.3;
+
+    display:-webkit-box;
+    -webkit-line-clamp:2;
+    -webkit-box-orient:vertical;
+
+    overflow:hidden;
+}
+
+.ocean-news__description{
+    margin-top:.75rem;
+
+    color:#a7c1d0;
+    font-size:.9rem;
+    line-height:1.5;
+
+    display:-webkit-box;
+    -webkit-line-clamp:2;
+    -webkit-box-orient:vertical;
+
+    overflow:hidden;
+}
+
+.ocean-news__dots{
+    display:flex;
+    justify-content:center;
+    gap:.6rem;
+
+    margin-top:1.5rem;
+}
+
+.dot{
+    width:10px;
+    height:10px;
+
+    border-radius:50%;
+
+    background:rgba(255,255,255,.2);
+
+    cursor:pointer;
+
+    transition:.3s;
+}
+
+.dot.active{
+    background:#39cfff;
+}
+
+footer,
+.footer{
+    margin-top:5rem;
 
     border-top:1px solid rgba(255,255,255,.08);
 
-    padding:5rem 5% 2rem;
+    padding:3rem 1rem 2rem;
 }
 
-footer .container{
+footer .container,
+.footer__container{
     display:grid;
-    grid-template-columns:2fr 1fr 1fr;
+    grid-template-columns:1fr;
 
-    gap:4rem;
+    gap:2.5rem;
 }
 
-footer h3{
-    margin-bottom:1.5rem;
+footer h3,
+.footer__title{
+    margin-bottom:1.25rem;
 }
 
-footer ul li{
-    margin-bottom:1rem;
+.footer__logo{
+    margin-bottom:1.25rem;
+
+    font-size:1.5rem;
+    font-weight:800;
+}
+
+.footer__description{
+    max-width:420px;
+
+    color:#a7c1d0;
+}
+
+footer ul li,
+.footer__list li{
+    margin-bottom:.9rem;
+}
+
+.footer__list a{
+    color:#a7c1d0;
+
+    transition:.3s;
+}
+
+.footer__list a:hover{
+    color:#39cfff;
 }
 
 footer p,
@@ -343,8 +931,9 @@ footer li{
     color:#a7c1d0;
 }
 
-footer .copyright{
-    margin-top:4rem;
+footer .copyright,
+.footer__bottom{
+    margin-top:3rem;
 
     text-align:center;
 
@@ -355,59 +944,594 @@ footer .copyright{
     position:fixed;
 
     top:0;
-    right:-420px;
+    right:-100%;
 
-    width:420px;
+    width:100%;
     height:100vh;
+    max-width:420px;
+
+    display:flex;
+    flex-direction:column;
+
+    padding:1.5rem;
 
     background:#031a29;
+    color:#fff;
+
+    box-shadow:-20px 0 60px rgba(0,0,0,.4);
 
     transition:.4s;
 
     z-index:1200;
 }
 
-.notebook-panel.active{
+.notebook-panel.show{
     right:0;
 }
 
-@media (max-width:1200px){
+.notebook-panel__header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+
+    margin-bottom:1.5rem;
+}
+
+.notebook-panel__title{
+    font-size:1.3rem;
+    font-weight:700;
+}
+
+.notebook-panel__close{
+    width:40px;
+    height:40px;
+
+    display:grid;
+    place-items:center;
+
+    border:none;
+    border-radius:50%;
+
+    background:rgba(255,255,255,.05);
+    color:#fff;
+
+    cursor:pointer;
+
+    transition:.3s;
+}
+
+.notebook-panel__close:hover{
+    background:#00bfff;
+}
+
+.notebook-panel__list{
+    flex:1;
+
+    overflow-y:auto;
+
+    display:flex;
+    flex-direction:column;
+    gap:.75rem;
+}
+
+.notebook-panel__item{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:1rem;
+
+    padding:1rem 1.25rem;
+
+    font-size:.9rem;
+
+    border-radius:16px;
+
+    background:rgba(255,255,255,.04);
+}
+
+.notebook-panel__item .remove-item{
+    flex-shrink:0;
+
+    width:32px;
+    height:32px;
+
+    display:grid;
+    place-items:center;
+
+    border:none;
+    border-radius:50%;
+
+    background:rgba(255,255,255,.05);
+    color:#fff;
+
+    cursor:pointer;
+
+    transition:.3s;
+}
+
+.notebook-panel__item .remove-item:hover{
+    background:#ff4d4d;
+}
+
+.notebook-panel__empty{
+    display:none;
+
+    margin-top:2rem;
+
+    color:#7ea6bb;
+    text-align:center;
+    font-size:.9rem;
+}
+
+.notebook-panel__clear-all{
+    margin-top:1.5rem;
+    padding:1rem;
+
+    border:1px solid rgba(255,255,255,.1);
+    border-radius:16px;
+
+    background:rgba(255,255,255,.03);
+    color:#fff;
+
+    font-weight:600;
+
+    cursor:pointer;
+
+    transition:.3s;
+}
+
+.notebook-panel__clear-all:hover{
+    background:#ff4d4d;
+    border-color:#ff4d4d;
+}
+
+.notebook-panel__overlay{
+    position:fixed;
+    inset:0;
+
+    background:rgba(0,0,0,.5);
+
+    opacity:0;
+    visibility:hidden;
+
+    transition:.4s;
+
+    z-index:1100;
+}
+
+.notebook-panel__overlay.show{
+    opacity:1;
+    visibility:visible;
+}
+
+.detail-modal{
+    position:fixed;
+    inset:0;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    padding:1rem;
+
+    opacity:0;
+    visibility:hidden;
+
+    z-index:1300;
+
+    transition:.3s;
+}
+
+.detail-modal.show{
+    opacity:1;
+    visibility:visible;
+}
+
+.detail-modal__overlay{
+    position:absolute;
+    inset:0;
+
+    background:rgba(0,0,0,.7);
+}
+
+.detail-modal__panel{
+    position:relative;
+
+    width:min(900px,100%);
+    max-height:85vh;
+
+    overflow-y:auto;
+
+    padding:2rem 1.5rem;
+
+    background:#031a29;
+    border-radius:24px;
+
+    box-shadow:0 30px 80px rgba(0,0,0,.5);
+}
+
+.detail-modal__close{
+    position:absolute;
+    top:1rem;
+    right:1rem;
+
+    width:44px;
+    height:44px;
+
+    display:grid;
+    place-items:center;
+
+    border:none;
+    border-radius:50%;
+
+    background:rgba(255,255,255,.05);
+    color:#fff;
+
+    cursor:pointer;
+
+    transition:.3s;
+}
+
+.detail-modal__close:hover{
+    background:#00bfff;
+}
+
+.detail-modal__image{
+    width:100%;
+    max-height:260px;
+
+    object-fit:cover;
+
+    border-radius:20px;
+
+    margin-bottom:1.5rem;
+}
+
+.detail-modal__depth{
+    display:flex;
+    align-items:center;
+    gap:.9rem;
+
+    margin-bottom:1rem;
+
+    font-size:.8rem;
+    font-weight:700;
+    letter-spacing:.2em;
+    text-transform:uppercase;
+
+    color:#39cfff;
+}
+
+.detail-modal__depth::before{
+    content:"";
+
+    width:28px;
+    height:2px;
+
+    background:#39cfff;
+}
+
+.detail-modal__title{
+    margin-bottom:1.25rem;
+
+    font-size:clamp(1.5rem, 3vw + .5rem, 2.25rem);
+    line-height:1.15;
+    font-weight:800;
+}
+
+.detail-modal__description{
+    margin-bottom:1.5rem;
+
+    color:#b7d0dc;
+}
+
+.detail-modal__info{
+    display:flex;
+    flex-direction:column;
+    gap:1rem;
+}
+
+.detail-modal__info-item{
+    padding:1rem 1.25rem;
+
+    color:#b7d0dc;
+    font-size:.95rem;
+
+    border-left:3px solid rgba(57,207,255,.4);
+    border-radius:0 12px 12px 0;
+
+    background:rgba(255,255,255,.03);
+}
+
+.detail-modal__info-item:empty{
+    display:none;
+}
+
+@media (min-width:480px){
+
+    .ocean-news__title{
+        padding-right:0;
+    }
+}
+
+@media (min-width:700px){
 
     .depth-card{
-        grid-template-columns:1fr;
+        grid-template-columns:1.2fr .8fr;
+        grid-template-rows:auto auto auto auto;
+
+        gap:2rem;
     }
 
-    .ocean-explore__content{
-        grid-template-columns:1fr;
+    .depth-card__image{
+        grid-column:2;
+        grid-row:1 / -1;
+
+        align-self:stretch;
+
+        min-height:300px;
+        max-height:640px;
+        aspect-ratio:auto;
     }
 
-    .ocean-explore__sidebar{
-        position:static;
-    }
-}
+    .depth-card__depth{
+        grid-column:1;
+        grid-row:1;
 
-@media (max-width:992px){
-
-    .horizontal-nav{
-        display:none;
-    }
-
-    .ocean-news__list{
-        grid-template-columns:1fr 1fr;
-    }
-}
-
-@media (max-width:768px){
-
-    .form-search{
-        display:none;
-    }
-
-    .ocean-news__list{
-        grid-template-columns:1fr;
+        margin-bottom:1rem;
     }
 
     .depth-card__title{
-        font-size:2.5rem;
+        grid-column:1;
+        grid-row:2;
+    }
+
+    .depth-card__description{
+        grid-column:1;
+        grid-row:3;
+
+        margin-top:1rem;
+    }
+
+    .depth-card__detail-button{
+        grid-column:1;
+        grid-row:4;
+
+        margin-top:.5rem;
+    }
+}
+
+@media (min-width:600px){
+
+    .ocean-statistics__container{
+        grid-template-columns:repeat(1, 1fr);
+    }
+
+    footer .container,
+    .footer__container{
+        grid-template-columns:repeat(3, 1fr);
+    }
+
+    .footer__description{
+        grid-column:1 / -1;
+    }
+}
+
+@media (min-width:768px){
+
+    .header{
+        height:90px;
+    }
+
+    .header__img{
+        width:64px;
+    }
+
+    .horizontal-nav__link{
+        padding:.8rem clamp(.6rem,1.2vw,1.25rem);
+    }
+
+    .form-search{
+        display:flex;
+
+        width:clamp(160px,16vw,240px);
+        height:48px;
+
+        flex-shrink:0;
+    }
+
+    .header__search-toggle{
+        display:none;
+    }
+
+    .header-nav-form{
+        margin-left:2rem;
+    }
+
+    .ocean-explore__sidebar{
+        top:100px;
+    }
+
+    .ocean-explore__content{
+        padding:6rem 1.5rem 4rem;
+    }
+
+    .ocean-news__card{
+        flex-direction:row;
+
+        aspect-ratio:2/1;
+    }
+
+    .ocean-news__media{
+        flex:0 0 42%;
+        height:100%;
+    }
+
+    .ocean-news__content{
+        flex:1 1 58%;
+
+        padding:2rem 2.5rem;
+    }
+}
+
+@media (min-width:900px){
+
+    .depth-nav__title{
+        display:block;
+    }
+
+    .depth-nav__link{
+        font-size:.9rem;
+    }
+}
+
+@media (min-width:992px){
+
+    .header__hamburger{
+        display:none;
+    }
+
+    .horizontal-nav{
+        display:block;
+        position:static;
+
+        width:auto;
+
+        background:none;
+        border-bottom:none;
+        box-shadow:none;
+    }
+
+    .horizontal-nav .horizontal-nav__list{
+        flex-direction:row;
+        align-items:center;
+
+        gap:clamp(.25rem,1vw,1rem);
+
+        padding:0;
+    }
+
+    .horizontal-nav .horizontal-nav__link{
+        padding:.9rem clamp(.75rem,1.5vw,1.5rem);
+        border-bottom:none;
+    }
+}
+
+@media (min-width:1100px){
+
+    .ocean-statistics{
+        padding:6rem 5%;
+    }
+
+    .ocean-statistics__container{
+        grid-template-columns:repeat(5, 1fr);
+        gap:2rem;
+    }
+
+    .ocean-statistics__card{
+        padding:3rem 2rem;
+        border-radius:32px;
+    }
+}
+
+@media (min-width:1200px){
+
+    .header{
+        padding:0 2rem;
+    }
+
+    .header-nav-form{
+        margin-left:3rem;
+        justify-content:space-between;
+    }
+
+    .form-search{
+        width:clamp(160px,16vw,280px);
+        height:54px;
+    }
+
+    .header__notebook-toggle{
+        width:54px;
+        height:54px;
+    }
+
+    .depth-nav__title{
+        margin-bottom:2rem;
+        font-size:1.1rem;
+    }
+
+    .depth-nav__link{
+        font-size:.95rem;
+    }
+
+    .depth-nav__link::before{
+        left:-1.75rem;
+    }
+
+    .ocean-explore__content{
+        gap:3rem;
+        padding:6rem 5%;
+    }
+
+    .ocean-explore__sidebar{
+        top:120px;
+        height:calc(100vh - 160px);
+    }
+
+    .depth-nav__list{
+        padding-left:1.75rem;
+    }
+
+    .ocean-explore__articles{
+        gap:4rem;
+    }
+
+    .depth-card{
+        gap:2.5rem;
+    }
+
+    .depth-card__title{
+        font-size:clamp(2.5rem, 3vw + 1.5rem, 4rem);
+    }
+
+    .depth-card__text,
+    .depth-card__description{
+        margin-top:1.5rem;
+    }
+
+    .depth-card__detail-button{
+        margin-top:1.5rem;
+    }
+
+    .ocean-news{
+        padding:8rem 5%;
+    }
+
+    footer,
+    .footer{
+        margin-top:8rem;
+        padding:5rem 5% 2rem;
+    }
+
+    footer .container,
+    .footer__container{
+        grid-template-columns:2fr 1fr 1fr;
+        gap:4rem;
+    }
+
+    .footer__description{
+        grid-column:auto;
+    }
+
+    footer .copyright,
+    .footer__bottom{
+        margin-top:4rem;
+    }
+
+    .notebook-panel{
+        width:420px;
+        right:-420px;
+
+        padding:2rem;
     }
 }

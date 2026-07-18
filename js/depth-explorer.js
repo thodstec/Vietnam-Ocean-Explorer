@@ -1,1309 +1,725 @@
+var App = {
 
-// Trì hoãn việc gọi hàm cho tới khi người dùng ngừng thao tác 1 khoảng
-// thời gian ngắn — dùng cho sự kiện "resize" để tránh gọi hàm dồn dập
-function debounce(callback, delayMs) {
-    var timeoutId = null;
+    // ============================================================
+    // STATE
+    // ============================================================
 
-    return function () {
-        var context = this;
-        var args = arguments;
+    storageKey: "oceanNotebook",
+    notebook: [],
+    dom: {},
+    slideIndex: 0,
+    counterPlayed: false,
 
-        clearTimeout(timeoutId);
+    // ============================================================
+    // INIT
+    // ============================================================
 
-        timeoutId = setTimeout(function () {
-            callback.apply(context, args);
-        }, delayMs);
-    };
-}
+    init: function () {
+        this.cacheDom();
+        this.loadNotebook();
+        this.bindEvents();
+        this.renderNotebook();
+        this.updateCounter();
+        this.updateButtons();
 
+        this.initSearch();
+        this.initMenu();
+        this.initMobileSearch();
+        this.initScrollLink();
+        this.initWindowScroll();
+        this.initCounter();
+        this.initSlider();
+        this.initResize();
+        this.initDetailView();
 
-/* ==================================================================
-   1. RESPONSIVE NAVIGATION (Mobile Menu)
-   ------------------------------------------------------------------
-   - Nút hamburger (.header__hamburger) chỉ hiển thị dưới 1024px.
-   - Các mục menu (trừ "Trang chủ") đang bị ẩn trên mobile bằng
-     class có sẵn ".horizontal-nav__item--hide--mobile" — chỉ
-     remove/add đúng class có sẵn đó, không tạo class mới.
-   - Bổ sung: aria-expanded (Accessibility), phím Escape (Keyboard
-     Event), và Event Delegation khi đóng menu lúc chọn 1 mục.
-   ================================================================== */
-function initMenu() {
+        // chạy 1 lần lúc tải trang để card đầu tiên
+        // (đang nằm sẵn trong khung nhìn) cũng được hiện ra
+        // chứ không phải đợi tới khi người dùng cuộn trang
+        this.activeSidebar();
+        this.revealCard();
+    },
 
-    var hamburgerButton = document.querySelector('.header__hamburger');
-    var headerNavForm = document.querySelector('.header-nav-form');
-    var navList = document.querySelector('.horizontal-nav__list');
+    cacheDom: function () {
+        this.dom.saveButtons = document.querySelectorAll("[data-save-id]");
+        this.dom.panel = document.getElementById("notebookPanel");
+        this.dom.overlay = document.getElementById("notebookOverlay");
+        this.dom.list = document.getElementById("notebookList");
+        this.dom.empty = document.getElementById("notebookEmpty");
+        this.dom.count = document.getElementById("notebookCount");
+        this.dom.clear = document.getElementById("notebookClearAll");
+        this.dom.open = document.querySelector(".header__notebook-toggle");
+        this.dom.close = document.querySelector(".notebook-panel__close");
+    },
 
-    if (hamburgerButton === null || headerNavForm === null) {
-        return;
-    }
+    bindEvents: function () {
+        var i;
 
-    var hamburgerIcon = hamburgerButton.querySelector('i');
-
-    // Lưu lại các mục menu đang bị ẩn trên mobile thành 1 mảng thường
-    var hiddenItemsList = document.querySelectorAll('.horizontal-nav__item--hide--mobile');
-    var hiddenNavItems = [];
-
-    for (var i = 0; i < hiddenItemsList.length; i++) {
-        hiddenNavItems.push(hiddenItemsList[i]);
-    }
-
-    var isMenuOpen = false;
-
-    // Trạng thái ban đầu cho công nghệ hỗ trợ (screen reader)
-    hamburgerButton.setAttribute('aria-expanded', 'false');
-
-    function openMenu() {
-        for (var i = 0; i < hiddenNavItems.length; i++) {
-            hiddenNavItems[i].classList.remove('horizontal-nav__item--hide--mobile');
+        for (i = 0; i < this.dom.saveButtons.length; i++) {
+            this.dom.saveButtons[i].onclick = this.toggleSave.bind(this);
         }
 
-        if (hamburgerIcon !== null) {
-            hamburgerIcon.classList.remove('fa-bars');
-            hamburgerIcon.classList.add('fa-times');
+        this.dom.open.onclick = this.openNotebook.bind(this);
+        this.dom.close.onclick = this.closeNotebook.bind(this);
+        this.dom.overlay.onclick = this.closeNotebook.bind(this);
+        this.dom.clear.onclick = this.clearNotebook.bind(this);
+    },
+
+    // ============================================================
+    // NOTEBOOK (danh mục yêu thích cá nhân — lưu bằng JSON trong
+    // localStorage, tương tự nghiệp vụ giỏ hàng: thêm / xóa / đếm /
+    // chọn vào để xem lại nội dung tương ứng)
+    // ============================================================
+
+    loadNotebook: function () {
+        var data = localStorage.getItem(this.storageKey);
+
+        if (data) {
+            this.notebook = JSON.parse(data);
         }
+    },
 
-        hamburgerButton.setAttribute('aria-expanded', 'true');
-        isMenuOpen = true;
-    }
-
-    function closeMenu() {
-        for (var i = 0; i < hiddenNavItems.length; i++) {
-            hiddenNavItems[i].classList.add('horizontal-nav__item--hide--mobile');
-        }
-
-        if (hamburgerIcon !== null) {
-            hamburgerIcon.classList.remove('fa-times');
-            hamburgerIcon.classList.add('fa-bars');
-        }
-
-        hamburgerButton.setAttribute('aria-expanded', 'false');
-        isMenuOpen = false;
-    }
-
-    hamburgerButton.addEventListener('click', function (event) {
-        event.stopPropagation();
-
-        if (isMenuOpen === true) {
-            closeMenu();
-        } else {
-            openMenu();
-        }
-    });
-
-    // Bấm ra ngoài khu vực menu thì tự đóng
-    document.addEventListener('click', function (event) {
-        if (isMenuOpen === true && headerNavForm.contains(event.target) === false) {
-            closeMenu();
-        }
-    });
-
-    // Phím Escape đóng menu nhanh (Keyboard Event)
-    document.addEventListener('keydown', function (event) {
-        if (event.key === 'Escape' && isMenuOpen === true) {
-            closeMenu();
-        }
-    });
-
-    // EVENT DELEGATION: 1 listener duy nhất trên cả danh sách menu,
-    // thay vì gắn riêng cho từng thẻ <a> như trước
-    if (navList !== null) {
-        navList.addEventListener('click', function (event) {
-            if (event.target.classList.contains('horizontal-nav__link')) {
-                closeMenu();
-            }
-        });
-    }
-}
-
-
-/* ==================================================================
-   1b. MOBILE SEARCH TOGGLE
-   ------------------------------------------------------------------
-   Nút kính lúp (.header__search-toggle) chỉ hiện dưới 768px, dùng
-   để bật/tắt ô input tìm kiếm (mặc định ẩn ở mobile trong CSS).
-   ================================================================== */
-function initMobileSearchToggle() {
-
-    var searchToggleButton = document.querySelector('.header__search-toggle');
-    var searchInput = document.querySelector('.form-search__input');
-
-    if (searchToggleButton === null || searchInput === null) {
-        return;
-    }
-
-    searchToggleButton.addEventListener('click', function (event) {
-        event.stopPropagation();
-
-        if (searchInput.style.display === 'block') {
-            searchInput.style.display = 'none';
-        } else {
-            searchInput.style.display = 'block';
-            searchInput.focus();
-        }
-
-        searchToggleButton.setAttribute(
-            'aria-expanded',
-            searchInput.style.display === 'block' ? 'true' : 'false'
+    saveNotebook: function () {
+        localStorage.setItem(
+            this.storageKey,
+            JSON.stringify(this.notebook)
         );
-    });
-}
+    },
 
+    findItem: function (id) {
+        var i;
 
-/* ==================================================================
-   2. SEARCH
-   ------------------------------------------------------------------
-   Tìm từ khóa trong các khối nội dung chính, cuộn mượt tới kết quả
-   đầu tiên và highlight tạm thời 2 giây. Không tìm thấy thì hiện
-   thông báo nhỏ góc màn hình.
-   Bổ sung: keyup (Escape để xóa nhanh từ khóa) — Input/Keyboard Event.
-   ================================================================== */
-
-// Các vùng nội dung sẽ được tìm kiếm bên trong
-var SEARCHABLE_SELECTOR =
-    '.depth-card__title, ' +
-    '.depth-card__description, ' +
-    '.depth-card__info-item, ' +
-    '.ocean-news__heading, ' +
-    '.ocean-news__description, ' +
-    '.ocean-statistics__card-description, ' +
-    '.ocean-explore__description';
-
-function initSearch() {
-
-    var searchForm = document.querySelector('.form-search');
-
-    // Ưu tiên getElementById nếu HTML đã có id (bổ sung ở Giai đoạn 2),
-    // nếu chưa thì lấy tạm theo class để JS vẫn chạy đúng ngay từ bây giờ
-    var searchInput = document.getElementById('siteSearchInput');
-
-    if (searchInput === null) {
-        searchInput = document.querySelector('.form-search__input');
-    }
-
-    if (searchForm === null || searchInput === null) {
-        return;
-    }
-
-    // "submit" bắt được cả khi bấm nút Search LẪN khi nhấn Enter
-    searchForm.addEventListener('submit', function (event) {
-        event.preventDefault();
-        performSearch(searchInput.value);
-    });
-
-    // Phím Escape trong ô tìm kiếm: xóa nhanh nội dung đang gõ (keyup)
-    searchInput.addEventListener('keyup', function (event) {
-        if (event.key === 'Escape') {
-            searchInput.value = '';
-            searchInput.blur();
-        }
-    });
-}
-
-// Thực hiện tìm kiếm theo từ khóa
-function performSearch(keyword) {
-
-    var trimmedKeyword = keyword.trim();
-
-    if (trimmedKeyword === '') {
-        return;
-    }
-
-    var lowerKeyword = trimmedKeyword.toLowerCase();
-    var searchableElements = document.querySelectorAll(SEARCHABLE_SELECTOR);
-    var foundElement = null;
-
-    for (var i = 0; i < searchableElements.length; i++) {
-        var elementText = searchableElements[i].textContent.toLowerCase();
-
-        if (elementText.indexOf(lowerKeyword) !== -1) {
-            foundElement = searchableElements[i];
-            break; // chỉ lấy kết quả xuất hiện đầu tiên
-        }
-    }
-
-    if (foundElement !== null) {
-        scrollToElement(foundElement);
-        highlightElementTemporarily(foundElement);
-    } else {
-        showToastMessage('Không tìm thấy kết quả cho "' + trimmedKeyword + '"');
-    }
-}
-
-// Tô sáng tạm thời 1 phần tử trong 2 giây rồi tự trở lại bình thường
-function highlightElementTemporarily(element) {
-
-    element.style.transition = 'background-color .3s ease, box-shadow .3s ease';
-    element.style.backgroundColor = 'rgba(32,196,244,.35)';
-    element.style.boxShadow = '0 0 0 3px rgba(32,196,244,.6)';
-
-    setTimeout(function () {
-        element.style.backgroundColor = '';
-        element.style.boxShadow = '';
-    }, 2000);
-}
-
-// Tạo 1 thông báo nhỏ nổi góc màn hình, tự biến mất sau vài giây
-function showToastMessage(message) {
-
-    var oldToast = document.querySelector('.js-toast-message');
-
-    if (oldToast !== null) {
-        oldToast.parentNode.removeChild(oldToast);
-    }
-
-    var toast = document.createElement('div');
-    toast.className = 'js-toast-message';
-    toast.textContent = message;
-
-    // Style tối giản gán trực tiếp bằng JS (Giai đoạn 1 chưa đụng CSS)
-    toast.style.position = 'fixed';
-    toast.style.top = '90px';
-    toast.style.right = '20px';
-    toast.style.padding = '12px 20px';
-    toast.style.background = 'rgba(8,40,63,.95)';
-    toast.style.color = '#ffffff';
-    toast.style.border = '1px solid rgba(255,255,255,.2)';
-    toast.style.borderRadius = '10px';
-    toast.style.fontSize = '14px';
-    toast.style.zIndex = '2000';
-    toast.style.boxShadow = '0 10px 25px rgba(0,0,0,.35)';
-
-    document.body.appendChild(toast);
-
-    setTimeout(function () {
-        if (toast.parentNode !== null) {
-            toast.parentNode.removeChild(toast);
-        }
-    }, 2500);
-}
-
-
-/* ==================================================================
-   SMOOTH SCROLL (dùng chung cho menu neo và Search ở trên)
-   ------------------------------------------------------------------
-   Header đang position:sticky (72px) nên cần trừ hao chiều cao header
-   khi cuộn tới, tránh bị che mất phần đầu nội dung.
-   Bổ sung: chuyển từ gắn listener riêng từng thẻ <a> sang Event
-   Delegation (1 listener duy nhất trên document).
-   ================================================================== */
-function scrollToElement(targetElement) {
-
-    var headerElement = document.querySelector('.header');
-    var headerHeight = 0;
-
-    if (headerElement !== null) {
-        headerHeight = headerElement.offsetHeight;
-    }
-
-    var elementTop = targetElement.getBoundingClientRect().top;
-    var currentScroll = window.pageYOffset;
-    var targetPosition = elementTop + currentScroll - headerHeight - 16;
-
-    window.scrollTo({
-        top: targetPosition,
-        behavior: 'smooth'
-    });
-}
-
-function initSmoothScroll() {
-
-    // EVENT DELEGATION: bắt sự kiện click từ document, kiểm tra xem
-    // phần tử được bấm (hoặc cha gần nhất của nó) có phải liên kết
-    // neo (href bắt đầu bằng "#") hay không
-    document.addEventListener('click', function (event) {
-
-        var clickedLink = event.target.closest('a[href^="#"]');
-
-        if (clickedLink === null) {
-            return;
-        }
-
-        var targetId = clickedLink.getAttribute('href');
-
-        // Bỏ qua liên kết "#" trống (chưa có trang đích thật, ví dụ ở footer)
-        if (targetId === null || targetId === '#') {
-            return;
-        }
-
-        var targetElement = document.querySelector(targetId);
-
-        if (targetElement !== null) {
-            event.preventDefault();
-            scrollToElement(targetElement);
-        }
-    });
-}
-
-
-/* ==================================================================
-   3. SIDEBAR ScrollSpy (Depth Navigation)
-   ------------------------------------------------------------------
-   Các .depth-card dùng position:sticky nên thẻ nào "đang nằm ngay
-   dưới header" mới thật sự là thẻ người dùng đang xem -> dùng scroll
-   event + getBoundingClientRect (chính xác hơn IntersectionObserver
-   trong trường hợp sticky-stacking này).
-   ================================================================== */
-function initSidebarDepthNav() {
-
-    var contentSection = document.querySelector('.ocean-explore__content');
-
-    // Dùng getElementsByClassName (Chapter 5) — chỉ đọc 1 lần rồi
-    // chuyển ngay sang mảng thường nên an toàn dù đây là live collection
-    var depthCardsList = document.getElementsByClassName('depth-card');
-    var navItemsList = document.querySelectorAll('.depth-nav__item');
-    var navList = document.querySelector('.depth-nav__list');
-    var headerElement = document.querySelector('.header');
-
-    if (contentSection === null || depthCardsList.length === 0 || navItemsList.length === 0) {
-        return;
-    }
-
-    var depthCards = [];
-    for (var i = 0; i < depthCardsList.length; i++) {
-        depthCards.push(depthCardsList[i]);
-    }
-
-    var navItems = [];
-    for (var j = 0; j < navItemsList.length; j++) {
-        navItems.push(navItemsList[j]);
-    }
-
-    var headerHeight = (headerElement !== null) ? headerElement.offsetHeight : 0;
-    var triggerOffset = headerHeight + 40; // đường "mốc" gần sát dưới header
-
-    function updateActiveDepthCard() {
-
-        var activeIndex = -1;
-
-        for (var i = 0; i < depthCards.length; i++) {
-            var rect = depthCards[i].getBoundingClientRect();
-
-            if (rect.top <= triggerOffset && rect.bottom > triggerOffset) {
-                activeIndex = i;
+        for (i = 0; i < this.notebook.length; i++) {
+            if (this.notebook[i].id == id) {
+                return i;
             }
         }
 
-        // Đã cuộn qua khỏi thẻ cuối cùng -> giữ trạng thái active ở thẻ cuối
-        if (activeIndex === -1 && depthCards.length > 0) {
-            var lastCardRect = depthCards[depthCards.length - 1].getBoundingClientRect();
+        return -1;
+    },
 
-            if (lastCardRect.bottom <= triggerOffset) {
-                activeIndex = depthCards.length - 1;
-            }
-        }
+    toggleSave: function (e) {
+        var button = e.currentTarget;
+        var id = button.dataset.saveId;
+        var title = button.dataset.saveTitle;
+        var type = button.dataset.saveType;
+        var index = this.findItem(id);
 
-        for (var k = 0; k < navItems.length; k++) {
-            navItems[k].classList.remove('is-active');
-            navItems[k].classList.remove('is-visited');
-
-            if (k < activeIndex) {
-                navItems[k].classList.add('is-visited');
-            } else if (k === activeIndex) {
-                navItems[k].classList.add('is-active');
-            }
-        }
-
-        updateScrollProgress();
-    }
-
-    function updateScrollProgress() {
-
-        if (navList === null) {
-            return;
-        }
-
-        var contentRect = contentSection.getBoundingClientRect();
-        var scrollableDistance = contentSection.offsetHeight - window.innerHeight;
-
-        if (scrollableDistance <= 0) {
-            navList.style.setProperty('--progress', 0);
-            return;
-        }
-
-        var scrolledDistance = 0 - contentRect.top;
-        var progress = scrolledDistance / scrollableDistance;
-
-        if (progress < 0) {
-            progress = 0;
-        }
-
-        if (progress > 1) {
-            progress = 1;
-        }
-
-        navList.style.setProperty('--progress', progress);
-    }
-
-    var isUpdateScheduled = false;
-
-    window.addEventListener('scroll', function () {
-        if (isUpdateScheduled === false) {
-            isUpdateScheduled = true;
-
-            requestAnimationFrame(function () {
-                updateActiveDepthCard();
-                isUpdateScheduled = false;
+        if (index == -1) {
+            this.notebook.push({
+                id: id,
+                title: title,
+                type: type
             });
-        }
-    });
-
-    updateActiveDepthCard();
-}
-
-
-/* ==================================================================
-   HEADER SCROLL EFFECT
-   ------------------------------------------------------------------
-   Thêm class "header--scrolled" (đã có sẵn style trong CSS) khi cuộn
-   xuống quá 1 ngưỡng. Bổ sung: ẩn header khi cuộn nhanh xuống, hiện
-   lại khi cuộn lên — dùng transform (header đã có sẵn transition:all
-   nên hiệu ứng tự mượt mà không cần thêm CSS). Có throttle bằng
-   requestAnimationFrame để không giật khi cuộn nhanh.
-   ================================================================== */
-function initHeaderScrollEffect() {
-
-    var headerElement = document.querySelector('.header');
-
-    if (headerElement === null) {
-        return;
-    }
-
-    var scrollThreshold = 40;
-    var lastScrollY = window.scrollY;
-    var isTicking = false;
-
-    function updateHeaderState() {
-
-        var currentScrollY = window.scrollY;
-
-        if (currentScrollY > scrollThreshold) {
-            headerElement.classList.add('header--scrolled');
         } else {
-            headerElement.classList.remove('header--scrolled');
+            this.notebook.splice(index, 1);
         }
 
-        // Cuộn xuống nhanh và đã qua khỏi chiều cao header -> ẩn header
-        if (currentScrollY > lastScrollY && currentScrollY > headerElement.offsetHeight) {
-            headerElement.style.transform = 'translateY(-100%)';
-        } else {
-            headerElement.style.transform = 'translateY(0)';
+        this.saveNotebook();
+        this.renderNotebook();
+        this.updateCounter();
+        this.updateButtons();
+    },
+
+    removeItem: function (e) {
+        var id = e.currentTarget.dataset.id;
+        var index = this.findItem(id);
+
+        if (index > -1) {
+            this.notebook.splice(index, 1);
         }
 
-        lastScrollY = currentScrollY;
-    }
-
-    window.addEventListener('scroll', function () {
-        if (isTicking === false) {
-            isTicking = true;
-
-            requestAnimationFrame(function () {
-                updateHeaderState();
-                isTicking = false;
-            });
-        }
-    });
-}
-
-
-/* ==================================================================
-   STATISTICS COUNTER
-   ------------------------------------------------------------------
-   Đếm số từ 0 lên giá trị thật khi thẻ thống kê xuất hiện trong màn
-   hình. Đọc giá trị đích qua thuộc tính "data-target" trên
-   .ocean-statistics__card-title.
-
-   LƯU Ý: HTML hiện tại CHƯA có data-target (số liệu đang là chữ tĩnh
-   như "12,000+", "5,4 tỷ"...) nên hàm này sẽ tạm thời BỎ QUA từng
-   thẻ chưa có data-target — không có gì bị lỗi hay vỡ giao diện, số
-   liệu tĩnh vẫn hiển thị bình thường. Hiệu ứng đếm sẽ tự hoạt động
-   ngay khi Giai đoạn 2 bổ sung data-target vào HTML.
-   ================================================================== */
-function initStatisticsCounter() {
-
-    var statCards = document.querySelectorAll('.ocean-statistics__card');
-
-    if (statCards.length === 0) {
-        return;
-    }
-
-    if (!('IntersectionObserver' in window)) {
-        return; // trình duyệt cũ: bỏ qua hiệu ứng, số liệu tĩnh vẫn hiển thị đúng
-    }
-
-    var observer = new IntersectionObserver(function (entries) {
-        for (var i = 0; i < entries.length; i++) {
-            if (entries[i].isIntersecting) {
-                animateCounter(entries[i].target);
-                observer.unobserve(entries[i].target);
-            }
-        }
-    }, { threshold: 0.4 });
-
-    for (var i = 0; i < statCards.length; i++) {
-        observer.observe(statCards[i]);
-    }
-}
-
-// Chạy hiệu ứng đếm số cho 1 thẻ thống kê
-function animateCounter(cardElement) {
-
-    var titleElement = cardElement.querySelector('.ocean-statistics__card-title');
-
-    if (titleElement === null) {
-        return;
-    }
-
-    var targetValue = titleElement.getAttribute('data-target');
-
-    // Chưa có data-target (chưa tới Giai đoạn 2) -> giữ nguyên số tĩnh, không làm gì thêm
-    if (targetValue === null) {
-        return;
-    }
-
-    var targetNumber = parseInt(targetValue, 10);
-
-    if (isNaN(targetNumber)) {
-        return;
-    }
-
-    var suffix = titleElement.getAttribute('data-suffix');
-
-    if (suffix === null) {
-        suffix = '';
-    }
-
-    var durationMs = 1500;
-    var startTime = null;
-
-    function step(timestamp) {
-
-        if (startTime === null) {
-            startTime = timestamp;
-        }
-
-        var elapsed = timestamp - startTime;
-        var progress = elapsed / durationMs;
-
-        if (progress > 1) {
-            progress = 1;
-        }
-
-        var currentValue = Math.floor(progress * targetNumber);
-        // Dùng 'en-US' vì số liệu gốc trên trang đang định dạng kiểu "12,000+"
-        // (dấu phẩy ngăn cách hàng nghìn) — 'vi-VN' sẽ cho ra "12.000" khác kiểu
-        titleElement.textContent = currentValue.toLocaleString('en-US') + suffix;
-
-        if (progress < 1) {
-            requestAnimationFrame(step);
-        } else {
-            titleElement.textContent = targetNumber.toLocaleString('en-US') + suffix;
-        }
-    }
-
-    requestAnimationFrame(step);
-}
-
-
-/* ==================================================================
-   FADE ANIMATION (Article / Statistics / News)
-   ------------------------------------------------------------------
-   Thêm class "is-visible" khi phần tử cuộn vào màn hình. Class này
-   CHƯA có style trong CSS ở Giai đoạn 1 nên hiện tại việc thêm class
-   không gây ra hiệu ứng gì (và cũng không làm ẩn nội dung — phần tử
-   vẫn hiển thị bình thường như cũ). Hiệu ứng mờ dần sẽ "sống dậy"
-   ngay khi Giai đoạn 3 bổ sung CSS cho ".is-visible".
-   ================================================================== */
-function initFadeInEffects() {
-
-    var fadeSelector = '.depth-card__info-item, .ocean-statistics__card, .ocean-news__card';
-    var fadeElementsList = document.querySelectorAll(fadeSelector);
-
-    if (fadeElementsList.length === 0) {
-        return;
-    }
-
-    if (!('IntersectionObserver' in window)) {
-        for (var i = 0; i < fadeElementsList.length; i++) {
-            fadeElementsList[i].classList.add('is-visible');
-        }
-        return;
-    }
-
-    var observer = new IntersectionObserver(function (entries) {
-        for (var i = 0; i < entries.length; i++) {
-            if (entries[i].isIntersecting) {
-                entries[i].target.classList.add('is-visible');
-                observer.unobserve(entries[i].target);
-            }
-        }
-    }, { threshold: 0.15 });
-
-    for (var j = 0; j < fadeElementsList.length; j++) {
-
-        var element = fadeElementsList[j];
-
-        // So le thời gian hiện theo thứ tự trong danh sách anh/chị/em,
-        // đếm bằng previousElementSibling (DOM traversal - Chapter 5)
-        var siblingIndex = 0;
-        var sibling = element.previousElementSibling;
-
-        while (sibling !== null) {
-            siblingIndex = siblingIndex + 1;
-            sibling = sibling.previousElementSibling;
-        }
-
-        element.style.transitionDelay = (siblingIndex * 70) + 'ms';
-
-        observer.observe(element);
-    }
-}
-
-
-/* ==================================================================
-   4. NEWS SLIDER
-   ------------------------------------------------------------------
-   Chuyển .ocean-news__list từ CSS Grid tĩnh sang hàng ngang trượt
-   được bằng inline style (Giai đoạn 1 chưa đụng CSS). Bổ sung so với
-   bản trước: dot indicator (nếu HTML đã có vùng chứa .ocean-news__dots
-   — nếu chưa có thì bỏ qua, không lỗi), autoplay có dừng khi rê chuột,
-   điều khiển bằng phím mũi tên trái/phải, và debounce cho "resize".
-   ================================================================== */
-function initNewsSlider() {
-
-    var newsList = document.querySelector('.ocean-news__list');
-    var prevButton = document.querySelector('.ocean-news__button--prev');
-    var nextButton = document.querySelector('.ocean-news__button--next');
-    var dotsContainer = document.querySelector('.ocean-news__dots');
-
-    if (newsList === null || prevButton === null || nextButton === null) {
-        return;
-    }
-
-    // Dùng "children" (Chapter 5) để lấy trực tiếp các thẻ tin con
-    var newsCardsList = newsList.children;
-
-    if (newsCardsList.length === 0) {
-        return;
-    }
-
-    var newsCards = [];
-    for (var i = 0; i < newsCardsList.length; i++) {
-        newsCards.push(newsCardsList[i]);
-    }
-
-    var currentIndex = 0;
-    var autoplayTimer = null;
-    var autoplayDelayMs = 6000;
-
-    // Chuyển danh sách tin tức thành 1 hàng ngang có thể trượt
-    newsList.style.display = 'flex';
-    newsList.style.flexWrap = 'nowrap';
-    newsList.style.overflow = 'hidden';
-    newsList.style.transition = 'transform .5s ease';
-
-    function getVisibleCardCount() {
-        var screenWidth = window.innerWidth;
-
-        if (screenWidth >= 1024) {
-            return 3;
-        }
-
-        if (screenWidth >= 768) {
-            return 2;
-        }
-
-        return 1;
-    }
-
-    function getMaxIndex() {
-        var visibleCount = getVisibleCardCount();
-        var maxIndex = newsCards.length - visibleCount;
-
-        if (maxIndex < 0) {
-            maxIndex = 0;
-        }
-
-        return maxIndex;
-    }
-
-    function applyCardWidth() {
-
-        var visibleCount = getVisibleCardCount();
-        var cardWidthPercent = 100 / visibleCount;
-
-        for (var i = 0; i < newsCards.length; i++) {
-            newsCards[i].style.flex = '0 0 ' + cardWidthPercent + '%';
-            newsCards[i].style.maxWidth = cardWidthPercent + '%';
-        }
-
-        updateSliderPosition();
-        buildDotIndicators();
-    }
-
-    function updateSliderPosition() {
-
-        var visibleCount = getVisibleCardCount();
-        var maxIndex = getMaxIndex();
-
-        if (currentIndex > maxIndex) {
-            currentIndex = maxIndex;
-        }
-
-        if (currentIndex < 0) {
-            currentIndex = 0;
-        }
-
-        var offsetPercent = currentIndex * (100 / visibleCount);
-        newsList.style.transform = 'translateX(-' + offsetPercent + '%)';
-
-        updateDotIndicators();
-    }
-
-    function goToSlide(index) {
-        currentIndex = index;
-        updateSliderPosition();
-    }
-
-    function goToNextSlide() {
-        var maxIndex = getMaxIndex();
-
-        if (currentIndex < maxIndex) {
-            currentIndex = currentIndex + 1;
-        } else {
-            currentIndex = 0; // quay vòng về tin đầu tiên
-        }
-
-        updateSliderPosition();
-    }
-
-    function goToPrevSlide() {
-        var maxIndex = getMaxIndex();
-
-        if (currentIndex > 0) {
-            currentIndex = currentIndex - 1;
-        } else {
-            currentIndex = maxIndex; // quay vòng ra tin cuối cùng
-        }
-
-        updateSliderPosition();
-    }
-
-    // Tạo các chấm chỉ số bằng createElement — chỉ khi HTML đã có
-    // vùng chứa ".ocean-news__dots" (nếu chưa có thì bỏ qua, không lỗi)
-    function buildDotIndicators() {
-
-        if (dotsContainer === null) {
-            return;
-        }
-
-        // Xóa các chấm cũ trước khi tạo lại (ví dụ khi đổi kích thước màn hình)
-        while (dotsContainer.firstChild !== null) {
-            dotsContainer.removeChild(dotsContainer.firstChild);
-        }
-
-        var maxIndex = getMaxIndex();
-        var totalDots = maxIndex + 1;
-
-        for (var i = 0; i < totalDots; i++) {
-            var dot = document.createElement('button');
-
-            dot.type = 'button';
-            dot.className = 'ocean-news__dot';
-            dot.setAttribute('aria-label', 'Xem tin thứ ' + (i + 1));
-            dot.setAttribute('data-dot-index', i);
-
-            dot.addEventListener('click', function (event) {
-                var dotIndex = parseInt(event.currentTarget.getAttribute('data-dot-index'), 10);
-                goToSlide(dotIndex);
-                restartAutoplay();
-            });
-
-            dotsContainer.appendChild(dot);
-        }
-
-        updateDotIndicators();
-    }
-
-    // Đánh dấu chấm tương ứng với vị trí hiện tại
-    function updateDotIndicators() {
-
-        if (dotsContainer === null) {
-            return;
-        }
-
-        var dotElements = dotsContainer.children;
-
-        for (var i = 0; i < dotElements.length; i++) {
-            if (i === currentIndex) {
-                dotElements[i].classList.add('ocean-news__dot--active');
+        this.saveNotebook();
+        this.renderNotebook();
+        this.updateCounter();
+        this.updateButtons();
+    },
+
+    clearNotebook: function () {
+        this.notebook = [];
+
+        this.saveNotebook();
+        this.renderNotebook();
+        this.updateCounter();
+        this.updateButtons();
+    },
+
+    updateCounter: function () {
+        this.dom.count.textContent = this.notebook.length;
+    },
+
+    updateButtons: function () {
+        var i, btn, icon, saved;
+
+        for (i = 0; i < this.dom.saveButtons.length; i++) {
+            btn = this.dom.saveButtons[i];
+            icon = btn.querySelector("i");
+            saved = this.findItem(btn.dataset.saveId) > -1;
+
+            if (saved) {
+                icon.className = "fa fa-bookmark";
+                btn.setAttribute("aria-pressed", "true");
             } else {
-                dotElements[i].classList.remove('ocean-news__dot--active');
+                icon.className = "fa fa-bookmark-o";
+                btn.setAttribute("aria-pressed", "false");
             }
         }
-    }
-
-    function startAutoplay() {
-        autoplayTimer = setInterval(goToNextSlide, autoplayDelayMs);
-    }
-
-    function stopAutoplay() {
-        if (autoplayTimer !== null) {
-            clearInterval(autoplayTimer);
-            autoplayTimer = null;
-        }
-    }
-
-    function restartAutoplay() {
-        stopAutoplay();
-        startAutoplay();
-    }
-
-    nextButton.addEventListener('click', function () {
-        goToNextSlide();
-        restartAutoplay();
-    });
-
-    prevButton.addEventListener('click', function () {
-        goToPrevSlide();
-        restartAutoplay();
-    });
-
-    // Dừng autoplay khi rê chuột vào khu vực tin tức, chạy lại khi rời đi
-    newsList.addEventListener('mouseenter', stopAutoplay);
-    newsList.addEventListener('mouseleave', startAutoplay);
-
-    // Điều khiển bằng phím mũi tên trái/phải khi khu vực tin tức đang được focus
-    var newsSection = document.querySelector('.ocean-news');
-
-    if (newsSection !== null) {
-        newsSection.addEventListener('keydown', function (event) {
-            if (event.key === 'ArrowRight') {
-                goToNextSlide();
-                restartAutoplay();
-            } else if (event.key === 'ArrowLeft') {
-                goToPrevSlide();
-                restartAutoplay();
-            }
-        });
-    }
-
-    // Đổi kích thước cửa sổ: tính lại chiều rộng thẻ (có debounce, tránh gọi dồn dập)
-    window.addEventListener('resize', debounce(applyCardWidth, 200));
-
-    applyCardWidth();
-    startAutoplay();
-}
-
-
-/* ==================================================================
-   "SỔ TAY KHÁM PHÁ" — LỚP DỮ LIỆU NỀN (localStorage)
-   ------------------------------------------------------------------
-   Đây là phần lõi logic (chưa gắn giao diện) cho nghiệp vụ lưu lại
-   những nội dung người dùng quan tâm (tầng biển, sinh vật, khoáng
-   sản, địa điểm, bài viết...) — thay thế hoàn toàn khái niệm "giỏ
-   hàng" cho phù hợp 1 website khám phá, không phải thương mại điện
-   tử. Giao diện (nút lưu, panel xem lại, badge số lượng) sẽ được
-   xây dựng đầy đủ ở giai đoạn "Sổ tay khám phá" cùng với HTML/CSS
-   tương ứng.
-   ================================================================== */
-var ExplorerNotebook = {
-
-    storageKey: 'oceanExplorerNotebook',
-    items: [],
-
-    // Đọc sổ tay đã lưu (nếu có) từ localStorage vào bộ nhớ
-    load: function () {
-
-        var savedData = null;
-
-        try {
-            savedData = localStorage.getItem(this.storageKey);
-        } catch (error) {
-            savedData = null; // trình duyệt chặn localStorage (chế độ ẩn danh...) -> coi như chưa có gì
-        }
-
-        if (savedData === null) {
-            this.items = [];
-            return this.items;
-        }
-
-        try {
-            this.items = JSON.parse(savedData);
-        } catch (error) {
-            this.items = []; // dữ liệu lưu bị hỏng -> khởi tạo lại cho an toàn
-        }
-
-        return this.items;
     },
 
-    // Ghi sổ tay hiện tại xuống localStorage
-    save: function () {
-        localStorage.setItem(this.storageKey, JSON.stringify(this.items));
-    },
+    renderNotebook: function () {
+        var i, item, li, span, button, icon;
 
-    // Lưu 1 mục vào sổ tay (không thêm trùng nếu đã lưu rồi)
-    saveItem: function (id, type, title) {
+        this.dom.list.innerHTML = "";
 
-        if (this.isSaved(id) === true) {
-            return this.items;
+        if (this.notebook.length == 0) {
+            this.dom.empty.style.display = "block";
+        } else {
+            this.dom.empty.style.display = "none";
         }
 
-        this.items.push({
-            id: id,
-            type: type,
-            title: title,
-            savedAt: new Date().toISOString()
-        });
+        for (i = 0; i < this.notebook.length; i++) {
+            item = this.notebook[i];
 
-        this.save();
-        return this.items;
+            li = document.createElement("li");
+            li.className = "notebook-panel__item";
+
+            span = document.createElement("span");
+            span.textContent = item.title;
+            span.dataset.id = item.id;
+            span.dataset.type = item.type;
+
+            button = document.createElement("button");
+            button.className = "remove-item";
+            button.type = "button";
+            button.dataset.id = item.id;
+
+            icon = document.createElement("i");
+            icon.className = "fa fa-trash";
+
+            button.appendChild(icon);
+            li.appendChild(span);
+            li.appendChild(button);
+
+            this.dom.list.appendChild(li);
+        }
+
+        this.bindNotebookItems();
     },
 
-    // Bỏ lưu 1 mục theo id
-    removeItem: function (id) {
+    bindNotebookItems: function () {
+        var removeButtons = this.dom.list.querySelectorAll(".remove-item");
+        var titles = this.dom.list.querySelectorAll(".notebook-panel__item span");
+        var i;
 
-        var remainingItems = [];
+        for (i = 0; i < removeButtons.length; i++) {
+            removeButtons[i].onclick = this.removeItem.bind(this);
+        }
 
-        for (var i = 0; i < this.items.length; i++) {
-            if (this.items[i].id !== id) {
-                remainingItems.push(this.items[i]);
+        for (i = 0; i < titles.length; i++) {
+            titles[i].onclick = this.goToItem.bind(this);
+        }
+    },
+
+    // chọn vào 1 mục trong sổ tay => cuộn về đúng phần nội dung
+    // chính tương ứng (tầng độ sâu hoặc tin tức)
+    goToItem: function (e) {
+        var id = e.currentTarget.dataset.id;
+        var type = e.currentTarget.dataset.type;
+
+        this.closeNotebook();
+
+        if (type == "depth") {
+            this.goToDepthCard(id);
+        } else if (type == "news") {
+            this.goToNewsCard(id);
+        }
+    },
+
+    goToDepthCard: function (id) {
+        var target = document.getElementById(id);
+
+        if (target) {
+            target.scrollIntoView({ behavior: "smooth" });
+        }
+    },
+
+    goToNewsCard: function (id) {
+        var newsSection = document.querySelector(".ocean-news");
+        var index = -1;
+        var button, i;
+
+        for (i = 0; i < this.dom.news.length; i++) {
+            button = this.dom.news[i].querySelector("[data-save-id]");
+
+            if (button && button.dataset.saveId == id) {
+                index = i;
+                break;
             }
         }
 
-        this.items = remainingItems;
-        this.save();
-        return this.items;
+        if (index > -1) {
+            this.slideIndex = index;
+            this.moveSlide();
+        }
+
+        if (newsSection) {
+            newsSection.scrollIntoView({ behavior: "smooth" });
+        }
     },
 
-    // Kiểm tra 1 mục đã được lưu chưa
-    isSaved: function (id) {
-
-        for (var i = 0; i < this.items.length; i++) {
-            if (this.items[i].id === id) {
-                return true;
-            }
-        }
-
-        return false;
+    openNotebook: function () {
+        this.dom.panel.classList.add("show");
+        this.dom.overlay.classList.add("show");
+        this.dom.panel.setAttribute("aria-hidden", "false");
+        this.dom.open.setAttribute("aria-expanded", "true");
     },
 
-    // Lấy toàn bộ danh sách đã lưu
-    getItems: function () {
-        return this.items;
+    closeNotebook: function () {
+        this.dom.panel.classList.remove("show");
+        this.dom.overlay.classList.remove("show");
+        this.dom.panel.setAttribute("aria-hidden", "true");
+        this.dom.open.setAttribute("aria-expanded", "false");
     },
 
-    // Đếm số lượng mục đã lưu
-    getCount: function () {
-        return this.items.length;
+    // ============================================================
+    // SEARCH (thanh tìm kiếm nội dung trang)
+    // ============================================================
+
+    initSearch: function () {
+        this.dom.searchInput = document.getElementById("siteSearchInput");
+        this.dom.cards = document.querySelectorAll(".depth-card, .ocean-news__card");
+
+        if (!this.dom.searchInput) {
+            return;
+        }
+
+        this.dom.searchInput.onkeyup = this.search.bind(this);
     },
 
-    // Xóa toàn bộ sổ tay
-    clearAll: function () {
-        this.items = [];
-        this.save();
-        return this.items;
-    }
-};
+    search: function () {
+        var keyword = this.dom.searchInput.value.toLowerCase();
+        var i, card, text;
 
-
-/* ==================================================================
-   RIPPLE EFFECT (nhẹ) — dùng chung cho các nút tương tác chính
-   ------------------------------------------------------------------
-   Tạo 1 <span class="js-ripple"> tại đúng vị trí bấm bằng createElement,
-   CSS (@keyframes rippleEffect) lo phần phóng to + mờ dần, JS chỉ có
-   nhiệm vụ tạo và removeChild sau khi hiệu ứng kết thúc.
-   ================================================================== */
-function createRippleEffect(event, buttonElement) {
-
-    var rect = buttonElement.getBoundingClientRect();
-    var size = Math.max(rect.width, rect.height);
-
-    var ripple = document.createElement('span');
-    ripple.className = 'js-ripple';
-    ripple.style.width = size + 'px';
-    ripple.style.height = size + 'px';
-    ripple.style.left = (event.clientX - rect.left - size / 2) + 'px';
-    ripple.style.top = (event.clientY - rect.top - size / 2) + 'px';
-
-    buttonElement.appendChild(ripple);
-
-    // Gỡ bỏ ripple sau khi hiệu ứng kết thúc (khớp với thời lượng .6s trong CSS)
-    setTimeout(function () {
-        if (ripple.parentNode !== null) {
-            ripple.parentNode.removeChild(ripple);
+        for (i = 0; i < this.dom.cards.length; i++) {
+            card = this.dom.cards[i];
+            text = (card.textContent || card.innerText).toLowerCase();
+            card.style.display = text.indexOf(keyword) > -1 ? "" : "none";
         }
-    }, 600);
-}
+    },
 
+    // ============================================================
+    // MENU (hamburger — mobile) & MOBILE SEARCH TOGGLE
+    // ============================================================
 
-/* ==================================================================
-   "SỔ TAY KHÁM PHÁ" — GIAO DIỆN (gắn với ExplorerNotebook ở trên)
-   ------------------------------------------------------------------
-   Wiring toàn bộ UI: mở/đóng panel, bấm bookmark trên trang (Event
-   Delegation trên document vì có nhiều nút rải rác), đồng bộ trạng
-   thái icon (đã lưu / chưa lưu), dựng lại danh sách bằng createElement,
-   cập nhật badge số lượng, xóa từng mục, xóa tất cả.
-   ================================================================== */
-function initExplorerNotebook() {
+    initMenu: function () {
+        this.dom.menuButton = document.querySelector(".header__hamburger");
+        this.dom.nav = document.querySelector(".horizontal-nav");
 
-    var notebookToggle = document.querySelector('.header__notebook-toggle');
-    var notebookPanel = document.getElementById('notebookPanel');
-    var notebookOverlay = document.getElementById('notebookOverlay');
-    var notebookCloseButton = document.querySelector('.notebook-panel__close');
-    var notebookList = document.getElementById('notebookList');
-    var notebookEmptyMessage = document.getElementById('notebookEmpty');
-    var notebookClearAllButton = document.getElementById('notebookClearAll');
-    var notebookCountBadge = document.getElementById('notebookCount');
-
-    // HTML chưa có panel (chưa hoàn thành phần bổ sung) -> dừng lại, không lỗi
-    if (notebookPanel === null || notebookList === null) {
-        return;
-    }
-
-    function openPanel() {
-        notebookPanel.classList.add('is-open');
-        notebookPanel.setAttribute('aria-hidden', 'false');
-
-        if (notebookOverlay !== null) {
-            notebookOverlay.classList.add('is-open');
+        if (!this.dom.menuButton) {
+            return;
         }
 
-        if (notebookToggle !== null) {
-            notebookToggle.setAttribute('aria-expanded', 'true');
+        this.dom.menuButton.onclick = this.toggleMenu.bind(this);
+    },
+
+    toggleMenu: function () {
+        var isOpen = this.dom.nav.classList.toggle("show");
+        this.dom.menuButton.setAttribute("aria-expanded", isOpen ? "true" : "false");
+    },
+
+    initMobileSearch: function () {
+        this.dom.searchToggle = document.querySelector(".header__search-toggle");
+        this.dom.searchForm = document.querySelector(".form-search");
+
+        if (!this.dom.searchToggle) {
+            return;
         }
-    }
 
-    function closePanel() {
-        notebookPanel.classList.remove('is-open');
-        notebookPanel.setAttribute('aria-hidden', 'true');
+        this.dom.searchToggle.onclick = this.toggleMobileSearch.bind(this);
+    },
 
-        if (notebookOverlay !== null) {
-            notebookOverlay.classList.remove('is-open');
+    toggleMobileSearch: function () {
+        this.dom.searchForm.classList.toggle("show");
+    },
+
+    // ============================================================
+    // SIDEBAR (điều hướng theo độ sâu — scroll spy)
+    // ============================================================
+
+    initScrollLink: function () {
+        var links = document.querySelectorAll(".depth-nav__link");
+        var i;
+
+        for (i = 0; i < links.length; i++) {
+            links[i].onclick = this.scrollToDepthCard;
         }
+    },
 
-        if (notebookToggle !== null) {
-            notebookToggle.setAttribute('aria-expanded', 'false');
+    scrollToDepthCard: function (e) {
+        var target = document.querySelector(this.getAttribute("href"));
+
+        e.preventDefault();
+
+        if (target) {
+            target.scrollIntoView({ behavior: "smooth" });
         }
-    }
+    },
 
-    if (notebookToggle !== null) {
-        notebookToggle.addEventListener('click', function (event) {
-            createRippleEffect(event, notebookToggle);
+    activeSidebar: function () {
+        var cards = document.querySelectorAll(".depth-card");
+        var links = document.querySelectorAll(".depth-nav__link");
+        var top = window.scrollY;
+        var i, j;
 
-            if (notebookPanel.classList.contains('is-open') === true) {
-                closePanel();
-            } else {
-                openPanel();
-            }
-        });
-    }
+        for (i = 0; i < cards.length; i++) {
+            if (top >= cards[i].offsetTop - 250) {
+                for (j = 0; j < links.length; j++) {
+                    links[j].classList.remove("active");
 
-    if (notebookCloseButton !== null) {
-        notebookCloseButton.addEventListener('click', closePanel);
-    }
-
-    if (notebookOverlay !== null) {
-        notebookOverlay.addEventListener('click', closePanel);
-    }
-
-    // Phím Escape đóng panel (Keyboard Event)
-    document.addEventListener('keydown', function (event) {
-        if (event.key === 'Escape' && notebookPanel.classList.contains('is-open') === true) {
-            closePanel();
-        }
-    });
-
-    // Cập nhật badge số lượng trên icon ở header
-    function updateCountBadge() {
-        if (notebookCountBadge !== null) {
-            notebookCountBadge.textContent = ExplorerNotebook.getCount();
-        }
-    }
-
-    // Đồng bộ icon + aria-pressed cho MỌI nút bookmark đang có trên trang,
-    // theo đúng trạng thái đã lưu/chưa lưu trong ExplorerNotebook
-    function syncSaveButtonsState() {
-
-        var saveButtonsList = document.querySelectorAll('[data-save-id]');
-
-        for (var i = 0; i < saveButtonsList.length; i++) {
-
-            var button = saveButtonsList[i];
-            var itemId = button.getAttribute('data-save-id');
-            var isSaved = ExplorerNotebook.isSaved(itemId);
-
-            button.setAttribute('aria-pressed', isSaved === true ? 'true' : 'false');
-
-            var icon = button.querySelector('i');
-
-            if (icon !== null) {
-                if (isSaved === true) {
-                    icon.classList.remove('fa-bookmark-o');
-                    icon.classList.add('fa-bookmark');
-                } else {
-                    icon.classList.remove('fa-bookmark');
-                    icon.classList.add('fa-bookmark-o');
+                    if (links[j].getAttribute("href") === "#" + cards[i].id) {
+                        links[j].classList.add("active");
+                    }
                 }
             }
         }
-    }
+    },
 
-    // Nhãn hiển thị tiếng Việt cho từng loại mục trong sổ tay
-    var TYPE_LABELS = {
-        depth: 'Tầng biển',
-        species: 'Sinh vật',
-        mineral: 'Khoáng sản',
-        location: 'Địa điểm',
-        news: 'Bài viết'
-    };
+    stickyAside: function () {
+        var aside = document.querySelector(".ocean-explore__sidebar");
 
-    // Dựng lại toàn bộ danh sách trong panel bằng createElement/appendChild
-    function renderNotebookList() {
-
-        while (notebookList.firstChild !== null) {
-            notebookList.removeChild(notebookList.firstChild);
+        if (!aside) {
+            return;
         }
 
-        var items = ExplorerNotebook.getItems();
+        aside.classList.toggle("fixed", window.scrollY > 350);
+    },
 
-        if (items.length === 0) {
-            if (notebookEmptyMessage !== null) {
-                notebookEmptyMessage.style.display = 'block';
+    revealCard: function () {
+        var cards = document.querySelectorAll(".depth-card");
+        var i;
+
+        for (i = 0; i < cards.length; i++) {
+            if (window.scrollY + window.innerHeight > cards[i].offsetTop + 120) {
+                cards[i].classList.add("show");
             }
-            notebookList.style.display = 'none';
-            return;
         }
+    },
 
-        if (notebookEmptyMessage !== null) {
-            notebookEmptyMessage.style.display = 'none';
-        }
-        notebookList.style.display = 'flex';
-
-        for (var i = 0; i < items.length; i++) {
-
-            var item = items[i];
-
-            var listItem = document.createElement('li');
-            listItem.className = 'notebook-panel__item';
-
-            var infoWrapper = document.createElement('div');
-            infoWrapper.className = 'notebook-panel__item-info';
-
-            var titleElement = document.createElement('span');
-            titleElement.className = 'notebook-panel__item-title';
-            titleElement.textContent = item.title;
-
-            var typeElement = document.createElement('span');
-            typeElement.className = 'notebook-panel__item-type';
-            typeElement.textContent = TYPE_LABELS[item.type] ? TYPE_LABELS[item.type] : item.type;
-
-            infoWrapper.appendChild(titleElement);
-            infoWrapper.appendChild(typeElement);
-
-            var removeButton = document.createElement('button');
-            removeButton.type = 'button';
-            removeButton.className = 'notebook-panel__item-remove';
-            removeButton.setAttribute('aria-label', 'Bỏ lưu ' + item.title);
-            removeButton.setAttribute('data-remove-id', item.id);
-
-            var removeIcon = document.createElement('i');
-            removeIcon.className = 'fa fa-times';
-            removeButton.appendChild(removeIcon);
-
-            listItem.appendChild(infoWrapper);
-            listItem.appendChild(removeButton);
-
-            notebookList.appendChild(listItem);
-        }
-    }
-
-    function refreshNotebookUI() {
-        updateCountBadge();
-        syncSaveButtonsState();
-        renderNotebookList();
-    }
-
-    // EVENT DELEGATION: bấm bất kỳ nút bookmark nào trên trang (tầng biển,
-    // bài viết...) đều được bắt bởi 1 listener duy nhất trên document
-    document.addEventListener('click', function (event) {
-
-        var saveButton = event.target.closest('[data-save-id]');
-
-        if (saveButton === null) {
-            return;
-        }
-
-        createRippleEffect(event, saveButton);
-
-        var itemId = saveButton.getAttribute('data-save-id');
-        var itemType = saveButton.getAttribute('data-save-type');
-        var itemTitle = saveButton.getAttribute('data-save-title');
-
-        if (ExplorerNotebook.isSaved(itemId) === true) {
-            ExplorerNotebook.removeItem(itemId);
-        } else {
-            ExplorerNotebook.saveItem(itemId, itemType, itemTitle);
-        }
-
-        refreshNotebookUI();
-    });
-
-    // Bấm nút xóa 1 mục ngay trong panel (Event Delegation trên chính danh sách)
-    notebookList.addEventListener('click', function (event) {
-
-        var removeButton = event.target.closest('[data-remove-id]');
-
-        if (removeButton === null) {
-            return;
-        }
-
-        var itemId = removeButton.getAttribute('data-remove-id');
-        ExplorerNotebook.removeItem(itemId);
-        refreshNotebookUI();
-    });
-
-    if (notebookClearAllButton !== null) {
-        notebookClearAllButton.addEventListener('click', function (event) {
-            createRippleEffect(event, notebookClearAllButton);
-            ExplorerNotebook.clearAll();
-            refreshNotebookUI();
+    initWindowScroll: function () {
+        window.addEventListener("scroll", function () {
+            App.activeSidebar();
+            App.stickyAside();
+            App.revealCard();
         });
-    }
+    },
 
-    // Hiển thị đúng trạng thái ngay khi tải trang xong (đồng bộ với localStorage)
-    refreshNotebookUI();
-}
+    // ============================================================
+    // COUNTER (số liệu thống kê đại dương)
+    // ============================================================
 
+    initCounter: function () {
+        this.dom.counters = document.querySelectorAll(".ocean-statistics__card-title");
+        this.counterPlayed = false;
 
-/* ==================================================================
-   KHỞI CHẠY TOÀN BỘ SAU KHI DOM ĐÃ SẴN SÀNG
-   ================================================================== */
-document.addEventListener('DOMContentLoaded', function () {
-    var initFunctions = [
-        initMenu,
-        initMobileSearchToggle,
-        initSearch,
-        initSmoothScroll,
-        initSidebarDepthNav,
-        initHeaderScrollEffect,
-        initStatisticsCounter,
-        initFadeInEffects,
-        initNewsSlider
-    ];
-    for( var i = 0; i < initFunctions.length; i++) {
-        try {
-            initFunctions[i]();
-        } catch (error) {
-            console.error('Lỗi khi khởi tạo JS:', error);
+        window.addEventListener("scroll", this.counterScroll.bind(this));
+    },
+
+    counterScroll: function () {
+        var section = document.querySelector(".ocean-statistics");
+
+        if (this.counterPlayed || !section) {
+            return;
+        }
+
+        if (window.scrollY + window.innerHeight > section.offsetTop + 80) {
+            this.counterPlayed = true;
+            this.startCounter();
+        }
+    },
+
+    startCounter: function () {
+        var i;
+
+        for (i = 0; i < this.dom.counters.length; i++) {
+            this.animateCounter(this.dom.counters[i]);
+        }
+    },
+
+    animateCounter: function (el) {
+        var end = parseFloat(el.dataset.target.replace(",", ""));
+        var suffix = el.dataset.suffix || "";
+        var value = 0;
+        var step = end / 80;
+        var timer = setInterval(function () {
+            value += step;
+
+            if (value >= end) {
+                value = end;
+                clearInterval(timer);
+            }
+
+            el.innerHTML = Math.floor(value).toLocaleString() + " " + suffix;
+        }, 20);
+    },
+
+    // ============================================================
+    // NEWS SLIDER (điều hướng trái / phải giữa các tin tức)
+    // ============================================================
+
+    initSlider: function () {
+        this.dom.newsList = document.querySelector(".ocean-news__list");
+        this.dom.news = document.querySelectorAll(".ocean-news__card");
+        this.dom.prev = document.querySelector(".ocean-news__button--prev");
+        this.dom.next = document.querySelector(".ocean-news__button--next");
+        this.dom.dots = document.querySelector(".ocean-news__dots");
+
+        if (!this.dom.newsList) {
+            return;
+        }
+
+        this.slideIndex = 0;
+
+        this.createDots();
+        this.moveSlide();
+
+        this.dom.next.onclick = this.nextSlide.bind(this);
+        this.dom.prev.onclick = this.prevSlide.bind(this);
+
+        this.autoSlide();
+    },
+
+    createDots: function () {
+        var i, dot, dots;
+
+        this.dom.dots.innerHTML = "";
+
+        for (i = 0; i < this.dom.news.length; i++) {
+            dot = document.createElement("span");
+            dot.className = "dot";
+            dot.dataset.slide = i;
+
+            this.dom.dots.appendChild(dot);
+        }
+
+        dots = this.dom.dots.querySelectorAll(".dot");
+
+        for (i = 0; i < dots.length; i++) {
+            dots[i].onclick = this.gotoSlide.bind(this);
+        }
+    },
+
+    moveSlide: function () {
+        var dots = this.dom.dots.querySelectorAll(".dot");
+        var i;
+
+        this.dom.newsList.style.transform = "translateX(-" + (this.slideIndex * 100) + "%)";
+
+        for (i = 0; i < dots.length; i++) {
+            dots[i].classList.remove("active");
+        }
+
+        if (dots[this.slideIndex]) {
+            dots[this.slideIndex].classList.add("active");
+        }
+    },
+
+    nextSlide: function () {
+        this.slideIndex++;
+
+        if (this.slideIndex >= this.dom.news.length) {
+            this.slideIndex = 0;
+        }
+
+        this.moveSlide();
+    },
+
+    prevSlide: function () {
+        this.slideIndex--;
+
+        if (this.slideIndex < 0) {
+            this.slideIndex = this.dom.news.length - 1;
+        }
+
+        this.moveSlide();
+    },
+
+    gotoSlide: function (e) {
+        this.slideIndex = parseInt(e.target.dataset.slide, 10);
+        this.moveSlide();
+    },
+
+    autoSlide: function () {
+        var self = this;
+
+        setInterval(function () {
+            self.nextSlide();
+        }, 5000);
+    },
+
+    initResize: function () {
+        window.addEventListener("resize", function () {
+            App.moveSlide();
+        });
+    },
+
+    // ============================================================
+    // DETAIL VIEW (Xem chi tiết — hiện phần nội dung .depth-card__info
+    // đang bị ẩn của từng tầng độ sâu, dưới dạng 1 "trang" chi tiết
+    // hiện ngay trong trang này. Nút bấm không có sẵn trong HTML nên
+    // JS tự tạo bằng createElement() và gắn vào cuối mỗi .depth-card)
+    // ============================================================
+
+    initDetailView: function () {
+        this.buildDetailModal();
+        this.addDetailButtons();
+        this.bindDetailModalEvents();
+        this.checkDetailHash();
+    },
+
+    buildDetailModal: function () {
+        var modal = document.createElement("div");
+        var overlay = document.createElement("div");
+        var panel = document.createElement("div");
+        var closeBtn = document.createElement("button");
+        var image = document.createElement("img");
+        var depth = document.createElement("p");
+        var title = document.createElement("h2");
+        var description = document.createElement("p");
+        var info = document.createElement("ul");
+
+        modal.className = "detail-modal";
+        modal.id = "detailModal";
+        modal.setAttribute("aria-hidden", "true");
+
+        overlay.className = "detail-modal__overlay";
+
+        panel.className = "detail-modal__panel";
+
+        closeBtn.type = "button";
+        closeBtn.className = "detail-modal__close";
+        closeBtn.setAttribute("aria-label", "Đóng chi tiết");
+        closeBtn.innerHTML = '<i class="fa fa-times"></i>';
+
+        image.className = "detail-modal__image";
+
+        depth.className = "detail-modal__depth";
+
+        title.className = "detail-modal__title";
+
+        description.className = "detail-modal__description";
+
+        info.className = "detail-modal__info";
+
+        panel.appendChild(closeBtn);
+        panel.appendChild(image);
+        panel.appendChild(depth);
+        panel.appendChild(title);
+        panel.appendChild(description);
+        panel.appendChild(info);
+
+        modal.appendChild(overlay);
+        modal.appendChild(panel);
+
+        document.body.appendChild(modal);
+
+        this.dom.detailModal = modal;
+        this.dom.detailOverlay = overlay;
+        this.dom.detailClose = closeBtn;
+        this.dom.detailImage = image;
+        this.dom.detailDepth = depth;
+        this.dom.detailTitle = title;
+        this.dom.detailDescription = description;
+        this.dom.detailInfo = info;
+    },
+
+    addDetailButtons: function () {
+        var cards = document.querySelectorAll(".depth-card");
+        var i, card, button;
+
+        for (i = 0; i < cards.length; i++) {
+            card = cards[i];
+
+            button = document.createElement("button");
+            button.type = "button";
+            button.className = "depth-card__detail-button";
+            button.dataset.targetId = card.id;
+            button.innerHTML = 'Xem chi tiết <i class="fa fa-angle-double-right"></i>';
+            button.onclick = this.openDetail.bind(this, card.id);
+
+            card.appendChild(button);
+        }
+    },
+
+    openDetail: function (cardId) {
+        var card = document.getElementById(cardId);
+        var image, depth, title, description, info;
+
+        if (!card) {
+            return;
+        }
+
+        image = card.querySelector(".depth-card__image");
+        depth = card.querySelector(".depth-card__depth");
+        title = card.querySelector(".depth-card__title");
+        description = card.querySelector(".depth-card__description");
+        info = card.querySelector(".depth-card__info");
+
+        if (image && image.src) {
+            this.dom.detailImage.src = image.src;
+            this.dom.detailImage.alt = image.alt;
+            this.dom.detailImage.style.display = "";
+        } else {
+            this.dom.detailImage.style.display = "none";
+        }
+
+        this.dom.detailDepth.textContent = depth ? depth.textContent : "";
+        this.dom.detailTitle.innerHTML = title ? title.innerHTML : "";
+        this.dom.detailDescription.textContent = description ? description.textContent : "";
+        this.dom.detailInfo.innerHTML = info ? info.innerHTML : "";
+
+        this.dom.detailModal.classList.add("show");
+        this.dom.detailModal.setAttribute("aria-hidden", "false");
+        document.body.style.overflow = "hidden";
+
+        location.hash = "id=" + cardId;
+    },
+
+    closeDetail: function () {
+        this.dom.detailModal.classList.remove("show");
+        this.dom.detailModal.setAttribute("aria-hidden", "true");
+        document.body.style.overflow = "";
+
+        if (location.hash.indexOf("#id=") === 0) {
+            history.replaceState(null, "", location.pathname + location.search);
+        }
+    },
+
+    bindDetailModalEvents: function () {
+        this.dom.detailClose.onclick = this.closeDetail.bind(this);
+        this.dom.detailOverlay.onclick = this.closeDetail.bind(this);
+
+        document.addEventListener("keydown", function (e) {
+            if (e.key === "Escape") {
+                App.closeDetail();
+            }
+        });
+    },
+
+    // cho phép mở thẳng 1 mục chi tiết nếu người dùng vào trang
+    // bằng địa chỉ có sẵn id, ví dụ: depth-explorer.html#id=tang-1
+    checkDetailHash: function () {
+        var hash = location.hash.replace("#", "");
+        var id;
+
+        if (hash.indexOf("id=") === 0) {
+            id = hash.split("=")[1];
+
+            if (document.getElementById(id)) {
+                this.openDetail(id);
+            }
         }
     }
-    try {
-        ExplorerNotebook.load();
-        initExplorerNotebook();
-    } catch (error) { 
-        console.error('Lỗi khi khởi tạo Sổ tay khám phá:', error);
-    }
-    // Nạp sổ tay đã lưu trước đó (nếu có) ngay khi trang tải xong
+};
 
-    // Gắn toàn bộ giao diện Sổ tay khám phá (panel, bookmark, badge...)
+document.addEventListener("DOMContentLoaded", function () {
+    App.init();
 });
