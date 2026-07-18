@@ -1,365 +1,1080 @@
-/* ================= RESET ================= */
+/*====================================
+    RESET CSS
+====================================*/
+
 *{
     margin:0;
     padding:0;
     box-sizing:border-box;
 }
 
+html{
+    scroll-behavior:smooth;
+}
+
 body{
-    font-family: Arial, Helvetica, sans-serif;
+    font-family:Arial, Helvetica, sans-serif;
     line-height:1.6;
-    background:#f4f8fb;
-    color:#333;
+    background:#071c2c;
+    color:#ffffff;
 }
 
-/* ================= HEADER ================= */
+img{
+    display:block;
+    max-width:100%;
+}
+
+a{
+    text-decoration:none;
+    color:inherit;
+}
+
+ul{
+    list-style:none;
+}
+
+button,
+input{
+    font:inherit;
+    border:none;
+    outline:none;
+}
+
+/*====================================
+    LAYOUT
+====================================*/
+
+section{
+    padding:60px 20px;
+}
+
+.container{
+    width:90%;
+    max-width:1200px;
+    margin:auto;
+}
+
+h1,
+h2,
+h3{
+    font-weight:bold;
+}
+
+p{
+    color:#d6e6ef;
+}
+
+/*====================================
+    HEADER
+====================================*/
+
 .header{
+
+    background:#061826;
+
+    border-bottom:1px solid #12384e;
+
+    padding:15px 20px;
+
     display:flex;
+
+    align-items:center;
+
     justify-content:space-between;
-    align-items:center;
-    padding:15px 40px;
-    background:#003049;
-    color:white;
+
     position:sticky;
+
     top:0;
+
     z-index:1000;
+
 }
 
-.header-logo{
-    width:80px;
-    height:auto;
+.header__logo{
+
+    width:70px;
+
 }
 
-.navigation ul{
-    display:flex;
-    list-style:none;
-}
+.header__menu-button{
 
-.navigation li{
-    margin:0 10px;
-}
+    background:none;
 
-.navigation a{
-    color:white;
-    text-decoration:none;
-    padding:8px 12px;
-    border-radius:5px;
-    transition:0.3s;
-}
+    color:#ffffff;
 
-.navigation a:hover,
-.navigation .active{
-    background:#00b4d8;
-}
+    font-size:1.6rem;
 
-.search-box{
-    display:flex;
-}
-
-.search-box input{
-    padding:8px;
-    border:none;
-    border-radius:5px 0 0 5px;
-}
-
-.search-box button{
-    padding:8px 12px;
-    border:none;
-    background:#00b4d8;
-    color:white;
     cursor:pointer;
-    border-radius:0 5px 5px 0;
+
 }
 
-.menu-mobile{
+.header__nav{
+
     display:none;
+
 }
 
-/* ================= HERO ================= */
+.header__menu{
+
+    display:flex;
+
+    flex-direction:column;
+
+}
+
+.header__item{
+
+    margin:5px 0;
+
+}
+
+.header__link{
+
+    display:block;
+
+    padding:10px 16px;
+
+    border-radius:25px;
+
+}
+
+.header__link:hover{
+
+    background:#0c3850;
+
+}
+
+.header__link--active{
+
+    background:#0c3850;
+
+}
+
+.header__search{
+
+    display:none;
+
+}
+
+.header__search-input{
+
+    width:220px;
+
+    padding:10px 15px;
+
+    border-radius:25px;
+
+    background:#10293a;
+
+    color:#ffffff;
+
+}
+
+.header__search-input::placeholder{
+
+    color:#b7c8d2;
+
+}
+
+.header__search-button{
+
+    width:42px;
+
+    height:42px;
+
+    border-radius:50%;
+
+    background:#0c3850;
+
+    color:white;
+
+    cursor:pointer;
+
+    margin-left:8px;
+
+}
+
+.header__search-button:hover{
+
+    background:#135577;
+
+}
+
+/*====================================
+    HERO
+====================================*/
+
 .hero{
-    height:80vh;
-    background:
-        linear-gradient(rgba(0,0,0,0.4),rgba(0,0,0,0.4)),
-        url("../images/banner.jpg") center/cover;
+
+    background:url("../images/banner.jpg") center/cover no-repeat;
+
+    min-height:70vh;
+
     display:flex;
+
     justify-content:center;
+
     align-items:center;
+
     text-align:center;
-    color:white;
+
+    position:relative;
+
 }
 
-.hero-content{
-    max-width:800px;
+.hero::before{
+
+    content:"";
+
+    position:absolute;
+
+    inset:0;
+
+    background:rgba(4,20,34,.75);
+
 }
 
-.hero h1{
-    font-size:3rem;
+.hero__content{
+
+    position:relative;
+
+    z-index:1;
+
+    width:90%;
+
+    max-width:900px;
+
+}
+
+.hero__title{
+
+    font-size:2.2rem;
+
+    color:#bfe9ff;
+
     margin-bottom:20px;
+
 }
 
-.hero p{
-    font-size:1.2rem;
-    margin-bottom:25px;
+.hero__description{
+
+    font-size:1.1rem;
+
+    margin-bottom:30px;
+
 }
 
-.hero-btn{
+.hero__button{
+
     display:inline-block;
-    padding:12px 24px;
-    background:#00b4d8;
-    color:white;
-    text-decoration:none;
-    border-radius:6px;
-    transition:0.3s;
+
+    padding:14px 30px;
+
+    background:#0077b6;
+
+    color:#ffffff;
+
+    border-radius:30px;
+
 }
 
-.hero-btn:hover{
+.hero__button:hover{
+
     background:#0096c7;
+
 }
 
-/* ================= INTRO ================= */
-.locations-intro{
+/*====================================
+    TABLET
+====================================*/
+
+@media(min-width:768px){
+
+.header{
+
+    padding:18px 40px;
+
+}
+
+.header__menu-button{
+
+    display:none;
+
+}
+
+.header__nav{
+
+    display:block;
+
+}
+
+.header__menu{
+
+    flex-direction:row;
+
+    gap:8px;
+
+}
+
+.header__search{
+
     display:flex;
-    gap:30px;
-    padding:50px;
+
+    align-items:center;
+
 }
 
-.sidebar{
-    width:250px;
-    background:white;
-    padding:20px;
-    border-radius:10px;
-    box-shadow:0 2px 10px rgba(0,0,0,0.1);
+.hero__title{
+
+    font-size:3rem;
+
 }
 
-.sidebar h2{
-    margin-bottom:15px;
+.hero__description{
+
+    font-size:1.2rem;
+
 }
 
-.sidebar ul{
-    list-style:none;
 }
 
-.sidebar li{
-    margin-bottom:10px;
+/*====================================
+    DESKTOP
+====================================*/
+
+@media(min-width:1024px){
+
+.header{
+
+    padding:18px 60px;
+
 }
 
-.sidebar a{
-    text-decoration:none;
-    color:#0077b6;
+.hero{
+
+    min-height:85vh;
+
 }
 
-.intro{
-    flex:1;
-    background:white;
-    padding:25px;
-    border-radius:10px;
-    box-shadow:0 2px 10px rgba(0,0,0,0.1);
+.hero__title{
+
+    font-size:4rem;
+
 }
 
-.intro h2{
-    margin-bottom:15px;
-    color:#0077b6;
+.hero__description{
+
+    font-size:1.3rem;
+
 }
 
-/* ================= STATISTICS ================= */
-.statistics{
+}
+
+/*====================================
+    LOCATIONS
+====================================*/
+
+.locations{
+
     display:grid;
-    grid-template-columns:repeat(4,1fr);
-    gap:20px;
-    padding:50px;
-}
 
-.stat-box{
-    background:white;
-    text-align:center;
-    padding:25px;
-    border-radius:10px;
-    box-shadow:0 2px 10px rgba(0,0,0,0.1);
-}
+    grid-template-columns:1fr;
 
-.stat-box h2{
-    color:#0077b6;
-    margin-bottom:10px;
-}
-
-/* ================= FEATURED ================= */
-.featured{
-    padding:60px 40px;
-}
-
-.featured h2{
-    text-align:center;
-    margin-bottom:40px;
-    color:#0077b6;
-}
-
-.featured-grid{
-    display:grid;
-    grid-template-columns:repeat(auto-fit,minmax(300px,1fr));
     gap:25px;
+
+    padding:60px 20px;
+
 }
 
-.featured-card{
-    background:white;
-    border-radius:10px;
-    overflow:hidden;
-    box-shadow:0 2px 10px rgba(0,0,0,0.1);
-    transition:0.3s;
-}
+.locations__sidebar{
 
-.featured-card:hover{
-    transform:translateY(-5px);
-}
+    background:#0b2b3b;
 
-.featured-card img{
-    width:100%;
-    height:220px;
-    object-fit:cover;
-}
+    border:1px solid #174863;
 
-.featured-card h3{
-    padding:15px;
-    color:#0077b6;
-}
+    border-radius:12px;
 
-.featured-card p{
-    padding:0 15px 20px;
-}
-
-/* ================= TRAVEL TIPS ================= */
-.travel-tips{
-    padding:60px 40px;
-    background:#eaf6fb;
-}
-
-.travel-tips h2{
-    text-align:center;
-    margin-bottom:40px;
-    color:#0077b6;
-}
-
-.tips-grid{
-    display:grid;
-    grid-template-columns:repeat(3,1fr);
-    gap:25px;
-}
-
-.tip{
-    background:white;
     padding:25px;
+
+}
+
+.locations__title{
+
+    color:#7fd3ff;
+
     text-align:center;
-    border-radius:10px;
-    box-shadow:0 2px 10px rgba(0,0,0,0.1);
-}
 
-.tip i{
-    font-size:40px;
-    color:#00b4d8;
-    margin-bottom:15px;
-}
-
-/* ================= REFERENCE ================= */
-.reference{
-    padding:50px;
-}
-
-.reference h2{
     margin-bottom:20px;
-    color:#0077b6;
+
 }
 
-.reference ul{
-    margin-left:20px;
+.locations__list{
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:12px;
+
 }
 
-/* ================= FOOTER ================= */
-.footer{
-    background:#003049;
-    color:white;
-    padding:40px;
-    display:grid;
-    grid-template-columns:repeat(3,1fr);
-    gap:30px;
+.locations__item{
+
+    border-bottom:1px solid #18485f;
+
+    padding-bottom:10px;
+
 }
 
-.footer h2,
-.footer h3{
-    margin-bottom:15px;
+.locations__item:last-child{
+
+    border:none;
+
 }
 
-.footer ul{
-    list-style:none;
+.locations__link{
+
+    display:block;
+
+    padding:10px;
+
+    border-radius:8px;
+
+    transition:.3s;
+
 }
 
-.footer li{
-    margin-bottom:8px;
+.locations__link:hover{
+
+    background:#12435b;
+
+    color:#8ad8ff;
+
 }
 
-.footer a{
-    color:#90e0ef;
-    text-decoration:none;
+.locations__content{
+
+    background:#0b2b3b;
+
+    border:1px solid #174863;
+
+    border-radius:12px;
+
+    padding:30px;
+
 }
 
-.footer-bottom{
-    grid-column:1/4;
+.locations__heading{
+
     text-align:center;
+
+    color:#7fd3ff;
+
+    margin-bottom:20px;
+
+}
+
+.locations__text{
+
+    text-align:justify;
+
+    color:#dcecf5;
+
+    line-height:1.8;
+
+}
+
+/*====================================
+    STATISTICS
+====================================*/
+
+.statistics{
+
+    display:grid;
+
+    grid-template-columns:1fr;
+
+    gap:20px;
+
+    padding:60px 20px;
+
+}
+
+.statistics__card{
+
+    background:#0b2b3b;
+
+    border:1px solid #1a5876;
+
+    border-radius:12px;
+
+    padding:30px;
+
+    text-align:center;
+
+}
+
+.statistics__number{
+
+    font-size:2rem;
+
+    color:#79d2ff;
+
+    margin-bottom:10px;
+
+}
+
+.statistics__text{
+
+    color:#dbe8ef;
+
+}
+
+/*====================================
+    TABLET
+====================================*/
+
+@media(min-width:768px){
+
+.locations{
+
+    grid-template-columns:280px 1fr;
+
+    align-items:start;
+
+}
+
+.statistics{
+
+    grid-template-columns:repeat(2,1fr);
+
+}
+
+}
+
+/*====================================
+    DESKTOP
+====================================*/
+
+@media(min-width:1024px){
+
+.locations{
+
+    grid-template-columns:320px 1fr;
+
+}
+
+.statistics{
+
+    grid-template-columns:repeat(4,1fr);
+
+}
+
+.statistics__number{
+
+    font-size:2.4rem;
+
+}
+
+}
+/*====================================
+    FEATURED
+====================================*/
+
+.featured{
+
+    padding:60px 20px;
+
+}
+
+.featured__title{
+
+    text-align:center;
+
+    color:#7fd3ff;
+
+    margin-bottom:40px;
+
+    font-size:2rem;
+
+}
+
+.featured__grid{
+
+    display:grid;
+
+    grid-template-columns:1fr;
+
+    gap:25px;
+
+}
+
+.featured__card{
+
+    background:#0b2b3b;
+
+    border:1px solid #1a5876;
+
+    border-radius:15px;
+
+    overflow:hidden;
+
+}
+
+.featured__image{
+
+    width:100%;
+
+    height:220px;
+
+    object-fit:cover;
+
+}
+
+.featured__card-title{
+
+    color:#7fd3ff;
+
+    font-size:1.5rem;
+
+    padding:20px 20px 10px;
+
+}
+
+.featured__text{
+
+    padding:0 20px 25px;
+
+    color:#dcecf5;
+
+    text-align:justify;
+
+    line-height:1.8;
+
+}
+
+/*====================================
+    TABLET
+====================================*/
+
+@media(min-width:768px){
+
+.featured__grid{
+
+    grid-template-columns:repeat(2,1fr);
+
+}
+
+}
+
+/*====================================
+    DESKTOP
+====================================*/
+
+@media(min-width:1024px){
+
+.featured__grid{
+
+    grid-template-columns:repeat(3,1fr);
+
+}
+
+.featured__image{
+
+    height:240px;
+
+}
+
+}
+/*====================================
+    TRAVEL TIPS
+====================================*/
+
+.travel-tips{
+
+    padding:60px 20px;
+
+    background:#0a2233;
+
+}
+
+.travel-tips__title{
+
+    text-align:center;
+
+    color:#7fd3ff;
+
+    margin-bottom:40px;
+
+    font-size:2rem;
+
+}
+
+.travel-tips__grid{
+
+    display:grid;
+
+    grid-template-columns:1fr;
+
+    gap:25px;
+
+}
+
+.travel-tips__card{
+
+    background:#0b2b3b;
+
+    border:1px solid #1a5876;
+
+    border-radius:15px;
+
+    padding:30px 25px;
+
+    text-align:center;
+
+}
+
+.travel-tips__icon{
+
+    font-size:2.8rem;
+
+    color:#7fd3ff;
+
+    margin-bottom:20px;
+
+}
+
+.travel-tips__card-title{
+
+    margin-bottom:15px;
+
+    color:#ffffff;
+
+}
+
+.travel-tips__text{
+
+    color:#dcecf5;
+
+    line-height:1.7;
+
+}
+
+/*====================================
+    REFERENCE
+====================================*/
+
+.reference{
+
+    padding:60px 20px;
+
+}
+
+.reference__title{
+
+    text-align:center;
+
+    color:#7fd3ff;
+
+    margin-bottom:35px;
+
+}
+
+.reference__list{
+
+    display:grid;
+
+    grid-template-columns:1fr;
+
+    gap:15px;
+
+}
+
+.reference__item{
+
+    background:#0b2b3b;
+
+    border:1px solid #1a5876;
+
+    border-radius:10px;
+
+    padding:18px 20px;
+
+    color:#dcecf5;
+
+}
+
+/*====================================
+    FOOTER
+====================================*/
+
+.footer{
+
+    background:#061826;
+
+    border-top:2px solid #12384e;
+
+    padding:50px 20px 20px;
+
+}
+
+.footer__about,
+.footer__menu,
+.footer__contact{
+
+    margin-bottom:35px;
+
+}
+
+.footer__title,
+.footer__heading{
+
+    color:#7fd3ff;
+
+    margin-bottom:15px;
+
+}
+
+.footer__text,
+.footer__item,
+.footer__link{
+
+    color:#dcecf5;
+
+    margin-bottom:10px;
+
+}
+
+.footer__link a:hover{
+
+    color:#7fd3ff;
+
+}
+
+.footer__bottom{
+
+    margin-top:30px;
+
     padding-top:20px;
-    border-top:1px solid rgba(255,255,255,0.3);
+
+    border-top:1px solid #18485f;
+
+    text-align:center;
+
+    color:#cddce5;
+
 }
 
-/* ================= RESPONSIVE ================= */
-@media(max-width:768px){
+/*====================================
+    TABLET
+====================================*/
 
-    .locations-intro{
-        flex-direction:column;
-    }
+@media(min-width:768px){
 
-    .sidebar{
-        width:100%;
-    }
+.travel-tips__grid{
 
-    .statistics{
-        grid-template-columns:repeat(2,1fr);
-    }
+    grid-template-columns:repeat(2,1fr);
 
-    .tips-grid{
-        grid-template-columns:1fr;
-    }
-
-    .footer{
-        grid-template-columns:1fr;
-        text-align:center;
-    }
-
-    .footer-bottom{
-        grid-column:auto;
-    }
-
-    .navigation{
-        display:none;
-    }
-
-    .search-box{
-        display:none;
-    }
-
-    .menu-mobile{
-        display:block;
-        background:none;
-        border:none;
-        color:white;
-        font-size:24px;
-        cursor:pointer;
-    }
 }
 
-@media(max-width:480px){
+.reference__list{
 
-    .hero h1{
-        font-size:2rem;
-    }
+    grid-template-columns:repeat(2,1fr);
 
-    .statistics{
-        grid-template-columns:1fr;
-    }
+}
+
+.footer{
+
+    display:grid;
+
+    grid-template-columns:repeat(2,1fr);
+
+    gap:30px;
+
+}
+
+.footer__bottom{
+
+    grid-column:1/3;
+
+}
+
+}
+
+/*====================================
+    DESKTOP
+====================================*/
+
+@media(min-width:1024px){
+
+.travel-tips__grid{
+
+    grid-template-columns:repeat(3,1fr);
+
+}
+
+.reference__list{
+
+    grid-template-columns:repeat(3,1fr);
+
+}
+
+.footer{
+
+    grid-template-columns:
+
+    2fr
+
+    1fr
+
+    1fr;
+
+}
+
+.footer__bottom{
+
+    grid-column:1/4;
+
+}
+
+}
+/*====================================
+    HIỆU CHỈNH CHUNG
+====================================*/
+
+.header__link,
+.hero__button,
+.locations__link,
+.footer__link a{
+
+    transition:0.3s;
+
+}
+
+.locations__card,
+.featured__card,
+.travel-tips__card{
+
+    border:1px solid #1a5876;
+
+}
+
+/*====================================
+    KHOẢNG CÁCH
+====================================*/
+
+.locations__heading,
+.featured__title,
+.travel-tips__title,
+.reference__title{
+
+    margin-bottom:40px;
+
+}
+
+.statistics{
+
+    margin-top:20px;
+
+}
+
+.featured{
+
+    margin-top:20px;
+
+}
+
+.travel-tips{
+
+    margin-top:20px;
+
+}
+
+.reference{
+
+    margin-top:20px;
+
+}
+
+/*====================================
+    TABLET
+====================================*/
+
+@media(min-width:768px){
+
+body{
+
+    font-size:16px;
+
+}
+
+section{
+
+    padding:70px 40px;
+
+}
+
+.hero__content{
+
+    max-width:800px;
+
+}
+
+.locations__content{
+
+    padding:35px;
+
+}
+
+}
+
+/*====================================
+    DESKTOP
+====================================*/
+
+@media(min-width:1024px){
+
+body{
+
+    font-size:17px;
+
+}
+
+section{
+
+    padding:90px 60px;
+
+}
+
+.hero__content{
+
+    max-width:900px;
+
+}
+
+.locations,
+.featured,
+.travel-tips,
+.reference{
+
+    max-width:1200px;
+
+    margin:auto;
+
+}
+
+.statistics{
+
+    max-width:1200px;
+
+    margin:40px auto;
+
+}
+
+.footer{
+
+    padding:60px;
+
+}
+
 }
