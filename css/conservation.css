@@ -1,6 +1,6 @@
-/* ==========================================================================
-   1. RESET CSS
-   ========================================================================== */
+/* ================================
+   RESET
+================================ */
 
 *,
 *::before,
@@ -16,13 +16,13 @@ html {
 
 body {
   min-height: 100vh;
+  font-family: 'Inter', sans-serif;
+  background: #020D18;
+  color: #90AFC4;
   line-height: 1.5;
-  -webkit-font-smoothing: antialiased;
 }
 
-img,
-picture,
-video {
+img {
   max-width: 100%;
   display: block;
 }
@@ -32,180 +32,70 @@ a {
   color: inherit;
 }
 
-ul,
-ol {
+button {
+  border: none;
+  background: none;
+  cursor: pointer;
+}
+
+ul {
   list-style: none;
 }
 
-button {
-  font-family: inherit;
-  cursor: pointer;
-  border: none;
-  background: none;
-}
 
-input,
-textarea,
-select {
-  font-family: inherit;
-  font-size: inherit;
-  color: inherit;
-}
-
-table {
-  border-collapse: collapse;
-  width: 100%;
-}
-
-h1, h2, h3, h4, h5, h6 {
-  font-weight: 700;
-  line-height: 1.2;
-}
-
-
-/* ==========================================================================
-   2. ROOT VARIABLES — CSS Custom Properties
-   ========================================================================== */
+/* ================================
+   VARIABLES
+================================ */
 
 :root {
-  /* ---- Màu chủ đạo (Đại dương sâu) ---- */
-  --primary-color: #00B4D8;        /* Cyan Current — CTA, highlight */
-  --secondary-color: #1A7ABF;      /* Mid Water — accent phụ */
-  --accent-color: #48CAE4;         /* Biolumen — hover, glow */
-  --dark-color: #020D18;           /* Abyss — nền tối chính */
-  --light-color: #E2F5FF;          /* Surface Light — chữ heading */
+  --primary-color: #00B4D8;
+  --accent-color: #48CAE4;
 
-  /* ---- Màu nền các tầng ---- */
-  --bg-primary: #020D18;           /* Nền tối chính toàn site */
-  --bg-secondary: #041424;         /* Nền card, section */
-  --bg-tertiary: #0A3D62;          /* Nền section phụ */
-  --bg-light: #F4F1DE;             /* Nền sáng (nếu cần) */
+  --bg-primary: #020D18;
+  --bg-secondary: #041424;
 
-  /* ---- Màu chữ ---- */
-  --text-heading: #E2F5FF;         /* Màu chữ heading */
-  --text-body: #90AFC4;            /* Màu chữ đoạn văn */
-  --text-muted: #5E8AA0;           /* Màu chữ phụ, caption */
-  --text-faint: #3A5A6E;           /* Màu chữ rất nhạt, copyright */
+  --text-heading: #E2F5FF;
+  --text-body: #90AFC4;
+  --text-muted: #5E8AA0;
 
-  /* ---- Màu trạng thái / chủ đề phụ ---- */
-  --color-green: #2D6A4F;          /* Bảo tồn, xanh lá */
-  --color-green-light: #74C69D;    /* Xanh lá sáng, success */
-  --color-danger: #E63946;         /* Cảnh báo, nguy hiểm */
-  --color-warning: #F4A261;        /* Amber, cảnh báo nhẹ */
-  --color-sand: #F4D03F;           /* Vàng cát */
+  --green: #74C69D;
+  --danger: #E63946;
+  --warning: #F4A261;
 
-  /* ---- Border ---- */
-  --border-color: rgba(72, 202, 228, 0.15);
-  --border-color-strong: rgba(72, 202, 228, 0.35);
+  --border: rgba(72, 202, 228, .15);
 
-  /* ---- Typography ---- */
-  --font-heading: 'Playfair Display', Georgia, serif;
-  --font-body: 'Inter', -apple-system, sans-serif;
-  --font-mono: 'Courier New', monospace;
+  --heading-font: 'Playfair Display', serif;
+  --body-font: 'Inter', sans-serif;
 
-  --fs-h1: 56px;
-  --fs-h2: 36px;
-  --fs-h3: 22px;
-  --fs-h4: 18px;
-  --fs-body: 16px;
-  --fs-small: 14px;
-  --fs-caption: 12px;
-
-  /* ---- Spacing (theo grid 8px) ---- */
-  --space-xs: 8px;
-  --space-sm: 16px;
-  --space-md: 24px;
-  --space-lg: 40px;
-  --space-xl: 64px;
-  --space-2xl: 96px;
-
-  /* ---- Border radius ---- */
-  --radius-sm: 4px;
-  --radius-md: 8px;
-  --radius-lg: 16px;
-  --radius-pill: 999px;
-
-  /* ---- Transition ---- */
-  --transition-fast: 0.2s ease;
-  --transition-base: 0.3s ease;
-  --transition-slow: 0.6s ease;
-
-  /* ---- Layout ---- */
-  --container-width: 1280px;
-  --navbar-height: 64px;
-
-  /* ---- Shadow ---- */
-  --shadow-glow: 0 12px 32px rgba(0, 180, 216, 0.18);
-  --shadow-card: 0 8px 24px rgba(0, 0, 0, 0.25);
+  --container: 1280px;
 }
 
 
-/* ==========================================================================
-   3. GLOBAL STYLES
-   ========================================================================== */
+/* ================================
+   GLOBAL
+================================ */
 
-body {
-  font-family: var(--font-body);
-  font-size: var(--fs-body);
-  background-color: var(--bg-primary);
-  color: var(--text-body);
-}
-
-h1, h2, h3 {
-  font-family: var(--font-heading);
-  color: var(--text-heading);
-}
-
-h4, h5, h6 {
-  font-family: var(--font-body);
+h1,
+h2,
+h3 {
+  font-family: var(--heading-font);
   color: var(--text-heading);
 }
 
 p {
   color: var(--text-body);
-  line-height: 1.7;
-}
-
-::selection {
-  background-color: var(--primary-color);
-  color: var(--dark-color);
-}
-
-::-webkit-scrollbar {
-  width: 10px;
-}
-
-::-webkit-scrollbar-track {
-  background: var(--bg-primary);
-}
-
-::-webkit-scrollbar-thumb {
-  background: var(--bg-tertiary);
-  border-radius: var(--radius-pill);
 }
 
 
-/* ==========================================================================
-   4. CONTAINER
-   ========================================================================== */
-
-.container {
-  width: 100%;
-  max-width: var(--container-width);
-  margin: 0 auto;
-  padding: 0 var(--space-lg);
-}
-
-
-/* ==========================================================================
-   5. HEADER / NAVBAR
-   ========================================================================== */
+/* ================================
+   HEADER
+================================ */
 
 .header {
   display: flex;
   align-items: center;
-  gap: var(--space-md);
-  padding: var(--space-sm) var(--space-lg);
+  gap: 24px;
+  padding: 16px 40px;
 }
 
 .header__img--logo {
@@ -213,117 +103,43 @@ p {
 }
 
 .header-nav-form {
+  flex: 1;
   display: flex;
   align-items: center;
-  gap: var(--space-md);
-  flex: 1;
-  justify-content: space-between;
+  justify-content: flex-start;
 }
 
 .horizontal-nav__list {
   display: flex;
-  align-items: center;
-  gap: var(--space-md);
+  gap: 24px;
 }
 
 .horizontal-nav__link {
-  font-size: var(--fs-small);
+  font-size: 14px;
   color: var(--text-body);
-  padding-bottom: 4px;
-  border-bottom: 2px solid transparent;
-  transition: color var(--transition-fast);
 }
 
-.horizontal-nav__link:hover {
-  color: var(--accent-color);
-}
-
+.horizontal-nav__link:hover,
 .horizontal-nav__link--active {
   color: var(--accent-color);
-  border-bottom-color: var(--accent-color);
 }
 
-.horizontal-nav__item--hide--mobile {
-  display: list-item;
-}
-
-.form-search {
-  display: flex;
-  align-items: center;
-  background-color: var(--bg-secondary);
-  border: 0.5px solid var(--border-color);
-  border-radius: var(--radius-pill);
-  padding: 6px 6px 6px 16px;
-}
-
-.form-search__input {
-  background: none;
-  border: none;
-  color: var(--text-heading);
-  font-size: var(--fs-small);
-  width: 160px;
-}
-
-.form-search__input::placeholder {
-  color: var(--text-faint);
-}
-
-.form-search__button {
-  width: 32px;
-  height: 32px;
-  border-radius: 50%;
-  background-color: var(--primary-color);
-  color: var(--dark-color);
-}
-
-.sr-only {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  overflow: hidden;
-  clip: rect(0, 0, 0, 0);
-  white-space: nowrap;
-}
-
-.header__search-toggle,
 .header__notebook-toggle,
 .header__hamburger {
   display: none;
-  width: 36px;
-  height: 36px;
-  align-items: center;
-  justify-content: center;
-  color: var(--text-body);
-  position: relative;
-}
-
-.header__notebook-count {
-  position: absolute;
-  top: 0;
-  right: 0;
-  min-width: 16px;
-  height: 16px;
-  border-radius: 50%;
-  background-color: var(--primary-color);
-  color: var(--dark-color);
-  font-size: 10px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
 }
 
 
-/* ==========================================================================
-   6. HERO SECTION
-   ========================================================================== */
+/* ================================
+   HERO
+================================ */
 
 .hero {
-  position: relative;
-  width: 100%;
   min-height: 100vh;
+  position: relative;
   display: flex;
-  align-items: center;
   justify-content: center;
+  align-items: center;
   overflow: hidden;
 }
 
@@ -333,669 +149,443 @@ p {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  z-index: -2;
 }
 
 .hero__overlay {
   position: absolute;
   inset: 0;
-  background-color: rgba(2, 13, 24, 0.55);
-  z-index: -1;
+  background: rgba(2, 13, 24, .6);
 }
 
 .hero__content {
+  position: relative;
   max-width: 800px;
-  padding: 0 var(--space-md);
   text-align: center;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: var(--space-sm);
+  gap: 16px;
+  animation: slowFade 1.5s ease forwards;
 }
 
 .hero__title {
-  font-size: 72px;
-  font-family: var(--font-heading);
+  font-family: var(--heading-font);
   font-weight: 700;
+  font-size: 72px;
   line-height: 1.05;
-  letter-spacing: -0.02em;
-  color: var(--text-heading);
+}
+
+.hero__title-green {
+  color: #74C69D;
+}
+
+.hero__title-red {
+  color: #E63946;
 }
 
 .hero__subtitle {
-  font-size: 18px;
-  color: var(--text-body);
   max-width: 560px;
+  font-size: 18px;
 }
 
 .hero__actions {
   display: flex;
-  gap: var(--space-sm);
-  margin-top: var(--space-xs);
-  flex-wrap: wrap;
-  justify-content: center;
+  gap: 16px;
 }
 
 .hero__scroll-down {
+
   position: absolute;
-  bottom: var(--space-lg);
+
+  bottom: 40px;
+
   left: 50%;
+
   transform: translateX(-50%);
-  color: var(--accent-color);
-  font-size: 24px;
-  animation: bounce 1.5s infinite;
+
+  color: #E2F5FF;
+
+  font-size: 14px;
+
+  opacity: .5;
+  letter-spacing: .05em;
+
 }
 
-.hero--dark .hero__overlay {
-  background-color: rgba(2, 13, 24, 0.75);
-}
-
-
-/* ==========================================================================
-   7. BUTTONS
-   ========================================================================== */
 
 .btn {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
   padding: 14px 32px;
-  font-size: var(--fs-small);
+  border-radius: 8px;
   font-weight: 600;
-  border-radius: var(--radius-md);
-  transition: all var(--transition-base);
-  white-space: nowrap;
 }
 
 .btn--primary {
-  background-color: var(--primary-color);
-  color: var(--dark-color);
-}
-
-.btn--primary:hover {
-  background-color: var(--accent-color);
-  transform: translateY(-2px);
+  background: var(--primary-color);
+  color: #020D18;
 }
 
 .btn--secondary {
-  background-color: transparent;
+  border: 1px solid var(--primary-color);
   color: var(--primary-color);
-  border: 1.5px solid var(--primary-color);
 }
 
-.btn--secondary:hover {
-  background-color: rgba(0, 180, 216, 0.12);
-  transform: translateY(-2px);
+/* H1 + nội dung hero */
+.slow-fade {
+
+  animation:
+    slowFade 1.5s ease forwards;
+
 }
 
-
-/* ==========================================================================
-   8. STATISTICS (stats__label / stats__number dùng trong threat-card)
-   ========================================================================== */
-
-.stats__number {
-  font-family: var(--font-heading);
-  font-size: 42px;
-  font-weight: 700;
-  color: var(--primary-color);
-  font-variant-numeric: tabular-nums;
-}
-
-.stats__label {
-  font-size: var(--fs-caption);
-  text-transform: uppercase;
-  letter-spacing: 0.1em;
-  color: var(--text-muted);
-  margin-top: 4px;
-}
-
-
-/* ==========================================================================
-   9. FOOTER
-   ========================================================================== */
-
-.footer {
-  background-color: var(--bg-primary);
-  border-top: 0.5px solid var(--border-color);
-  padding: var(--space-xl) 0 var(--space-md);
-}
-
-.footer__container {
-  display: grid;
-  grid-template-columns: 2fr 1fr 1fr;
-  gap: var(--space-lg);
-  max-width: var(--container-width);
-  margin: 0 auto var(--space-lg);
-  padding: 0 var(--space-lg);
-}
-
-.footer__logo {
-  font-family: var(--font-heading);
-  font-size: 18px;
-  font-weight: 700;
-  color: var(--text-heading);
-  margin-bottom: var(--space-xs);
-}
-
-.footer__description {
-  font-size: var(--fs-small);
-  color: var(--text-muted);
-  line-height: 1.8;
-}
-
-.footer__title {
-  font-size: 11px;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-  color: var(--accent-color);
-  margin-bottom: var(--space-sm);
-}
-
-.footer__list li {
-  margin-bottom: 10px;
-}
-
-.footer__list a {
-  font-size: var(--fs-small);
-  color: var(--text-muted);
-  transition: color var(--transition-fast);
-}
-
-.footer__list a:hover {
-  color: var(--text-body);
-}
-
-.footer__bottom {
-  max-width: var(--container-width);
-  margin: 0 auto;
-  padding: var(--space-sm) var(--space-lg) 0;
-  border-top: 0.5px solid var(--border-color);
-  font-size: 11px;
-  color: var(--text-faint);
-}
-
-
-/* ==========================================================================
-   10. ANIMATIONS
-   ========================================================================== */
 
 @keyframes slowFade {
+
   from {
+
     opacity: 0;
-    transform: translateY(16px);
+
+    transform:
+      translateY(20px);
+
   }
+
+
   to {
+
     opacity: 1;
-    transform: translateY(0);
+
+    transform:
+      translateY(0);
+
   }
 }
 
-.slow-fade {
-  animation: slowFade 1.5s ease forwards;
-}
+/* Alert badge */
+.animate-pulse {
 
-@keyframes bounce {
-  0%, 100% { transform: translate(-50%, 0); }
-  50% { transform: translate(-50%, 10px); }
+  animation:
+    pulse 2s infinite ease-in-out;
+
 }
 
 @keyframes pulse {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0.6; }
+
+  0%,
+  100% {
+
+    opacity: .7;
+
+  }
+
+  50% {
+    opacity: 1;
+  }
+
 }
 
-.animate-pulse {
-  animation: pulse 2s infinite ease-in-out;
-}
 
-
-/* ==========================================================================
-   11. UTILITY CLASSES
-   ========================================================================== */
-
-.flex { display: flex; }
-
-.gap-md { gap: var(--space-md); }
-
-.text-danger { color: var(--color-danger); }
-.text-success { color: var(--color-green-light); }
-.text-warning { color: var(--color-warning); }
+/* ================================
+   BADGE + PROGRESS
+================================ */
 
 .badge {
   display: inline-flex;
   align-items: center;
-  gap: 4px;
-  font-size: 11px;
-  font-weight: 500;
-  padding: 4px 12px;
-  border-radius: var(--radius-pill);
+  gap: 8px;
+  padding: 8px 20px;
+  border-radius: 4px;
+}
+
+
+.badge--danger {
+
+  color: var(--danger);
+
+  background:
+    rgba(230, 57, 70, .15);
+
+  border:
+    1px solid rgba(230, 57, 70, .5);
+
 }
 
 .badge--danger {
-  background-color: rgba(230, 57, 70, 0.15);
-  color: var(--color-danger);
-  border: 0.5px solid rgba(230, 57, 70, 0.3);
+  color: var(--danger);
+  background: rgba(230, 57, 70, .15);
 }
+
 
 .progress {
   width: 100%;
-  height: 12px;
-  background-color: rgba(255, 255, 255, 0.06);
-  border-radius: var(--radius-pill);
-  overflow: hidden;
+  height: 8px;
+  background: #ffffff10;
+  border-radius: 999px;
 }
 
 .progress__fill {
+
   height: 100%;
-  width: 0%;
-  border-radius: var(--radius-pill);
-  background-color: var(--primary-color);
-  transition: width 1.2s ease;
+
+  width: 0;
+
+  border-radius: 999px;
+
+  transition:
+    width 1.5s cubic-bezier(.4, 0, .2, 1);
+
 }
 
 
-/* ==========================================================================
-   12. RESPONSIVE MEDIA QUERIES
-   ========================================================================== */
-
-@media (max-width: 1023px) {
-
-  .container {
-    padding: 0 var(--space-md);
-  }
-
-  .hero__title {
-    font-size: 48px;
-  }
-
-  .footer__container {
-    grid-template-columns: 1fr 1fr;
-  }
-}
-
-
-@media (max-width: 767px) {
-
-  .container {
-    padding: 0 var(--space-sm);
-  }
-
-  .header__search-toggle,
-  .header__notebook-toggle,
-  .header__hamburger {
-    display: flex;
-  }
-
-  .horizontal-nav__item--hide--mobile {
-    display: none;
-  }
-
-  .hero__title {
-    font-size: 32px;
-  }
-
-  .hero__subtitle {
-    font-size: var(--fs-small);
-  }
-
-  .hero__actions {
-    flex-direction: column;
-    width: 100%;
-  }
-
-  .hero__actions .btn {
-    width: 100%;
-  }
-
-  .footer__container {
-    grid-template-columns: 1fr;
-    text-align: center;
-  }
-}
-
-/* --------------------------------------------------------------------
-   THREAT / CONSERVATION SECTIONS
-   -------------------------------------------------------------------- */
+/* ================================
+   THREAT CARDS
+================================ */
 
 .threat-timeline {
   padding: 80px 0;
-  background-color: #041424;
+  background: #041424;
 }
 
 .threat-stats__grid {
+  max-width: 1280px;
+  margin: auto;
+  padding: 0 40px;
+
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 32px;
-  max-width: var(--container-width);
-  margin: 0 auto;
-  padding: 0 var(--space-lg);
 }
 
 .threat-card {
-  background-color: #020D18;
-  border: 0.5px solid rgba(72, 202, 202, 0.12);
+  background: #020D18;
+  border: 1px solid var(--border);
   border-radius: 16px;
-  padding: 28px 32px;
+  padding: 32px;
 }
 
-.threat-card__icon {
-  flex-shrink: 0;
-  width: 80px;
-  height: 80px;
-  border-radius: 12px;
-  overflow: hidden;
-}
-
-.threat-card__icon img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-
-.threat-card__content {
-  flex: 1;
-  min-width: 0;
+.threat-card__inner {
+  display: flex;
+  gap: 24px;
 }
 
 .threat-card__caption {
-  font-family: var(--font-body);
-  font-weight: 400;
+  font-family: Inter;
   font-size: 14px;
   color: #90AFC4;
   line-height: 1.7;
   margin-top: 8px;
 }
 
-@media (max-width: 768px) {
-  .threat-stats__grid {
-    grid-template-columns: 1fr;
-    padding: 0 var(--space-sm);
-    gap: 20px;
-  }
-  .threat-card {
-    padding: 20px 24px;
-  }
-  .threat-card__inner {
-    gap: 16px;
-  }
-  .threat-card__icon {
-    width: 64px;
-    height: 64px;
-  }
+.timeline-section {
+  padding: 80px 0;
+  background: #020D18;
 }
 
-/* ---- TIMELINE ---- */
+.threat-card__icon {
+  width: 80px;
+  height: 80px;
+  flex-shrink: 0;
+}
+
+.threat-card__icon img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 12px;
+}
+
+.stats__label {
+  font-size: 12px;
+  text-transform: uppercase;
+}
+
+.stats__number {
+  font-size: 56px;
+  font-family: var(--heading-font);
+}
+
+.text-danger {
+  color: var(--danger);
+}
+
+.text-warning {
+  color: var(--warning);
+}
+
+.text-success {
+  color: var(--green);
+}
+
+
+/* ================================
+   TIMELINE
+================================ */
+
+/* ================================
+   TIMELINE
+================================ */
 
 .timeline-header {
   text-align: center;
   margin-bottom: 48px;
 }
 
-.timeline-header__eyebrow {
-  display: block;
-  font-family: var(--font-body);
-  font-weight: 600;
-  font-size: 12px;
-  text-transform: uppercase;
-  letter-spacing: 0.1em;
-  color: #48CAE4;
-  margin-bottom: 8px;
-}
-
 .timeline-header__title {
-  font-family: var(--font-heading);
   font-size: 36px;
-  font-weight: 700;
-  color: #E2F5FF;
-  margin-bottom: 8px;
-}
-
-.timeline-header__desc {
-  font-family: var(--font-body);
-  font-size: 16px;
-  color: #90AFC4;
-  max-width: 600px;
-  margin: 0 auto;
-  line-height: 1.7;
 }
 
 .timeline-wrapper {
+  max-width: 760px;
+  margin: auto;
   position: relative;
-  padding-left: 20px;
 }
 
+/* đường dọc */
 .timeline-wrapper::before {
-  content: '';
+  content: "";
   position: absolute;
   left: 20px;
   top: 0;
-  width: 1px;
   height: 100%;
-  background: rgba(72, 202, 228, 0.25);
+  width: 1px;
+  background: rgba(72, 202, 228, .25);
 }
 
+
+/* item animation */
 .timeline-item {
   position: relative;
   padding-left: 56px;
-  margin-bottom: 40px;
+  margin-bottom: 48px;
+
   opacity: 0;
   transform: translateY(30px);
-  transition: all 0.6s ease;
+
+  transition:
+    opacity .6s ease,
+    transform .6s ease;
 }
 
-.timeline-item:last-child {
-  margin-bottom: 0;
-}
 
+/* JS thêm class này */
 .timeline-item.is-visible {
   opacity: 1;
   transform: translateY(0);
 }
 
-.timeline-item:nth-child(1) { transition-delay: 0s; }
-.timeline-item:nth-child(2) { transition-delay: 0.1s; }
-.timeline-item:nth-child(3) { transition-delay: 0.2s; }
-.timeline-item:nth-child(4) { transition-delay: 0.3s; }
-.timeline-item:nth-child(5) { transition-delay: 0.4s; }
 
+/* dot */
 .timeline-item__dot {
   position: absolute;
+
   left: 12px;
   top: 6px;
+
   width: 16px;
   height: 16px;
+
   border-radius: 50%;
+
   background: #00B4D8;
-  box-shadow: 0 0 0 4px rgba(0, 180, 216, 0.15);
-  z-index: 1;
+
+  box-shadow:
+    0 0 0 4px rgba(0, 180, 216, .15);
 }
 
-.timeline-item--future .timeline-item__dot {
-  background: rgba(0, 180, 216, 0.3);
-  box-shadow: 0 0 0 4px rgba(0, 180, 216, 0.08);
-}
 
-.timeline-item--future {
-  border: 1px dashed #00B4D8;
-  border-radius: 12px;
-  padding: 20px 24px 20px 56px;
-  background: rgba(0, 180, 216, 0.03);
-}
-
-.timeline-item--future .timeline-item__dot {
-  left: 12px;
-  top: 24px;
-}
-
+/* năm */
 .timeline-item__year {
-  font-family: var(--font-body);
-  font-weight: 700;
-  font-size: 12px;
-  text-transform: uppercase;
-  letter-spacing: 0.1em;
-  color: #48CAE4;
-  margin-bottom: 6px;
-  display: block;
-}
 
-.timeline-item__badge {
   display: inline-block;
-  font-family: var(--font-body);
-  font-size: 9px;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-  padding: 2px 10px;
-  border-radius: 999px;
-  background: rgba(0, 180, 216, 0.15);
-  color: #48CAE4;
-  border: 0.5px solid rgba(0, 180, 216, 0.3);
-  margin-left: 8px;
-}
 
-.timeline-item__title {
-  font-family: var(--font-heading);
+  color: #48CAE4;
+
+  font-size: 12px;
+
   font-weight: 700;
+
+  letter-spacing: .1em;
+
+  margin-bottom: 6px;
+
+  text-transform: uppercase;
+}
+
+
+/* tiêu đề */
+.timeline-item__title {
+
   font-size: 20px;
-  color: #E2F5FF;
+
   margin-bottom: 8px;
+
 }
 
-.timeline-item--future .timeline-item__title {
-  color: #48CAE4;
-}
 
+/* mô tả */
 .timeline-item__desc {
-  font-family: var(--font-body);
-  font-weight: 400;
+
   font-size: 14px;
-  color: #90AFC4;
+
   line-height: 1.7;
+
+  color: #90AFC4;
+
 }
+
+
+/* item tương lai 2030 */
+
+.timeline-item--future .timeline-item__dot {
+
+  background: transparent;
+
+  border: 1px dashed #00B4D8;
+
+}
+
 
 .timeline-item__meta {
+
   display: flex;
+
   align-items: center;
-  margin-bottom: 6px;
+
+  gap: 12px;
+
 }
 
-@media (max-width: 768px) {
-  .timeline-header__title {
-    font-size: 28px;
-  }
 
-  .timeline-header__desc {
-    font-size: 14px;
-  }
+.timeline-item__badge {
 
-  .timeline-wrapper {
-    padding-left: 16px;
-  }
+  padding: 3px 10px;
 
-  .timeline-wrapper::before {
-    left: 16px;
-  }
+  font-size: 11px;
 
-  .timeline-item {
-    padding-left: 44px;
-    margin-bottom: 32px;
-  }
+  color: #48CAE4;
 
-  .timeline-item__dot {
-    left: 8px;
-    width: 14px;
-    height: 14px;
-  }
+  border: 1px solid #48CAE4;
 
-  .timeline-item--future {
-    padding: 16px 18px 16px 44px;
-  }
+  border-radius: 999px;
 
-  .timeline-item--future .timeline-item__dot {
-    left: 8px;
-    top: 18px;
-  }
-
-  .timeline-item__title {
-    font-size: 18px;
-  }
-
-  .timeline-item__desc {
-    font-size: 13px;
-  }
 }
 
-@media (max-width: 480px) {
-  .timeline-header__title {
-    font-size: 24px;
-  }
-
-  .timeline-item {
-    padding-left: 36px;
-    margin-bottom: 24px;
-  }
-
-  .timeline-item__dot {
-    left: 6px;
-    width: 12px;
-    height: 12px;
-  }
-
-  .timeline-item--future {
-    padding: 14px 14px 14px 36px;
-  }
-
-  .timeline-item--future .timeline-item__dot {
-    left: 6px;
-    top: 16px;
-  }
-
-  .timeline-item__title {
-    font-size: 16px;
-  }
-
-  .timeline-item__year {
-    font-size: 11px;
-  }
-}
-
-/* ---- CTA ---- */
+/* ================================
+   CTA
+================================ */
 
 .cta-section {
   padding: 80px 0;
-  background-color: #041424;
-  border-top: 0.5px solid rgba(116, 198, 157, 0.2);
+  background: #041424;
 }
 
 .cta-section__container {
-  max-width: var(--container-width);
-  margin: 0 auto;
-  padding: 0 var(--space-lg);
-}
-
-.cta-section__grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 64px;
-  align-items: start;
+  max-width: 1280px;
+  margin: auto;
+  padding: 0 40px;
 }
 
 .cta-content__title {
-  font-family: var(--font-heading);
-  font-weight: 700;
   font-size: 36px;
-  color: #E2F5FF;
-  margin-bottom: 16px;
-}
-
-.cta-content__desc {
-  font-family: var(--font-body);
-  font-size: 16px;
-  color: #90AFC4;
-  line-height: 1.7;
-  margin-bottom: 32px;
 }
 
 .cta-actions {
@@ -1006,34 +596,95 @@ p {
 
 .cta-action {
   display: flex;
-  align-items: center;
   gap: 16px;
+  align-items: center;
 }
 
 .cta-action__icon {
+  width: 48px;
+  height: 48px;
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 48px;
-  height: 48px;
-  flex-shrink: 0;
-  background: rgba(116, 198, 157, 0.1);
+  background: #74C69D20;
   border-radius: 8px;
 }
 
 .cta-action__icon i {
-  font-size: 24px;
   color: #74C69D;
 }
 
-.cta-action__title {
-  font-family: var(--font-body);
-  font-weight: 600;
-  color: #E2F5FF;
+
+/* ================================
+   FOOTER
+================================ */
+
+.footer {
+  padding: 64px 0 20px;
+  border-top: 1px solid var(--border);
 }
 
-.cta-action__desc {
-  font-family: var(--font-body);
-  font-size: 14px;
-  color: #5E8AA0;
+.footer__container {
+  max-width: 1280px;
+  margin: auto;
+  padding: 0 40px;
+
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr;
+  gap: 40px;
+}
+
+.footer__title {
+  color: #48CAE4;
+  font-size: 12px;
+}
+
+.footer__list li {
+  margin-bottom: 10px;
+}
+
+
+/* ================================
+   MOBILE
+================================ */
+
+@media(max-width:768px) {
+
+  .header {
+    padding: 16px;
+  }
+
+  .horizontal-nav__item--hide--mobile {
+    display: none;
+  }
+
+  .header__hamburger,
+  .header__notebook-toggle {
+    display: flex;
+  }
+
+  .hero__title {
+    font-size: 36px;
+  }
+
+  .hero__actions {
+    flex-direction: column;
+  }
+
+  .threat-stats__grid {
+    grid-template-columns: 1fr;
+    padding: 0 16px;
+  }
+
+  .stats__number {
+    font-size: 42px;
+  }
+
+
+
+  .footer__container {
+    grid-template-columns: 1fr;
+    text-align: center;
+  }
+
 }
