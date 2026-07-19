@@ -728,12 +728,12 @@ ul{
     max-width:100%;
 
     display:flex;
-    flex-direction:column;
+    flex-direction:row;
 
-    aspect-ratio:auto;
+    aspect-ratio:16/9;
 
     overflow:hidden;
-    border-radius:20px;
+    border-radius:0;
 
     background:#0b2d45;
 
@@ -745,22 +745,22 @@ ul{
 }
 
 .ocean-news__content{
-    flex:1 1 auto;
+    flex:1 1 58%;
     min-width:0;
 
     display:flex;
     flex-direction:column;
     justify-content:center;
 
-    padding:1.5rem;
+    padding:1.25rem 1.5rem;
 }
 
 .ocean-news__media{
     position:relative;
 
-    flex:0 0 200px;
+    flex:0 0 42%;
 
-    height:auto;
+    height:100%;
 }
 
 .ocean-news__image,
@@ -949,7 +949,7 @@ footer .copyright,
 
     width:100%;
     height:100vh;
-    max-width:420px;
+    max-width:520px;
 
     display:flex;
     flex-direction:column;
@@ -1007,7 +1007,7 @@ footer .copyright,
 
 .notebook-panel__list{
     flex:1;
-
+    counter-reset:notebook-item;
     overflow-y:auto;
 
     display:flex;
@@ -1020,14 +1020,35 @@ footer .copyright,
     justify-content:space-between;
     align-items:center;
     gap:1rem;
-
+    position:relative;
     padding:1rem 1.25rem;
-
+    counter-increment:notebook-item;
     font-size:.9rem;
-
+    padding-left:3.25rem;
     border-radius:16px;
 
     background:rgba(255,255,255,.04);
+}
+
+.notebook-panel__item::before{
+    content:counter(notebook-item);
+
+    position:absolute;
+    top:1rem;
+    left:1rem;
+
+    width:24px;
+    height:24px;
+
+    display:grid;
+    place-items:center;
+
+    font-size:.8rem;
+    font-weight:700;
+
+    color:#02111d;
+    background:#39cfff;
+    border-radius:50%;
 }
 
 .notebook-panel__item .remove-item{
@@ -1311,6 +1332,8 @@ footer .copyright,
     footer .container,
     .footer__container{
         grid-template-columns:repeat(3, 1fr);
+        border-top: 1px solid rgba(255,255,255,.1);
+        padding-top: 3rem;
     }
 
     .footer__description{
@@ -1430,8 +1453,12 @@ footer .copyright,
     }
 
     .ocean-statistics__card{
-        padding:3rem 2rem;
+        padding:2.25rem 1.5rem;
         border-radius:32px;
+    }
+
+    .ocean-statistics__card-title{
+        font-size:clamp(1.75rem, 2vw + 1rem, 2.75rem); /* chữ nhỏ lại chút cho vừa 5 cột */
     }
 }
 
@@ -1514,10 +1541,29 @@ footer .copyright,
         padding:5rem 5% 2rem;
     }
 
-    footer .container,
-    .footer__container{
-        grid-template-columns:2fr 1fr 1fr;
-        gap:4rem;
+    footer .container > *:not(:last-child),
+    .footer__container > *:not(:last-child){
+        border-right:1px solid rgba(255,255,255,.12);
+        padding-right:3rem;
+    }
+
+    .footer__list a{
+    display:block;
+    padding:.9rem 1.25rem;
+
+    border:1px solid rgba(255,255,255,.15);
+    border-radius:8px;
+
+    transition:.3s;
+    }
+
+    .footer__list a:hover{
+    border-color:#39cfff;
+    background:rgba(57,207,255,.08);
+    }
+
+    .footer__list li{
+    margin-bottom:.75rem;
     }
 
     .footer__description{
@@ -1527,12 +1573,12 @@ footer .copyright,
     footer .copyright,
     .footer__bottom{
         margin-top:4rem;
+        border-top:1px solid rgba(255,255,255,.1);
+        padding-top:1.5rem;
     }
 
     .notebook-panel{
-        width:420px;
-        right:-420px;
-
-        padding:2rem;
+        width:480px;
+        right:-480px;
     }
 }
