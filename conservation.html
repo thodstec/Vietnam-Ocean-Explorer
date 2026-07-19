@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>VietNam Ocean Explorer</title>
+    <link rel="stylesheet" href="css/style2.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
@@ -12,7 +13,7 @@
         rel="stylesheet">
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    <link rel="stylesheet" href="./css/conservation.css">
+    <link rel="stylesheet" href="css/style3.css">
 </head>
 
 <body>
@@ -75,8 +76,8 @@
                     </div>
                 </div>
                 <h1 class="hero__title slow-fade">
-                    <span style="color: var(--color-green-light)">Đại dương</span>
-                    <span style="color: var(--color-danger)">đang kêu cứu</span>
+                    <span class="hero__title-green">Đại dương</span>
+                    <span class="hero__title-red">đang kêu cứu</span>
                 </h1>
                 <p class="hero__subtitle">
                     Mỗi năm, hàng triệu tấn rác thải nhựa cùng tác động của biến đổi khí hậu
@@ -93,7 +94,7 @@
             </div>
         </section>
         <!--5.2-->
-        <section id="take-action" class="threat-timeline">
+        <section id="take-action" class="threat-section">
             <div class="threat-stats__grid">
                 <div class="threat-card">
                     <div class="threat-card__inner flex gap-md">
@@ -108,7 +109,7 @@
                                 60%
                             </div>
                             <div class="progress" style="height: 8px;">
-                                <div class="progress__fill" style="width: 60%; background: var(--color-danger);"></div>
+                                <div class="progress__fill" data-progress="60" style="width: 0; background: var(--danger);"></div>
                             </div>
                             <div class="threat-card__caption">
                                 Diện tích rạn san hô bị ảnh hưởng
@@ -129,7 +130,7 @@
                                 70%
                             </div>
                             <div class="progress" style="height: 8px;">
-                                <div class="progress__fill" style="width: 70%; background: var(--color-warning);"></div>
+                                <div class="progress__fill" data-progress="70" style="width: 0; background: var(--warning);"></div>
                             </div>
                             <div class="threat-card__caption">
                                 Mất đi so với 1940
@@ -150,7 +151,7 @@
                                 40%
                             </div>
                             <div class="progress" style="height: 8px;">
-                                <div class="progress__fill" style="width: 40%; background: var(--color-warning);"></div>
+                                <div class="progress__fill" data-progress="40" style="width: 0; background: var(--warning);"></div>
                             </div>
                             <div class="threat-card__caption">
                                 Cần bảo vệ khẩn cấp
@@ -171,7 +172,7 @@
                                 8%
                             </div>
                             <div class="progress" style="height: 8px;">
-                                <div class="progress__fill" style="width: 8%; background: var(--color-green-light);">
+                                <div class="progress__fill" data-progress="8" style="width: 0; background: var(--green);">
                                 </div>
                             </div>
                             <div class="threat-card__caption">
@@ -311,4 +312,5 @@
     </footer>
     <script src="/js/conservation.js"></script>
 </body>
+
 </html>
