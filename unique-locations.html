@@ -7,84 +7,54 @@
     <title>VietNam Ocean Explorer - Địa điểm du lịch biển</title>
     <meta name="description" content="Website khám phá các địa điểm du lịch biển nổi bật của Việt Nam.">
 
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet"
           href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <link rel="stylesheet" href="css/style4.css">
+    <link rel="stylesheet" href="css/unique-locations.css">
 </head>
 
 <body>
 
-    <!-- ================= HEADER ================= -->
-
     <header class="header">
-
-        <img
-            class="header__logo"
-            src="images/logo.png"
-            alt="Logo VietNam Ocean Explorer">
-
-        <nav class="header__nav">
-            <ul class="header__menu">
-
-                <li class="header__item">
-                    <a class="header__link"
-                       href="home.html">
-                        Trang chủ
-                    </a>
-                </li>
-
-                <li class="header__item">
-                    <a class="header__link"
-                       href="dept-explorer.html">
-                        Khám phá lòng biển
-                    </a>
-                </li>
-
-                <li class="header__item">
-                    <a class="header__link"
-                       href="marine-life.html">
-                        Sinh vật - Khoáng sản
-                    </a>
-                </li>
-
-                <li class="header__item">
-                    <a class="header__link header__link--active"
-                       href="unique-locations.html">
-                        Địa điểm du lịch
-                    </a>
-                </li>
-
-                <li class="header__item">
-                    <a class="header__link"
-                       href="conservation.html">
-                        Bảo tồn thiên nhiên biển
-                    </a>
-                </li>
-
-            </ul>
-        </nav>
-
-        <form class="header__search">
-
-            <input
-                class="header__search-input"
-                type="text"
-                placeholder="Tìm kiếm...">
-
-            <button
-                class="header__search-button"
-                type="submit">
-
-                <i class="fa fa-search"></i>
-
+        <img class="header__img header__img--logo" src="./images/header-logo.png" alt="hình ảnh logo VietNam Ocean Explorer">
+        <div class="header-nav-form"> 
+            <nav class="horizontal-nav" aria-label="Điều hướng chính">
+                <ul class="horizontal-nav__list">
+                    <li class="horizontal-nav__item">
+                        <a class="horizontal-nav__link" href="home.html">Trang chủ</a>
+                    </li>
+                    <li class="horizontal-nav__item horizontal-nav__item--hide--mobile">
+                        <a class="horizontal-nav__link" href="depth-explorer.html">Khám phá lòng biển</a>
+                    </li>
+                    <li class="horizontal-nav__item horizontal-nav__item--hide--mobile">
+                        <a class="horizontal-nav__link" href="marine-minerals.html">Sinh vật - Khoáng sản</a>
+                    </li>
+                    <li class="horizontal-nav__item horizontal-nav__item--hide--mobile">
+                        <a class="horizontal-nav__link horizontal-nav__link--active" href="unique-locations.html">Địa điểm du lịch</a>
+                    </li>
+                    <li class="horizontal-nav__item horizontal-nav__item--hide--mobile">
+                        <a class="horizontal-nav__link" href="conservation.html">Bảo tồn thiên nhiên biển</a>
+                    </li>
+                </ul>
+            </nav>
+            <form class="form-search" action="#" method="get">
+                <label class="sr-only" for="siteSearchInput">Tìm  kiếm nội dung trên trang</label>
+                <input class="form-search__input" type="text" name="search" placeholder="Tìm kiếm..." id="siteSearchInput">
+                <button class="form-search__button" type="submit">
+                    <i class="fa fa-search"></i> 
+                </button>
+            </form>
+            <button class="header__search-toggle" type="button" aria-label="Mở thanh tìm kiếm">
+                    <i class="fa fa-search"></i>
+                </button>
+            <button class="header__notebook-toggle" type="button" aria-label="Mở sổ tay khám phá" aria-expanded="false" aria-controls="notebookPanel">
+                <i class="fa fa-bookmark"></i>
+                <span class="header__notebook-count" id="notebookCount">0</span>
             </button>
-
-        </form>
-
-        <button class="header__menu-button">
-            <i class="fa fa-bars"></i>
-        </button>
-
+            <button class="header__hamburger" type="button">
+                <i class="fa fa-bars"></i> 
+            </button>
+        </div>
     </header>
 
     <!-- ================= MAIN ================= -->
@@ -257,6 +227,15 @@
 
                 <article class="featured__card" id="halong">
 
+                    <button class="featured__save-button" type="button"
+                        data-save-id="halong"
+                        data-save-type="location"
+                        data-save-title="Vịnh Hạ Long"
+                        aria-label="Lưu Vịnh Hạ Long vào sổ tay khám phá"
+                        aria-pressed="false">
+                        <i class="fa fa-bookmark-o"></i>
+                    </button>
+
                     <img
                         class="featured__image"
                         src="images/halong.jpg"
@@ -270,15 +249,23 @@
                     <p class="featured__text">
                         Nằm tại tỉnh Quảng Ninh, Vịnh Hạ Long gây ấn tượng với hàng nghìn đảo đá vôi có hình dạng độc đáo, các hang động tự nhiên kỳ thú và giá trị địa chất, sinh thái đặc biệt.
                     </p>
-                        <button class="featured__button"
-                         onclick="showDetail('0')">
+
+                    <button class="featured__button" type="button" data-target-id="halong">
                         Xem chi tiết
-                        </button>
-                    
+                    </button>
 
                 </article>
 
                 <article class="featured__card" id="phuquoc">
+
+                    <button class="featured__save-button" type="button"
+                        data-save-id="phuquoc"
+                        data-save-type="location"
+                        data-save-title="Phú Quốc"
+                        aria-label="Lưu Phú Quốc vào sổ tay khám phá"
+                        aria-pressed="false">
+                        <i class="fa fa-bookmark-o"></i>
+                    </button>
 
                     <img
                         class="featured__image"
@@ -293,13 +280,23 @@
                     <p class="featured__text">
                         Phú Quốc thu hút du khách bởi vẻ đẹp hoang sơ của biển đảo, những bãi cát trắng trải dài, rạn san hô đa dạng cùng các điểm tham quan nổi bật như quần đảo An Thới và vườn quốc gia Phú Quốc.
                     </p>
-                       <button class="featured__button"
-                       onclick="showDetail('1')">
-                       Xem chi tiết
-                       </button>
+
+                    <button class="featured__button" type="button" data-target-id="phuquoc">
+                        Xem chi tiết
+                    </button>
+
                 </article>
 
                 <article class="featured__card" id="nhatrang">
+
+                    <button class="featured__save-button" type="button"
+                        data-save-id="nhatrang"
+                        data-save-type="location"
+                        data-save-title="Nha Trang"
+                        aria-label="Lưu Nha Trang vào sổ tay khám phá"
+                        aria-pressed="false">
+                        <i class="fa fa-bookmark-o"></i>
+                    </button>
 
                     <img
                         class="featured__image"
@@ -313,14 +310,23 @@
                     <p class="featured__text">
                         Nha Trang sở hữu vẻ đẹp hài hòa giữa biển xanh, những hòn đảo tự nhiên và hệ sinh thái biển đa dạng. Nơi đây nổi bật với vịnh Nha Trang, đảo Hòn Mun cùng nhiều hoạt động như lặn biển, tham quan đảo và du lịch nghỉ dưỡng.
                     </p>
-                       <button class="featured__button"
-                         onclick="showDetail('2')">
+
+                    <button class="featured__button" type="button" data-target-id="nhatrang">
                         Xem chi tiết
-                        </button>
+                    </button>
 
                 </article>
 
                 <article class="featured__card" id="lyson">
+
+                    <button class="featured__save-button" type="button"
+                        data-save-id="lyson"
+                        data-save-type="location"
+                        data-save-title="Đảo Lý Sơn"
+                        aria-label="Lưu Đảo Lý Sơn vào sổ tay khám phá"
+                        aria-pressed="false">
+                        <i class="fa fa-bookmark-o"></i>
+                    </button>
 
                     <img
                         class="featured__image"
@@ -335,14 +341,23 @@
                     <p class="featured__text">
                         Lý Sơn là huyện đảo thuộc tỉnh Quảng Ngãi, nổi bật với cảnh quan địa chất đặc biệt từ núi lửa cổ, những vách đá tự nhiên kỳ vĩ và hệ sinh thái biển phong phú. Đây là điểm đến lý tưởng cho du khách yêu thích khám phá thiên nhiên và văn hóa biển đảo Việt Nam.
                     </p>
-                     <button class="featured__button"
-                         onclick="showDetail('3')">
+
+                    <button class="featured__button" type="button" data-target-id="lyson">
                         Xem chi tiết
-                        </button>
+                    </button>
 
                 </article>
 
                 <article class="featured__card" id="condao">
+
+                    <button class="featured__save-button" type="button"
+                        data-save-id="condao"
+                        data-save-type="location"
+                        data-save-title="Côn Đảo"
+                        aria-label="Lưu Côn Đảo vào sổ tay khám phá"
+                        aria-pressed="false">
+                        <i class="fa fa-bookmark-o"></i>
+                    </button>
 
                     <img
                         class="featured__image"
@@ -357,13 +372,23 @@
                     <p class="featured__text">
                         Côn Đảo là quần đảo thuộc tỉnh Bà Rịa - Vũng Tàu, nổi bật với cảnh quan thiên nhiên nguyên sơ, hệ sinh thái rừng và biển đa dạng. Nơi đây sở hữu nhiều bãi biển tuyệt đẹp, các rạn san hô phong phú và là địa điểm quan trọng trong việc bảo tồn thiên nhiên biển Việt Nam.
                     </p>
-                        <button class="featured__button"
-                         onclick="showDetail('4')">
+
+                    <button class="featured__button" type="button" data-target-id="condao">
                         Xem chi tiết
-                        </button>
+                    </button>
+
                 </article>
 
                 <article class="featured__card" id="culaocham">
+
+                    <button class="featured__save-button" type="button"
+                        data-save-id="culaocham"
+                        data-save-type="location"
+                        data-save-title="Cù Lao Chàm"
+                        aria-label="Lưu Cù Lao Chàm vào sổ tay khám phá"
+                        aria-pressed="false">
+                        <i class="fa fa-bookmark-o"></i>
+                    </button>
 
                     <img
                         class="featured__image"
@@ -378,10 +403,10 @@
                     <p class="featured__text">
                         Cù Lao Chàm thuộc tỉnh Quảng Nam, là khu dự trữ sinh quyển thế giới được UNESCO công nhận. Quần đảo nổi bật với hệ sinh thái biển đa dạng, các rạn san hô phong phú và môi trường tự nhiên được bảo vệ nghiêm ngặt, trở thành điểm đến hấp dẫn cho du lịch sinh thái biển.
                     </p>
-                        <button class="featured__button"
-                         onclick="showDetail('5')">
+
+                    <button class="featured__button" type="button" data-target-id="culaocham">
                         Xem chi tiết
-                        </button>
+                    </button>
 
                 </article>
 
@@ -475,103 +500,95 @@
 
     </main>
 
-    <!-- ================= FOOTER ================= -->
+    <div class="detail-modal" id="detailModal" aria-hidden="true">
 
-    <footer class="footer">
+        <div class="detail-modal__overlay"></div>
 
-        <div class="footer__about">
+        <div class="detail-modal__panel">
 
-            <h2 class="footer__title">
-                VietNam Ocean Explorer
-            </h2>
+            <button type="button" class="detail-modal__close" aria-label="Đóng chi tiết">
+                <i class="fa fa-times"></i>
+            </button>
 
-            <p class="footer__text">
-                Website tìm hiểu về biển Việt Nam, sinh vật biển, địa điểm du lịch và bảo tồn thiên nhiên.
-            </p>
+            <img class="detail-modal__image" id="modalImage" src="" alt="">
 
-        </div>
+            <h2 class="detail-modal__title" id="modalTitle"></h2>
 
-        <div class="footer__menu">
+            <p class="detail-modal__description" id="modalDescription"></p>
 
-            <h3 class="footer__heading">
-                Khám phá
-            </h3>
-
-            <ul class="footer__list">
-
-                <li class="footer__item">Khám phá lòng biển</li>
-                <li class="footer__item">Sinh vật - Khoáng sản</li>
-                <li class="footer__item">Địa điểm du lịch</li>
-                <li class="footer__item">Bảo tồn thiên nhiên biển</li>
-
-            </ul>
+            <a
+                id="modalWiki"
+                class="detail-modal__wiki-link"
+                href="#"
+                target="_blank"
+                rel="noopener noreferrer">
+                <i class="fa fa-book"></i> Đọc thêm trên Wikipedia
+            </a>
 
         </div>
-
-        <div class="footer__contact">
-
-            <h3 class="footer__heading">
-                Liên kết tham khảo
-            </h3>
-
-            <p class="footer__link">
-                <a href="https://oceancensus.org/" target="_blank">
-                    Ocean Census
-                </a>
-            </p>
-
-            <p class="footer__link">
-                <a href="https://oceanexplorer.noaa.gov/" target="_blank">
-                    NOAA Ocean Explorer
-                </a>
-            </p>
-
-        </div>
-
-        <div class="footer__bottom">
-
-            <p>© 2026 VietNam Ocean Explorer</p>
-
-            <p>
-                Môn học: CT188 - Nhập môn lập trình Web
-            </p>
-
-        </div>
-
-    </footer>
-
-<div class="modal" id="detailModal">
-
-    <div class="modal__content">
-
-        <span class="modal__close" onclick="closeModal()">&times;</span>
-
-        <img id="modalImage" src="" alt="">
-
-        <h2 id="modalTitle"></h2>
-
-        <p>
-            <strong>Địa điểm:</strong>
-            <span id="modalLocation"></span>
-        </p>
-
-        <p id="modalDescription"></p>
-        <a
-    id="modalWiki"
-    class="featured__button"
-    href="#"
-    target="_blank">
-    📖 Đọc thêm trên Wikipedia
-</a>
 
     </div>
 
-</div>
+    <footer class="footer">
 
+    <div class="footer__container">
+
+        <!-- Cột 1 -->
+        <section class="footer__about">
+            <h2 class="footer__logo">
+                VietNam Ocean Explorer
+            </h2>
+
+            <p class="footer__description">
+                Khám phá những tầng sâu kỳ bí của biển Việt Nam,
+                lan tỏa tri thức và nâng cao ý thức bảo tồn đại dương.
+            </p>
+        </section>
+
+        <!-- Cột 2 -->
+        <nav class="footer__menu">
+            <h3 class="footer__title">Khám phá</h3>
+
+            <ul class="footer__list">
+                <li><a href="#">Khám phá lòng biển</a></li>
+                <li><a href="#">Sinh vật - Khoáng sản</a></li>
+                <li><a href="#">Địa điểm du lịch</a></li>
+                <li><a href="#">Bảo tồn thiên nhiên biển</a></li>
+            </ul>
+        </nav>
+
+        <!-- Cột 3 -->
+        <section class="footer__reference">
+            <h3 class="footer__title">Nguồn tham khảo</h3>
+
+            <ul class="footer__list">
+                <li><a href="#">Ocean Census</a></li>
+                <li><a href="#">Tổng cục Biển và Hải đảo Việt Nam</a></li>
+                <li><a href="#">Các bài báo khoa học về biển</a></li>
+                <li><a href="#">Nguồn tài liệu khác...</a></li>
+            </ul>
+        </section>
+    </div>
+
+    <div class="footer__bottom">
+        © 2026 VietNam Ocean Explorer
+    </div>
+
+</footer>
+<aside class="notebook-panel" id="notebookPanel" aria-hidden="true">
+    <div class="notebook-panel__header">
+        <h2 class="notebook-panel__title">Sổ tay khám phá</h2>
+        <button class="notebook-panel__close" type="button" aria-label="Đóng sổ tay khám phá">
+            <i class="fa fa-times"></i>
+        </button>
+    </div>
+    <ul class="notebook-panel__list" id="notebookList">
+        <!-- Các mục sẽ được thêm vào bằng JavaScript -->
+    </ul>
+    <p class="notebook-panel__empty" id="notebookEmpty">Chưa có mục nào được lưu. Bấm biểu tượng bookmark trên các tin tức để lưu lại.</p>
+    <button class="notebook-panel__clear-all" type="button" id="notebookClearAll">Xóa tất cả</button>
+</aside>
+<div class="notebook-panel__overlay" id="notebookOverlay"></div>
 <script src="js/unique-locations.js"></script>
-
-    
-
 </body>
 </html>
-

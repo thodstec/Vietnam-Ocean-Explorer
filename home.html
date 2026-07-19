@@ -3,31 +3,52 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tổng Quan Biển Đảo Việt Nam - VietNam Ocean Explorer</title>
+    <title>VietNam Ocean Explorer</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"> 
     <link rel="stylesheet" href="./css/home.css"> 
 </head>
 <body>
 
-    <header class="navbar">
-        <div class="container navbar__inner">
-            <div class="navbar__brand">
-                <div class="navbar__brand-dot"></div>
-                <span>VietNam Ocean Explorer</span>
-            </div>
-            <div class="navbar__menu">
-                <a class="navbar__link navbar__link--active" href="#">Trang chủ</a>
-                <a class="navbar__link" href="#">Khám phá lòng biển</a>
-                <a class="navbar__link" href="#">Sinh vật - Khoáng sản</a>
-                <a class="navbar__link" href="#">Địa điểm du lịch</a>
-                <a class="navbar__link" href="#">Bảo tồn thiên nhiên biển</a>
-                
-                <form class="form-search" action="#" method="get">
-                    <input class="form-search__input" type="text" placeholder="Tìm kiếm...">
-                    <button class="form-search__button" type="submit"><i class="fa fa-search"></i></button>
-                </form>
-            </div>
+    <header class="header">
+        <img class="header__img header__img--logo" src="./images/header-logo.png" alt="hình ảnh logo VietNam Ocean Explorer">
+        <div class="header-nav-form"> 
+            <nav class="horizontal-nav" aria-label="Điều hướng chính">
+                <ul class="horizontal-nav__list">
+                    <li class="horizontal-nav__item">
+                        <a class="horizontal-nav__link horizontal-nav__link--active" href="home.html">Trang chủ</a>
+                    </li>
+                    <li class="horizontal-nav__item horizontal-nav__item--hide--mobile">
+                        <a class="horizontal-nav__link " href="depth-explorer.html">Khám phá lòng biển</a>
+                    </li>
+                    <li class="horizontal-nav__item horizontal-nav__item--hide--mobile">
+                        <a class="horizontal-nav__link" href="marine-minerals.html">Sinh vật - Khoáng sản</a>
+                    </li>
+                    <li class="horizontal-nav__item horizontal-nav__item--hide--mobile">
+                        <a class="horizontal-nav__link" href="unique-locations.html">Địa điểm du lịch</a>
+                    </li>
+                    <li class="horizontal-nav__item horizontal-nav__item--hide--mobile">
+                        <a class="horizontal-nav__link" href="conservation.html">Bảo tồn thiên nhiên biển</a>
+                    </li>
+                </ul>
+            </nav>
+            <form class="form-search" action="#" method="get">
+                <label class="sr-only" for="siteSearchInput">Tìm  kiếm nội dung trên trang</label>
+                <input class="form-search__input" type="text" name="search" placeholder="Tìm kiếm..." id="siteSearchInput">
+                <button class="form-search__button" type="submit">
+                    <i class="fa fa-search"></i> 
+                </button>
+            </form>
+            <button class="header__search-toggle" type="button" aria-label="Mở thanh tìm kiếm">
+                    <i class="fa fa-search"></i>
+                </button>
+            <button class="header__notebook-toggle" type="button" aria-label="Mở sổ tay khám phá" aria-expanded="false" aria-controls="notebookPanel">
+                <i class="fa fa-bookmark"></i>
+                <span class="header__notebook-count" id="notebookCount">0</span>
+            </button>
+            <button class="header__hamburger" type="button">
+                <i class="fa fa-bars"></i> 
+            </button>
         </div>
     </header>
 
@@ -35,11 +56,11 @@
         
         <section class="info-section">
             <div class="section-title-box">
-                <h2 class="main-title">Tổng Quan Biển Đảo Việt Nam</h2>
+                <h1 class="main-title">Tổng Quan Biển Đảo Việt Nam</h1>
             </div>
             <div class="info-grid">
                 <div class="info-text">
-                    <h3>Vị thế chiến lược và tầm vóc đại dương</h3>
+                    <h2>Vị thế chiến lược và tầm vóc đại dương</h2>
                     <p>Vùng biển Việt Nam là một bộ phận của Biển Đông, sở hữu diện tích rộng lớn trên 1 triệu km², gấp hơn 3 lần diện tích đất liền. Với đường bờ biển dài hơn 3.260 km trải dài từ Móng Cái đến Hà Tiên, biển nước ta đi qua địa phận của 28 tỉnh, thành phố trực thuộc trung ương.</p>
                 </div>
                 <div class="interactive-gallery">
@@ -64,7 +85,7 @@
             </div>
             <div class="map-stats-grid">
                 <div class="map-visual">
-                    <img src="ban-do.jpg" alt="Bản đồ Việt Nam">
+                    <img src="./images/ban-do.jpg" alt="Bản đồ Việt Nam">
                 </div>
                 <div class="stats-box">
                     <div class="stat-card"><span class="stat-num">> 1M</span><span class="stat-label">Km² Diện tích mặt biển</span></div>
@@ -134,26 +155,65 @@
     </main>
 
     <footer class="footer">
-        <div class="container footer__grid">
-            <div>
-                <h2 class="footer__brand">VietNam Ocean Explorer</h2>
-                <p class="footer__desc">Khám phá những tầng sâu kỳ bí của biển Việt Nam, lan tỏa tri thức đại dương.</p>
-            </div>
-            <div>
-                <h3 class="footer__col-title">Khám phá</h3>
-                <a class="footer__link" href="#">Khám phá lòng biển</a>
-                <a class="footer__link" href="#">Sinh vật - Khoáng sản</a>
-            </div>
-            <div>
-                <h3 class="footer__col-title">Nguồn tham khảo</h3>
-                <a class="footer__link" href="#">Tổng cục Biển và Hải đảo Việt Nam</a>
-                <a class="footer__link" href="#">Ocean Census</a>
-            </div>
-        </div>
-        <div class="container footer__bottom">
-            <div class="footer__copyright">© 2026 VietNam Ocean Explorer</div>
-        </div>
-    </footer>
+
+    <div class="footer__container">
+
+        <!-- Cột 1 -->
+        <section class="footer__about">
+            <h2 class="footer__logo">
+                VietNam Ocean Explorer
+            </h2>
+
+            <p class="footer__description">
+                Khám phá những tầng sâu kỳ bí của biển Việt Nam,
+                lan tỏa tri thức và nâng cao ý thức bảo tồn đại dương.
+            </p>
+        </section>
+
+        <!-- Cột 2 -->
+        <nav class="footer__menu">
+            <h3 class="footer__title">Khám phá</h3>
+
+            <ul class="footer__list">
+                <li><a href="#">Khám phá lòng biển</a></li>
+                <li><a href="#">Sinh vật - Khoáng sản</a></li>
+                <li><a href="#">Địa điểm du lịch</a></li>
+                <li><a href="#">Bảo tồn thiên nhiên biển</a></li>
+            </ul>
+        </nav>
+
+        <!-- Cột 3 -->
+        <section class="footer__reference">
+            <h3 class="footer__title">Nguồn tham khảo</h3>
+
+            <ul class="footer__list">
+                <li><a href="#">Ocean Census</a></li>
+                <li><a href="#">Tổng cục Biển và Hải đảo Việt Nam</a></li>
+                <li><a href="#">Các bài báo khoa học về biển</a></li>
+                <li><a href="#">Nguồn tài liệu khác...</a></li>
+            </ul>
+        </section>
+    </div>
+
+    <div class="footer__bottom">
+        © 2026 VietNam Ocean Explorer
+    </div>
+
+</footer>
+<aside class="notebook-panel" id="notebookPanel" aria-hidden="true">
+    <div class="notebook-panel__header">
+        <h2 class="notebook-panel__title">Sổ tay khám phá</h2>
+        <button class="notebook-panel__close" type="button" aria-label="Đóng sổ tay khám phá">
+            <i class="fa fa-times"></i>
+        </button>
+    </div>
+    <ul class="notebook-panel__list" id="notebookList">
+        <!-- Các mục sẽ được thêm vào bằng JavaScript -->
+    </ul>
+    <p class="notebook-panel__empty" id="notebookEmpty">Chưa có mục nào được lưu. Bấm biểu tượng bookmark trên các tin tức để lưu lại.</p>
+    <button class="notebook-panel__clear-all" type="button" id="notebookClearAll">Xóa tất cả</button>
+</aside>
+<div class="notebook-panel__overlay" id="notebookOverlay"></div>
 
     <script src="./js/home.js"></script>
 </body>
