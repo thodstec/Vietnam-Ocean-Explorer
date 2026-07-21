@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>VietNam Ocean Explorer</title>
+    <meta name="description" content="Bảo tồn thiên nhiên biển Việt Nam: hiện trạng suy giảm hệ sinh thái, hành trình bảo tồn và các hành động chung tay bảo vệ đại dương.">
     <link rel="stylesheet" href="./css/conservation.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -20,23 +21,23 @@
         <img class="header__img header__img--logo" src="./images/header-logo.png"
             alt="hình ảnh logo VietNam Ocean Explorer">
         <div class="header-nav-form">
-            <nav class="horizontal-nav">
+            <nav class="horizontal-nav" aria-label="Điều hướng chính">
                 <ul class="horizontal-nav__list">
                     <li class="horizontal-nav__item">
                         <a class="horizontal-nav__link" href="home.html">Trang chủ</a>
                     </li>
                     <li class="horizontal-nav__item horizontal-nav__item--hide--mobile">
-                        <a class="horizontal-nav__link horizontal-nav__link--active" href="depth-explorer.html">Khám phá
+                        <a class="horizontal-nav__link" href="depth-explorer.html">Khám phá
                             lòng biển</a>
                     </li>
                     <li class="horizontal-nav__item horizontal-nav__item--hide--mobile">
-                        <a class="horizontal-nav__link" href="marine-life.html">Sinh vật - Khoáng sản</a>
+                        <a class="horizontal-nav__link" href="marine-minerals.html">Sinh vật - Khoáng sản</a>
                     </li>
                     <li class="horizontal-nav__item horizontal-nav__item--hide--mobile">
                         <a class="horizontal-nav__link" href="unique-locations.html">Địa điểm du lịch</a>
                     </li>
                     <li class="horizontal-nav__item horizontal-nav__item--hide--mobile">
-                        <a class="horizontal-nav__link" href="conservation.html">Bảo tồn thiên nhiên biển</a>
+                        <a class="horizontal-nav__link horizontal-nav__link--active" href="conservation.html">Bảo tồn thiên nhiên biển</a>
                     </li>
                 </ul>
             </nav>
@@ -69,7 +70,7 @@
             <div class="hero__overlay"></div>
             <div class="hero__content">
                 <div class="animate-pulse">
-                    <div class="badge badge--danger" style="margin-bottom: 16px;">
+                    <div class="badge badge--danger badge--spaced">
                         <i class="fa-solid fa-triangle-exclamation"></i>
                         <span>Hệ sinh thái biển đang suy giảm nghiêm trọng</span>
                     </div>
@@ -104,11 +105,11 @@
                             <div class="stats__label text-danger">
                                 San hô tẩy trắng
                             </div>
-                            <div class="stats__number text-danger" style="font-size: 56px;">
+                            <div class="stats__number stats__number--lg text-danger">
                                 60%
                             </div>
-                            <div class="progress" style="height: 8px;">
-                                <div class="progress__fill" data-progress="60" style="width: 0; background: var(--danger);"></div>
+                            <div class="progress progress--sm">
+                                <div class="progress__fill progress__fill--danger" data-progress="60"></div>
                             </div>
                             <div class="threat-card__caption">
                                 Diện tích rạn san hô bị ảnh hưởng
@@ -125,11 +126,11 @@
                             <div class="stats__label text-warning">
                                 Rừng ngập mặn
                             </div>
-                            <div class="stats__number text-warning" style="font-size: 56px;">
+                            <div class="stats__number stats__number--lg text-warning">
                                 70%
                             </div>
-                            <div class="progress" style="height: 8px;">
-                                <div class="progress__fill" data-progress="70" style="width: 0; background: var(--warning);"></div>
+                            <div class="progress progress--sm">
+                                <div class="progress__fill progress__fill--warning" data-progress="70"></div>
                             </div>
                             <div class="threat-card__caption">
                                 Mất đi so với 1940
@@ -146,11 +147,11 @@
                             <div class="stats__label text-warning">
                                 Loài nguy cấp
                             </div>
-                            <div class="stats__number text-warning" style="font-size: 56px;">
+                            <div class="stats__number stats__number--lg text-warning">
                                 40%
                             </div>
-                            <div class="progress" style="height: 8px;">
-                                <div class="progress__fill" data-progress="40" style="width: 0; background: var(--warning);"></div>
+                            <div class="progress progress--sm">
+                                <div class="progress__fill progress__fill--warning" data-progress="40"></div>
                             </div>
                             <div class="threat-card__caption">
                                 Cần bảo vệ khẩn cấp
@@ -167,12 +168,11 @@
                             <div class="stats__label text-success">
                                 Diện tích bảo tồn
                             </div>
-                            <div class="stats__number text-success" style="font-size: 56px;">
+                            <div class="stats__number stats__number--lg text-success">
                                 8%
                             </div>
-                            <div class="progress" style="height: 8px;">
-                                <div class="progress__fill" data-progress="8" style="width: 0; background: var(--green);">
-                                </div>
+                            <div class="progress progress--sm">
+                                <div class="progress__fill progress__fill--success" data-progress="8"></div>
                             </div>
                             <div class="threat-card__caption">
                                 Mục tiêu 30% năm 2030
@@ -183,7 +183,7 @@
             </div>
         </section>
         <!--3-->
-        <section class="threat-timeline" style="background-color: var(--bg-primary);">
+        <section class="threat-timeline threat-timeline--primary-bg">
             <div class="container">
                 <div class="timeline-header">
                     <span class="timeline-header__eyebrow">Lịch sử bảo tồn</span>
@@ -288,10 +288,10 @@
             <nav class="footer__menu">
                 <h3 class="footer__title">Khám phá</h3>
                 <ul class="footer__list">
-                    <li><a href="#">Khám phá lòng biển</a></li>
-                    <li><a href="#">Sinh vật - Khoáng sản</a></li>
-                    <li><a href="#">Địa điểm du lịch</a></li>
-                    <li><a href="#">Bảo tồn thiên nhiên biển</a></li>
+                    <li><a href="depth-explorer.html">Khám phá lòng biển</a></li>
+                    <li><a href="marine-minerals.html">Sinh vật - Khoáng sản</a></li>
+                    <li><a href="unique-locations.html">Địa điểm du lịch</a></li>
+                    <li><a href="conservation.html">Bảo tồn thiên nhiên biển</a></li>
                 </ul>
             </nav>
             <!-- Cột 3 -->
@@ -309,7 +309,21 @@
             © 2026 VietNam Ocean Explorer
         </div>
     </footer>
-    <script src="/js/conservation.js"></script>
+    <aside class="notebook-panel" id="notebookPanel" aria-hidden="true">
+        <div class="notebook-panel__header">
+            <h2 class="notebook-panel__title">Sổ tay khám phá</h2>
+            <button class="notebook-panel__close" type="button" aria-label="Đóng sổ tay khám phá">
+                <i class="fa fa-times"></i>
+            </button>
+        </div>
+        <ul class="notebook-panel__list" id="notebookList">
+            <!-- Các mục sẽ được thêm vào bằng JavaScript -->
+        </ul>
+        <p class="notebook-panel__empty" id="notebookEmpty">Chưa có mục nào được lưu. Bấm biểu tượng bookmark trên các tin tức để lưu lại.</p>
+        <button class="notebook-panel__clear-all" type="button" id="notebookClearAll">Xóa tất cả</button>
+    </aside>
+    <div class="notebook-panel__overlay" id="notebookOverlay"></div>
+    <script src="./js/conservation.js"></script>
 </body>
 
 </html>
